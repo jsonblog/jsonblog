@@ -17,6 +17,7 @@ const packages = [
   { name: '@jsonblog/cli', path: 'apps/cli' },
   { name: '@jsonblog/schema', path: 'packages/schema' },
   { name: '@jsonblog/generator-boilerplate', path: 'packages/generator-boilerplate' },
+  { name: '@jsonblog/generator-tailwind', path: 'packages/generator-tailwind' },
 ];
 
 export function getChangelogs(): PackageChangelog[] {
