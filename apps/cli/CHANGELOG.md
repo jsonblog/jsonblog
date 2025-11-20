@@ -1,5 +1,12 @@
 # @jsonblog/cli
 
+## 3.0.1
+
+### Patch Changes
+
+- Updated dependencies [a8442c7]
+  - @jsonblog/generator-boilerplate@3.1.0
+
 ## 3.0.0
 
 ### Major Changes
