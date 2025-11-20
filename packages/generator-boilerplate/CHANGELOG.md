@@ -1,5 +1,56 @@
 # @jsonblog/generator-boilerplate
 
+## 5.0.0
+
+### Major Changes
+
+- Implement directory-based pretty URLs and add interactive particle animation
+
+  **BREAKING CHANGE: File Structure**
+
+  Both generators now use directory-based URLs (e.g., `/post-slug/index.html` instead of `/post-slug.html`). This enables pretty URLs that work on ALL platforms without server configuration.
+
+  **Generated File Structure Changes:**
+  - Posts: `post-slug.html` → `post-slug/index.html`
+  - Pages: `about.html` → `about/index.html`
+  - Tags: `tag/javascript.html` → `tag/javascript/index.html`
+  - Categories: `category/tutorial.html` → `category/tutorial/index.html`
+  - Pagination: `page/2.html` → `page/2/index.html`
+
+  **Benefits:**
+  - ✅ Pretty URLs work everywhere (GitHub Pages, Netlify, Vercel, S3, etc.)
+  - ✅ No server configuration required
+  - ✅ Industry-standard approach (same as Jekyll, Hugo, Gatsby)
+  - ✅ SEO-friendly clean URLs
+
+  **Updated:**
+  - RSS feed URLs now use trailing slashes
+  - Sitemap URLs now use trailing slashes
+  - Dev server routing updated to handle directory structure
+
+  **Tailwind Generator: Interactive Particle Animation**
+
+  Replaced gradient hover effect with physics-based particle animation using tsparticles:
+  - Blue particle network matching site accent color (#0066cc)
+  - Interactive on hover - particles connect when mouse is near
+  - Smooth, performant animation with 40 particles
+  - Subtle opacity and size animations
+  - ~100KB library size via CDN
+
+  **Migration Guide:**
+
+  If you have custom server rules that depend on `.html` extensions, you may need to update them. The new structure works automatically on most platforms:
+  - **Vercel**: Works automatically, no changes needed
+  - **Netlify**: Works automatically, no changes needed
+  - **GitHub Pages**: Works automatically, no changes needed
+  - **Nginx**: Add `try_files $uri $uri/ $uri/index.html =404;`
+  - **Apache**: Already works with default settings
+
+  **Technical Details:**
+  - Dev servers updated to serve `/path/index.html` for `/path` requests
+  - Template links remain unchanged (already used extensionless URLs)
+  - All generators maintain consistent behavior
+
 ## 4.0.0 - 2025-11-20
 
 ### Major Changes

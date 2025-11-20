@@ -289,7 +289,7 @@ export const generateBlog = async (
       // Generate numbered page
       paginationTasks.push(
         Promise.resolve({
-          name: `page/${page}.html`,
+          name: `page/${page}/index.html`,
           content: compiledTemplates.index(pageData),
         })
       );
@@ -304,7 +304,7 @@ export const generateBlog = async (
       posts.map(async (post) => {
         logger.debug(`Generating post: ${post.title}`);
         return {
-          name: `${post.slug}.html`,
+          name: `${post.slug}/index.html`,
           content: compiledTemplates.post({ blog, post, posts, pages }),
         };
       })
@@ -317,7 +317,7 @@ export const generateBlog = async (
       pages.map(async (page) => {
         logger.debug(`Generating page: ${page.title}`);
         return {
-          name: `${page.slug}.html`,
+          name: `${page.slug}/index.html`,
           content: compiledTemplates.page({ blog, page, posts, pages }),
         };
       })
@@ -350,7 +350,7 @@ export const generateBlog = async (
         });
         logger.debug(`Generating tag page: ${tag}`);
         return {
-          name: `tag/${tagSlug}.html`,
+          name: `tag/${tagSlug}/index.html`,
           content: compiledTemplates.tag({ blog, tag, posts: tagPosts, pages }),
         };
       })
@@ -383,7 +383,7 @@ export const generateBlog = async (
         });
         logger.debug(`Generating category page: ${category}`);
         return {
-          name: `category/${categorySlug}.html`,
+          name: `category/${categorySlug}/index.html`,
           content: compiledTemplates.category({ blog, category, posts: categoryPosts, pages }),
         };
       })
@@ -422,8 +422,8 @@ export const generateBlog = async (
       feed.item({
         title: post.title,
         description: description,
-        url: `${siteUrl}/${post.slug}.html`,
-        guid: `${siteUrl}/${post.slug}.html`,
+        url: `${siteUrl}/${post.slug}/`,
+        guid: `${siteUrl}/${post.slug}/`,
         date: post.createdAt || new Date().toISOString(),
         categories: [...(post.tags || []), ...(post.categories || [])],
       });
@@ -449,7 +449,7 @@ export const generateBlog = async (
       // Add posts
       for (const post of posts) {
         urls.push(`  <url>
-    <loc>${siteUrl}/${post.slug}.html</loc>
+    <loc>${siteUrl}/${post.slug}/</loc>
     <lastmod>${post.updatedAt || post.createdAt || new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -459,7 +459,7 @@ export const generateBlog = async (
       // Add pages
       for (const page of pages) {
         urls.push(`  <url>
-    <loc>${siteUrl}/${page.slug}.html</loc>
+    <loc>${siteUrl}/${page.slug}/</loc>
     <lastmod>${page.updatedAt || page.createdAt || new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -474,7 +474,7 @@ export const generateBlog = async (
           remove: /[*+~.()'"!:@]/g,
         });
         urls.push(`  <url>
-    <loc>${siteUrl}/tag/${tagSlug}.html</loc>
+    <loc>${siteUrl}/tag/${tagSlug}/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>`);
@@ -488,7 +488,7 @@ export const generateBlog = async (
           remove: /[*+~.()'"!:@]/g,
         });
         urls.push(`  <url>
-    <loc>${siteUrl}/category/${categorySlug}.html</loc>
+    <loc>${siteUrl}/category/${categorySlug}/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>`);
@@ -497,7 +497,7 @@ export const generateBlog = async (
       // Add pagination pages
       for (let page = 2; page <= totalPages; page++) {
         urls.push(`  <url>
-    <loc>${siteUrl}/page/${page}.html</loc>
+    <loc>${siteUrl}/page/${page}/</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>`);

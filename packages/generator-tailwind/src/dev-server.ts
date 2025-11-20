@@ -102,7 +102,7 @@ app.get('*', (req, res) => {
   let requestPath = req.path === '/' ? '/index.html' : req.path;
 
   if (!path.extname(requestPath)) {
-    requestPath = `${requestPath}.html`;
+    requestPath = `${requestPath}/index.html`;
   }
 
   const fileName = requestPath.substring(1);
