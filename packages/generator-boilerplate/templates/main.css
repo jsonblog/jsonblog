@@ -5,65 +5,72 @@
   box-sizing: border-box;
 }
 
-/* Base Typography - IBM Plex Mono */
+/* Base Typography - Medium.com inspired readability */
 body {
-  font-family: 'IBM Plex Mono', monospace;
-  line-height: 1.6;
-  max-width: 680px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.75;
+  max-width: 816px;  /* 20% wider than 680px for better readability */
   margin: 2rem auto;
-  padding: 0 1.5rem;
-  color: #000;
+  padding: 0 2rem;
+  color: #1a1a1a;
   background: #fff;
-  font-size: 16px;
+  font-size: 19px;  /* 20% bigger than 16px for improved readability */
 }
 
 /* Links */
 a {
-  color: #000;
+  color: #0066cc;
   text-decoration: underline;
   transition: all 0.15s ease;
 }
 
 a:hover {
-  background: #000;
-  color: #fff;
+  color: #0052a3;
 }
 
-/* Typography - Improved Hierarchy */
+/* Typography - Improved Hierarchy (Medium-style) */
 h1, h2, h3, h4 {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 600;
-  margin: 2rem 0 1rem;
   letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+h1:first-child {
+  margin-top: 0;
 }
 
 h1 {
-  font-size: 2rem;     /* 32px */
+  font-size: 2.5rem;   /* 47.5px - 20% bigger, more prominent */
   line-height: 1.2;
 }
 
 h2 {
-  font-size: 1.5rem;   /* 24px */
+  font-size: 1.8rem;   /* 34.2px - clearer hierarchy */
   line-height: 1.3;
 }
 
 h3 {
-  font-size: 1.25rem;  /* 20px */
-  line-height: 1.4;
+  font-size: 1.4rem;   /* 26.6px - better scaling */
+  line-height: 1.35;
 }
 
 h4 {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.1rem;   /* 20.9px */
   line-height: 1.4;
 }
 
-p, ul, ol {
-  margin-bottom: 1rem;
+/* Paragraphs */
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
 }
 
 /* Header */
 .title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 600;
   margin: 0 0 0.5rem;
   letter-spacing: -0.02em;
@@ -71,8 +78,9 @@ p, ul, ol {
 
 .byline {
   margin-bottom: 2rem;
-  color: #555;
+  color: #666;
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 /* Navigation */
@@ -87,6 +95,11 @@ p, ul, ol {
 .pages a {
   margin-right: 1.25rem;
   font-weight: 500;
+  color: #000;
+}
+
+.pages a:hover {
+  color: #0066cc;
 }
 
 /* Posts */
@@ -101,19 +114,18 @@ p, ul, ol {
 }
 
 .post-card h2 {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   margin: 0 0 0.5rem;
   line-height: 1.3;
 }
 
 .post-card h2 a {
   text-decoration: none;
-  color: #000;
+  color: #1a1a1a;
 }
 
 .post-card h2 a:hover {
-  background: transparent;
-  text-decoration: underline;
+  color: #0066cc;
 }
 
 .post-card time {
@@ -124,7 +136,7 @@ p, ul, ol {
 /* AI-Generated Posts */
 .ai-post .post-card h2,
 .ai-post h2 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #666;
   opacity: 0.85;
 }
@@ -168,59 +180,89 @@ p, ul, ol {
   width: fit-content;
 }
 
-/* Code */
+/* Code Blocks - Dark theme with Highlight.js support */
 pre {
-  margin: 1rem 0;
-  padding: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
   overflow-x: auto;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border: 1px solid #333;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 code {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'IBM Plex Mono', 'Monaco', 'Courier New', monospace;
   font-size: 0.9em;
-  padding: 0.2em 0.5em;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  border-radius: 3px;
 }
 
 pre code {
   padding: 0;
   border: none;
   background: transparent;
+  color: inherit;
 }
 
-/* Lists */
+/* Inline code */
+p code, li code, dt code, h1 code, h2 code, h3 code, h4 code {
+  background: #f5f5f5;
+  color: #c7254e;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: 'IBM Plex Mono', monospace;
+  border: 1px solid #e5e5e5;
+}
+
+/* Lists - Fixed indentation and improved spacing */
 ul, ol {
-  padding-left: 2rem;
+  padding-left: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.8;
+}
+
+li + li {
+  margin-top: 0.5rem;
+}
+
+/* Nested lists */
+ol ol, ul ul, ol ul, ul ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 2rem;
 }
 
 /* Blockquotes */
 blockquote {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
   padding-left: 1.5rem;
-  border-left: 3px solid #000;
+  border-left: 4px solid #ccc;
   font-style: italic;
-  color: #333;
+  color: #555;
+  line-height: 1.8;
+}
+
+blockquote p {
+  margin-bottom: 1rem;
 }
 
 /* Tables */
 table {
   border-collapse: collapse;
   width: 100%;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   text-align: left;
 }
 
@@ -229,40 +271,51 @@ th {
   font-weight: 600;
 }
 
+tr:nth-child(even) {
+  background: #fafafa;
+}
+
 /* Horizontal Rule */
 hr {
   border: none;
-  border-top: 2px solid #000;
-  margin: 2rem 0;
+  border-top: 1px solid #ddd;
+  margin: 2.5rem 0;
 }
 
 /* Definition Lists */
 dl {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+  line-height: 1.8;
 }
 
 dt {
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 dd {
-  margin-left: 2rem;
+  margin-left: 2.5rem;
   margin-bottom: 1rem;
 }
 
 /* Text Formatting */
-strong { font-weight: 600; }
-em { font-style: italic; }
-del { text-decoration: line-through; }
+strong, b { font-weight: 600; }
+em, i { font-style: italic; }
+del { text-decoration: line-through; color: #888; }
 
 /* Footer */
 footer {
   margin-top: 3rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #000;
+  border-top: 2px solid #ddd;
   font-size: 0.9rem;
   color: #666;
+  line-height: 1.6;
+}
+
+footer a {
+  color: #0066cc;
 }
 
 /* Tags and Categories */
@@ -273,15 +326,16 @@ footer {
 
 .post-tags .tag, .post-categories .category {
   display: inline-block;
-  padding: 0.35rem 0.75rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
   background: #f5f5f5;
-  border: 1px solid #d5d5d5;
+  border: 1px solid #ddd;
   font-size: 0.85rem;
   text-decoration: none;
-  border-radius: 3px;
+  border-radius: 4px;
   font-weight: 500;
+  transition: all 0.15s ease;
 }
 
 .post-tags .tag:hover, .post-categories .category:hover {
@@ -300,6 +354,7 @@ footer {
   margin-top: 0.75rem;
   font-size: 0.9rem;
   color: #666;
+  line-height: 1.6;
 }
 
 .post-meta time {
@@ -310,11 +365,17 @@ footer {
 .post-description {
   margin: 0.75rem 0;
   color: #555;
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 .page-header {
   margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.page-header h1 {
+  margin-top: 0;
 }
 
 .tag-count, .category-count {
@@ -339,6 +400,10 @@ footer {
   border-top: 1px solid #e5e5e5;
 }
 
+.breadcrumb a {
+  color: #0066cc;
+}
+
 /* Pagination */
 .pagination {
   display: flex;
@@ -357,6 +422,7 @@ footer {
   border-radius: 4px;
   font-weight: 500;
   font-size: 0.95rem;
+  transition: all 0.15s ease;
 }
 
 .pagination-prev:hover, .pagination-next:hover {
@@ -371,10 +437,40 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   body {
-    padding: 1rem;
-    font-size: 15px;
+    max-width: 90%;
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 17px;
+    padding: 0 1.5rem;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1rem; }
+
+  .title { font-size: 1.75rem; }
+
+  ul, ol {
+    padding-left: 2rem;
+  }
+
+  pre {
+    padding: 1.25rem;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+    padding: 0 1rem;
   }
 
   h1 { font-size: 1.75rem; }
@@ -382,4 +478,8 @@ footer {
   h3 { font-size: 1.15rem; }
 
   .title { font-size: 1.5rem; }
+
+  ul, ol {
+    padding-left: 1.75rem;
+  }
 }
