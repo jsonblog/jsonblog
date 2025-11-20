@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{#if post}}{{post.title}} - {{/if}}{{#if page}}{{page.title}} - {{/if}}{{blog.site.title}}</title>
+  <meta name="description" content="{{blog.site.description}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS Feed" href="/rss.xml">
+</head>
+<body class="max-w-content mx-auto my-8 px-8 text-base font-sans">
+  <header>
+    <div class="title">{{blog.site.title}}</div>
+    <div class="byline">{{blog.site.description}}</div>
+    <nav class="pages mt-5 text-[0.95rem]">
+      <a href="/">Home</a>
+      {{#each pages}}
+        <a href="{{slug}}.html">{{title}}</a>
+      {{/each}}
+    </nav>
+  </header>
+
+  <main class="content">
+    {{> content}}
+  </main>
+
+  <footer>
+    Built with <a href="https://jsonblog.dev">JSON Blog</a>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>

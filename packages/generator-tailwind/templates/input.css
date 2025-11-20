@@ -1,0 +1,379 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-[#1a1a1a] bg-white leading-relaxed;
+  }
+
+  a {
+    @apply text-[#0066cc] underline transition-colors duration-150;
+  }
+
+  a:hover {
+    @apply text-[#0052a3];
+  }
+}
+
+@layer components {
+  /* Header */
+  header {
+    @apply mb-12 pb-8 border-b border-gray-200;
+  }
+
+  .title {
+    @apply text-2xl font-semibold mb-2 tracking-tight text-gray-900;
+  }
+
+  .byline {
+    @apply mb-5 text-gray-600 text-[0.95rem] leading-normal;
+  }
+
+  /* Navigation */
+  nav.pages a {
+    @apply mr-6 font-medium text-gray-900 no-underline transition-colors;
+  }
+
+  nav.pages a:hover {
+    @apply text-[#0066cc];
+  }
+
+  /* Post Cards (Homepage) */
+  .post-card {
+    @apply mb-10 pb-8 border-b border-gray-200 last:border-b-0;
+  }
+
+  .post-card h2 {
+    @apply text-2xl mb-2 leading-tight;
+  }
+
+  .post-card h2 a {
+    @apply no-underline text-gray-900;
+  }
+
+  .post-card h2 a:hover {
+    @apply text-[#0066cc];
+  }
+
+  .post-card time {
+    @apply text-sm text-gray-600;
+  }
+
+  /* AI Posts */
+  .ai-post h2 {
+    @apply text-xl text-gray-600 opacity-85;
+  }
+
+  .ai-post h2 a {
+    @apply text-gray-600;
+  }
+
+  .ai-badge {
+    @apply inline-block text-[0.7em] font-medium text-gray-500 border border-gray-300 px-2 py-1 ml-2 rounded bg-gray-50 align-middle tracking-wide;
+  }
+
+  .ai-post .post-description {
+    @apply text-gray-500;
+  }
+
+  /* Individual Post Layout */
+  article {
+    @apply mt-8;
+  }
+
+  article h1 {
+    @apply text-[2.75rem] mt-0 mb-4 tracking-tight;
+  }
+
+  .post-meta {
+    @apply flex items-center gap-4 mb-12 pb-6 border-b border-gray-200 text-[0.95rem] text-gray-600;
+  }
+
+  .post-meta time {
+    @apply m-0 inline-block;
+  }
+
+  .ai-indicator {
+    @apply inline-block text-[0.85rem] font-medium text-gray-500 px-3 py-1 bg-gray-50 border border-gray-300 rounded;
+  }
+
+  .post-footer {
+    @apply mt-12 pt-8 border-t border-gray-200;
+  }
+
+  /* Post Tags */
+  .post-tags {
+    @apply inline-block mt-3;
+  }
+
+  .post-tags .tag {
+    @apply inline-block px-3 py-2 mr-3 mb-3 bg-gray-50 border border-gray-300 text-sm no-underline rounded font-medium transition-all;
+  }
+
+  .post-tags .tag:hover {
+    @apply bg-black text-white border-black;
+  }
+
+  .post-description {
+    @apply my-3 text-gray-700 leading-normal;
+  }
+
+  /* Footer */
+  footer {
+    @apply mt-12 pt-6 border-t-2 border-gray-300 text-sm text-gray-600 leading-normal;
+  }
+
+  footer a {
+    @apply text-[#0066cc];
+  }
+
+  /* Page Headers */
+  .page-header {
+    @apply mb-10 pb-6 border-b-2 border-gray-200;
+  }
+
+  .page-header h1 {
+    @apply mt-0;
+  }
+
+  .tag-count,
+  .category-count {
+    @apply text-sm text-gray-600 mt-3;
+  }
+
+  /* Pagination */
+  .pagination {
+    @apply flex justify-between items-center mt-12 pt-8 border-t-2 border-gray-300;
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    @apply px-5 py-3 bg-gray-50 border border-gray-400 no-underline rounded font-medium text-[0.95rem] transition-all;
+  }
+
+  .pagination-prev:hover,
+  .pagination-next:hover {
+    @apply bg-black text-white border-black;
+  }
+
+  .pagination-info {
+    @apply text-gray-600 text-sm;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    @apply mt-10 pt-6 border-t border-gray-200;
+  }
+
+  .breadcrumb a {
+    @apply text-[#0066cc];
+  }
+}
+
+@layer utilities {
+  /* Typography Utilities */
+  .content h1,
+  .content h2,
+  .content h3,
+  .content h4 {
+    @apply font-semibold tracking-tight mb-6 mt-10 first:mt-0;
+  }
+
+  .content h1 {
+    @apply text-[2.5rem] leading-tight;
+  }
+
+  .content h2 {
+    @apply text-[1.8rem] leading-tight;
+  }
+
+  .content h3 {
+    @apply text-[1.4rem] leading-snug;
+  }
+
+  .content h4 {
+    @apply text-[1.1rem] leading-normal;
+  }
+
+  .content p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  /* Lists */
+  .content ul,
+  .content ol {
+    @apply pl-10 mb-6;
+  }
+
+  .content li {
+    @apply mb-3 leading-[1.8];
+  }
+
+  .content li + li {
+    @apply mt-2;
+  }
+
+  .content ol ol,
+  .content ul ul,
+  .content ol ul,
+  .content ul ol {
+    @apply mt-3 mb-3 pl-8;
+  }
+
+  /* Blockquotes */
+  .content blockquote {
+    @apply my-6 pl-6 border-l-4 border-gray-300 italic text-gray-700 leading-[1.8];
+  }
+
+  .content blockquote p {
+    @apply mb-4;
+  }
+
+  /* Tables */
+  .content table {
+    @apply border-collapse w-full my-6 text-[0.95rem];
+  }
+
+  .content th,
+  .content td {
+    @apply border border-gray-300 p-4 text-left;
+  }
+
+  .content th {
+    @apply bg-gray-50 font-semibold;
+  }
+
+  .content tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
+
+  /* Horizontal Rule */
+  .content hr {
+    @apply border-0 border-t border-gray-300 my-10;
+  }
+
+  /* Links */
+  .content a {
+    @apply text-[#0066cc] underline transition-colors;
+  }
+
+  .content a:hover {
+    @apply text-[#0052a3];
+  }
+}
+
+/* Code Blocks - Custom styles (too complex for utilities) */
+.content pre {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border: 1px solid #333;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.content code {
+  font-family: 'IBM Plex Mono', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.content pre code {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+/* Inline code */
+.content p code,
+.content li code,
+.content dt code,
+.content h1 code,
+.content h2 code,
+.content h3 code,
+.content h4 code {
+  background: #f5f5f5;
+  color: #c7254e;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: 'IBM Plex Mono', monospace;
+  border: 1px solid #e5e5e5;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  body {
+    max-width: 90%;
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 17px;
+    padding: 0 1.5rem;
+  }
+
+  .content h1 {
+    font-size: 2rem;
+  }
+
+  .content h2 {
+    font-size: 1.5rem;
+  }
+
+  .content h3 {
+    font-size: 1.25rem;
+  }
+
+  .content h4 {
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .content ul,
+  .content ol {
+    padding-left: 2rem;
+  }
+
+  .content pre {
+    padding: 1.25rem;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+    padding: 0 1rem;
+  }
+
+  .content h1 {
+    font-size: 1.75rem;
+  }
+
+  .content h2 {
+    font-size: 1.35rem;
+  }
+
+  .content h3 {
+    font-size: 1.15rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .content ul,
+  .content ol {
+    padding-left: 1.75rem;
+  }
+}
