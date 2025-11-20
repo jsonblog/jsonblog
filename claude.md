@@ -42,7 +42,8 @@ jsonblog/
 │
 ├── packages/
 │   ├── schema/                 # @jsonblog/schema - JSON Schema & validation
-│   ├── generator-boilerplate/  # @jsonblog/generator-boilerplate - Reference implementation
+│   ├── generator-boilerplate/  # @jsonblog/generator-boilerplate - Custom CSS generator
+│   ├── generator-tailwind/     # @jsonblog/generator-tailwind - Tailwind CSS generator
 │   └── tsconfig/               # @jsonblog/tsconfig - Shared TypeScript configs (internal)
 │
 ├── .changeset/                 # Changesets for version management
@@ -327,21 +328,57 @@ Description of changes
 
 **Publishing Process**:
 ```bash
-# 1. Apply changesets (updates versions & CHANGELOGs)
-pnpm changeset version
+# 1. Create changeset (describe your changes)
+pnpm changeset
+# Or manually: cat > .changeset/my-change.md << 'EOF'
 
-# 2. Build all packages
+# 2. Apply changesets (updates versions & CHANGELOGs)
+pnpm changeset version
+# Note: May fail with GitHub token error - that's okay, proceed manually
+
+# 3. Manual version bump (if changeset version fails):
+# - Update package.json version in affected packages
+# - Update CHANGELOG.md with date format: ## X.Y.Z - YYYY-MM-DD
+# - Remove .changeset/*.md files after applying
+
+# 4. Build all packages
 pnpm build
 
-# 3. Publish to npm
-pnpm release  # Runs: turbo run build && changeset publish
+# 5. Commit version changes
+git add .
+git commit -m "Version bumps: package@version"
+
+# 6. Publish to npm
+pnpm --filter <package-name> publish --access public
+# Example: pnpm --filter @jsonblog/generator-tailwind publish --access public
+
+# 7. Create git tags and push
+git tag @jsonblog/package-name@X.Y.Z
+git push origin main --follow-tags
 ```
+
+**⚠️ IMPORTANT REMINDER: ALWAYS PUBLISH AFTER MAKING CHANGES**
+
+When you complete work on a package:
+1. **Never forget to publish!** - Changes aren't available until published to npm
+2. Create changeset describing your changes
+3. Apply versions (manually if needed)
+4. Build packages
+5. Publish to npm with --access public
+6. Create git tags and push
+
+**Common Publishing Mistakes to Avoid:**
+- ❌ Committing changes without publishing
+- ❌ Forgetting to build before publishing
+- ❌ Not creating git tags
+- ❌ Missing --access public flag (causes publish failures)
+- ❌ Not updating CHANGELOG.md with date
 
 **Version Strategy**:
 - Independent versioning (each package has own version)
 - Semantic versioning (major.minor.patch)
-- CHANGELOG.md auto-generated
-- Git tags created automatically
+- CHANGELOG.md manually maintained (add dates in format: ## X.Y.Z - YYYY-MM-DD)
+- Git tags created manually for each release
 
 ---
 
