@@ -291,7 +291,10 @@ export default defineConfig({
 
 ```json
 {
-  "changelog": "@changesets/cli/changelog",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "jsonblog/jsonblog" }
+  ],
   "commit": false,
   "access": "public",
   "baseBranch": "main",
@@ -299,6 +302,12 @@ export default defineConfig({
   "ignore": ["@jsonblog/tsconfig", "@jsonblog/homepage"]
 }
 ```
+
+**Important**: We use `@changesets/changelog-github` instead of the default changelog generator because:
+- **Adds dates automatically**: Generates entries like `## 3.1.0 - 2025-01-20`
+- **Links to commits and PRs**: Better traceability
+- **Better formatting**: More detailed and professional
+- **Homepage compatibility**: Our changelog parser expects the date format that changelog-github provides
 
 **Creating a Changeset**:
 ```bash
