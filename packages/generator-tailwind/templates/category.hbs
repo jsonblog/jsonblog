@@ -1,28 +1,28 @@
 {{#> layout}}
-  <div class="container">
-    <header class="page-header">
-      <h1>Posts in category "{{category}}"</h1>
-      <p class="category-count">{{posts.length}} post{{#unless (eq posts.length 1)}}s{{/unless}}</p>
+  {{#*inline "content"}}
+    <header class="mb-10 pb-6 border-b-2 border-gray-200">
+      <h1 class="mt-0 text-[2.5rem] leading-tight font-semibold tracking-tight mb-3">Posts in category "{{category}}"</h1>
+      <p class="text-sm text-gray-600 mt-3">{{posts.length}} post{{#unless (eq posts.length 1)}}s{{/unless}}</p>
     </header>
 
     <div class="posts">
       {{#each posts}}
-        <article class="post-preview{{#if (eq this.type 'ai')}} ai-post{{/if}}">
-          <h2>
-            <a href="/{{this.slug}}.html">{{this.title}}</a>
+        <article class="mb-10 pb-8 border-b border-gray-200 last:border-b-0 transition-all duration-300 hover:translate-y-[-2px]">
+          <h2 class="{{#if (eq this.type 'ai')}}text-xl text-gray-600 opacity-85{{else}}text-2xl text-gray-900{{/if}} mb-2 leading-tight">
+            <a href="/{{this.slug}}.html" class="no-underline {{#if (eq this.type 'ai')}}text-gray-600{{else}}text-gray-900{{/if}} transition-colors hover:text-[#0066cc]">{{this.title}}</a>
             {{#if (eq this.type 'ai')}}
-              <span class="ai-badge">[AI-Generated]</span>
+              <span class="inline-block text-[0.7em] font-medium text-gray-500 border border-gray-300 px-2 py-1 ml-2 rounded bg-gray-50 align-middle tracking-wide">[AI-Generated]</span>
             {{/if}}
           </h2>
           {{#if this.description}}
-            <p class="post-description">{{this.description}}</p>
+            <p class="my-3 {{#if (eq this.type 'ai')}}text-gray-500{{else}}text-gray-700{{/if}} leading-normal">{{this.description}}</p>
           {{/if}}
-          <div class="post-meta">
+          <div class="text-sm text-gray-600">
             <time datetime="{{this.createdAt}}">{{formatDate this.createdAt}}</time>
             {{#if this.categories}}
-              <div class="post-categories">
+              <div class="inline-block mt-3">
                 {{#each this.categories}}
-                  <a href="/category/{{slugify this}}.html" class="category">{{this}}</a>
+                  <a href="/category/{{slugify this}}.html" class="inline-block px-3 py-2 mr-3 mb-3 bg-gray-50 border border-gray-300 text-sm no-underline rounded font-medium transition-all hover:bg-black hover:text-white hover:border-black">{{this}}</a>
                 {{/each}}
               </div>
             {{/if}}
@@ -31,8 +31,8 @@
       {{/each}}
     </div>
 
-    <nav class="breadcrumb">
-      <a href="/">← Back to all posts</a>
+    <nav class="mt-10 pt-6 border-t border-gray-200">
+      <a href="/" class="text-[#0066cc]">← Back to all posts</a>
     </nav>
-  </div>
+  {{/inline}}
 {{/layout}}

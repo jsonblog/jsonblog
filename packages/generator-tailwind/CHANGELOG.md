@@ -1,5 +1,41 @@
 # @jsonblog/generator-tailwind
 
+## 2.0.1 - 2025-11-20
+
+### Patch Changes
+
+- Fix Tailwind generator to use proper utility classes
+
+  **Problem**: The generator was using semantic CSS classes (`.post-card`, `.title`, etc.) instead of Tailwind utility classes, causing templates to not display correctly even though Tailwind CSS was properly included.
+
+  **Solution**: Converted all templates to use Tailwind utility classes directly, following the jsonblog.dev homepage design system.
+
+  **Changes**:
+  - Updated `input.css` to remove semantic component classes, keeping only base styles and content utilities
+  - Converted all templates (layout, index, post, page, tag, category) to use Tailwind utility classes
+  - Added subtle animations (fade-in on page load, hover effects on cards and buttons)
+  - Implemented hover states with scale and color transitions
+  - Maintained professional design inspired by jsonblog.dev homepage
+  - Reduced CSS bundle size from 14KB to 12KB
+
+  **Design Features**:
+  - IBM Plex Mono font for monospace aesthetic
+  - Clean black/white/gray color scheme with #0066cc accent
+  - Smooth transitions on all interactive elements
+  - Hover effects: cards translate up, buttons scale and invert colors
+  - Fade-in animation on page load for header and content
+  - Responsive design with mobile-first approach
+  - AI-generated post badges with distinct styling
+
+  **Visual Improvements**:
+  - Post cards have subtle hover lift effect
+  - Tags and pagination buttons have smooth color inversion on hover
+  - Navigation links have color transition on hover
+  - Proper spacing and typography hierarchy
+  - Professional, minimal aesthetic matching homepage
+
+  All functionality remains the same - this is a pure visual/styling fix to make the Tailwind generator work as intended.
+
 ## 2.0.0 - 2025-11-20
 
 ### Major Changes

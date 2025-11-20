@@ -1,0 +1,26 @@
+{
+  "site": {
+    "title": "Test Blog",
+    "description": "Testing Tailwind Generator"
+  },
+  "basics": {
+    "name": "Test Author"
+  },
+  "posts": [
+    {
+      "title": "AI-Generated Test Post",
+      "description": "Testing AI badge styling",
+      "content": "# Hello World\n\nThis is a test post with **bold** and *italic* text.\n\n```js\nconsole.log('Hello!');\n```",
+      "createdAt": "2025-01-20",
+      "type": "ai",
+      "tags": ["test", "ai"]
+    },
+    {
+      "title": "Regular Test Post",
+      "description": "Testing regular post styling",
+      "content": "# Regular Post\n\nThis is a regular post.",
+      "createdAt": "2025-01-19",
+      "tags": ["test"]
+    }
+  ]
+}

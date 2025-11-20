@@ -1,21 +1,21 @@
 {{#> layout}}
   {{#*inline "content"}}
-    <article>
-      <h1>{{post.title}}</h1>
-      <div class="post-meta">
-        <time datetime="{{post.createdAt}}">{{formatDate post.createdAt}}</time>
+    <article class="mt-8">
+      <h1 class="text-[2.75rem] mt-0 mb-4 tracking-tight">{{post.title}}</h1>
+      <div class="flex items-center gap-4 mb-12 pb-6 border-b border-gray-200 text-[0.95rem] text-gray-600">
+        <time datetime="{{post.createdAt}}" class="m-0 inline-block">{{formatDate post.createdAt}}</time>
         {{#if (eq post.type 'ai')}}
-          <span class="ai-indicator">AI-generated</span>
+          <span class="inline-block text-[0.85rem] font-medium text-gray-500 px-3 py-1 bg-gray-50 border border-gray-300 rounded">AI-generated</span>
         {{/if}}
       </div>
 
       {{{post.content}}}
 
       {{#if post.tags}}
-        <div class="post-footer">
-          <div class="post-tags">
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <div class="inline-block mt-3">
             {{#each post.tags}}
-              <a href="/tag/{{slugify this}}.html" class="tag">{{this}}</a>
+              <a href="/tag/{{slugify this}}.html" class="inline-block px-3 py-2 mr-3 mb-3 bg-gray-50 border border-gray-300 text-sm no-underline rounded font-medium transition-all hover:bg-black hover:text-white hover:border-black hover:scale-105">{{this}}</a>
             {{/each}}
           </div>
         </div>
