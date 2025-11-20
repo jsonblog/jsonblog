@@ -11,21 +11,23 @@
   <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS Feed" href="/rss.xml">
 </head>
 <body>
-  <div class="title">{{blog.site.title}}</div>
-  <div class="byline">{{blog.site.description}}</div>
-  <div class="pages">
-    <a href="/">Home</a>
-    {{#each pages}}
-      <a href="{{slug}}.html">{{title}}</a>
-    {{/each}}
-  </div>
+  <header>
+    <div class="title">{{blog.site.title}}</div>
+    <div class="byline">{{blog.site.description}}</div>
+    <nav class="pages">
+      <a href="/">Home</a>
+      {{#each pages}}
+        <a href="{{slug}}.html">{{title}}</a>
+      {{/each}}
+    </nav>
+  </header>
 
-  <div class="content">
+  <main class="content">
     {{> content}}
-  </div>
+  </main>
 
   <footer>
-    Built with <a href="https://github.com/jsonblog/jsonblog-cli">JSON Blog</a>
+    Built with <a href="https://jsonblog.dev">JSON Blog</a>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

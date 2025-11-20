@@ -1,29 +1,25 @@
 {{#> layout}}
   {{#*inline "content"}}
     <article>
-      <header class="post-header">
-        {{#if (eq post.type 'ai')}}
-          <span class="ai-badge">[AI-Generated]</span>
-        {{/if}}
+      <h1>{{post.title}}</h1>
+      <div class="post-meta">
         <time datetime="{{post.createdAt}}">{{formatDate post.createdAt}}</time>
-        {{#if post.tags}}
+        {{#if (eq post.type 'ai')}}
+          <span class="ai-indicator">AI-generated</span>
+        {{/if}}
+      </div>
+
+      {{{post.content}}}
+
+      {{#if post.tags}}
+        <div class="post-footer">
           <div class="post-tags">
-            <span class="tags-label">Tags:</span>
             {{#each post.tags}}
               <a href="/tag/{{slugify this}}.html" class="tag">{{this}}</a>
             {{/each}}
           </div>
-        {{/if}}
-        {{#if post.categories}}
-          <div class="post-categories">
-            <span class="categories-label">Categories:</span>
-            {{#each post.categories}}
-              <a href="/category/{{slugify this}}.html" class="category">{{this}}</a>
-            {{/each}}
-          </div>
-        {{/if}}
-      </header>
-      {{{post.content}}}
+        </div>
+      {{/if}}
     </article>
   {{/inline}}
 {{/layout}}

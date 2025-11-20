@@ -69,36 +69,42 @@ p {
 }
 
 /* Header */
+header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 .title {
   font-size: 2rem;
   font-weight: 600;
   margin: 0 0 0.5rem;
   letter-spacing: -0.02em;
+  color: #1a1a1a;
 }
 
 .byline {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   color: #666;
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 /* Navigation */
-.pages {
-  margin: 2rem 0;
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-  padding: 0.75rem 0;
+nav.pages {
+  margin-top: 1.25rem;
   font-size: 0.95rem;
 }
 
-.pages a {
-  margin-right: 1.25rem;
+nav.pages a {
+  margin-right: 1.5rem;
   font-weight: 500;
-  color: #000;
+  color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
-.pages a:hover {
+nav.pages a:hover {
   color: #0066cc;
 }
 
@@ -163,21 +169,51 @@ p {
   color: #777;
 }
 
-/* Post Header (Individual Posts) */
-.post-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid #e0e0e0;
+/* Post Layout */
+article {
+  margin-top: 2rem;
 }
 
-.post-header h1 {
+article h1 {
+  font-size: 2.75rem;
   margin-top: 0;
+  margin-bottom: 1rem;
+  letter-spacing: -0.03em;
 }
 
-.post-header .ai-badge {
-  display: block;
-  margin: 0.75rem 0 0 0;
-  width: fit-content;
+/* Post Meta (date and AI indicator under title) */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.post-meta time {
+  margin: 0;
+  display: inline-block;
+}
+
+.ai-indicator {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #888;
+  padding: 0.25rem 0.75rem;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Post Footer (tags) */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
 }
 
 /* Code Blocks - Dark theme with Highlight.js support */
