@@ -1,6 +1,6 @@
 # @jsonblog/generator-boilerplate
 
-## 3.1.0
+## 3.1.0 - 2025-01-20
 
 ### Minor Changes
 

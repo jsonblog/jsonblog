@@ -1,11 +1,16 @@
 # @jsonblog/cli
 
-## 3.0.1
+## 3.0.1 - 2025-01-20
 
 ### Patch Changes
 
-- Updated dependencies [a8442c7]
+- Updated dependencies with major typography improvements
   - @jsonblog/generator-boilerplate@3.1.0
+    - Typography improvements (19px font, 816px width, system fonts)
+    - Automatic syntax highlighting with Highlight.js
+    - Better list indentation and spacing
+    - Improved code block styling
+    - Enhanced readability throughout
 
 ## 3.0.0
 
