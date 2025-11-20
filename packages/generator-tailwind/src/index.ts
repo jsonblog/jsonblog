@@ -26,6 +26,11 @@ const templateFiles = {
 // CSS file (Tailwind)
 const tailwindCss = fs.readFileSync(path.join(__dirname, '../templates/tailwind.css'), 'utf8');
 
+// Read package.json for generator metadata
+const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
+const generatorName = packageJson.name;
+const generatorVersion = packageJson.version;
+
 // Initialize markdown parser
 const md = new MarkdownIt({
   html: true,
@@ -278,6 +283,8 @@ export const generateBlog = async (
         posts: pagePosts,
         pages,
         pagination,
+        generatorName,
+        generatorVersion,
       };
 
       if (page === 1) {
@@ -309,7 +316,7 @@ export const generateBlog = async (
         logger.debug(`Generating post: ${post.title}`);
         return {
           name: `${post.slug}.html`,
-          content: compiledTemplates.post({ blog, post, posts, pages }),
+          content: compiledTemplates.post({ blog, post, posts, pages, generatorName, generatorVersion }),
         };
       })
     );
@@ -322,7 +329,7 @@ export const generateBlog = async (
         logger.debug(`Generating page: ${page.title}`);
         return {
           name: `${page.slug}.html`,
-          content: compiledTemplates.page({ blog, page, posts, pages }),
+          content: compiledTemplates.page({ blog, page, posts, pages, generatorName, generatorVersion }),
         };
       })
     );
@@ -355,7 +362,7 @@ export const generateBlog = async (
         logger.debug(`Generating tag page: ${tag}`);
         return {
           name: `tag/${tagSlug}.html`,
-          content: compiledTemplates.tag({ blog, tag, posts: tagPosts, pages }),
+          content: compiledTemplates.tag({ blog, tag, posts: tagPosts, pages, generatorName, generatorVersion }),
         };
       })
     );
@@ -388,7 +395,7 @@ export const generateBlog = async (
         logger.debug(`Generating category page: ${category}`);
         return {
           name: `category/${categorySlug}.html`,
-          content: compiledTemplates.category({ blog, category, posts: categoryPosts, pages }),
+          content: compiledTemplates.category({ blog, category, posts: categoryPosts, pages, generatorName, generatorVersion }),
         };
       })
     );
