@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{#if post}}{{post.title}} - {{/if}}{{#if page}}{{page.title}} - {{/if}}{{blog.site.title}}</title>
+  <meta name="description" content="{{blog.site.description}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS Feed" href="/rss.xml">
+</head>
+<body>
+  <div class="title">{{blog.site.title}}</div>
+  <div class="byline">{{blog.site.description}}</div>
+  <div class="pages">
+    <a href="/">Home</a>
+    {{#each pages}}
+      <a href="{{slug}}.html">{{title}}</a>
+    {{/each}}
+  </div>
+
+  <div class="content">
+    {{> content}}
+  </div>
+
+  <footer>
+    Built with <a href="https://github.com/jsonblog/jsonblog-cli">JSON Blog</a>
+  </footer>
+</body>
+</html>

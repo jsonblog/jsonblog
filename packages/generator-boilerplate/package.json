@@ -1,0 +1,78 @@
+{
+  "name": "@jsonblog/generator-boilerplate",
+  "version": "3.0.0",
+  "description": "A boilerplate generator for JsonBlog",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "templates",
+    "assets"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist .turbo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/generator-boilerplate"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "generator",
+    "static-site",
+    "markdown"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsonblog/jsonblog/issues"
+  },
+  "homepage": "https://github.com/jsonblog/jsonblog/tree/main/packages/generator-boilerplate#readme",
+  "dependencies": {
+    "@jsonblog/schema": "workspace:*",
+    "axios": "^1.6.2",
+    "handlebars": "^4.7.8",
+    "markdown-it": "^14.0.0",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "rss": "^1.2.2",
+    "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "@types/chokidar": "^2.1.7",
+    "@types/express": "^5.0.3",
+    "@types/handlebars": "^4.1.0",
+    "@types/jest": "^29.0.0",
+    "@types/markdown-it": "^13.0.0",
+    "@types/node": "^20.0.0",
+    "@types/rss": "^0.0.32",
+    "@types/ws": "^8.18.1",
+    "chokidar": "^4.0.3",
+    "express": "^4.18.2",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "ws": "^8.18.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

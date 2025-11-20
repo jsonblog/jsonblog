@@ -1,0 +1,5 @@
+title: JSON Blog
+description: "JSON Blog is cool."
+permalink: pretty
+markdown: kramdown
+include: [/.well-known]

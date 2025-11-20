@@ -1,0 +1,46 @@
+{
+  "site": {
+    "title": "My Blog",
+    "description": "A showcase blog"
+  },
+  "basics": {
+    "name": "Thomas Davis",
+    "label": "Software Engineer",
+    "image": "https://example.com/avatar.jpg",
+    "email": "thomas@example.com",
+    "phone": "+1234567890",
+    "url": "https://example.com"
+  },
+  "posts": [
+    {
+      "title": "My First Post",
+      "description": "An introduction to my blog",
+      "source": "./first-post.md",
+      "createdAt": "2025-02-24",
+      "updatedAt": "2025-02-24"
+    },
+    {
+      "title": "Second Post",
+      "description": "More thoughts on blogging",
+      "source": "./second-post.md",
+      "createdAt": "2025-02-25",
+      "updatedAt": "2025-02-25"
+    }
+  ],
+  "pages": [
+    {
+      "title": "About",
+      "description": "Learn more about me",
+      "source": "./about.md",
+      "createdAt": "2025-02-24",
+      "updatedAt": "2025-02-24"
+    },
+    {
+      "title": "Contact",
+      "description": "Get in touch",
+      "source": "./contact.md",
+      "createdAt": "2025-02-24",
+      "updatedAt": "2025-02-24"
+    }
+  ]
+}

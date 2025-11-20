@@ -1,0 +1,31 @@
+- name: JSON Resume Validator (PHP)
+  description: Tool in PHP who validates if a Resume is according to the defined schema. It also validates if any desired properties are not empty.
+  link: https://github.com/lfbn/json-resume-validator
+
+- name: JSON Resume Validator (Python)
+  description: Python tool to validate JSON resumes to ensure that they are according to the defined schema
+  link: https://github.com/kelvintaywl/jsonresume-validator
+
+- name: JSON Resume Validator and Parser (Java)
+  description: Java library to validate and parse JSON resumes to Java objects
+  link: https://github.com/eaxdev/Java-JsonResume-Validator
+
+- name: JSON Resume Validator (Go)
+  description: Go library to validate JSON resumes
+  link: https://github.com/cinarmert/json-resume-validator
+
+- name: SkillSet
+  link: https://github.com/Jac21/SkillSet
+  description: Intuitive job-candidate skill visualization, taking advantage of D3.js and JSONResume.
+
+- name: gulp-resume
+  link: https://github.com/mattberther/gulp-resume
+  description: gulp-resume is a gulp plugin to generate a resume using jsonresume.org.
+
+- name: ng-jsonresume
+  link: https://github.com/marko-knoebl/ng-jsonresume
+  description: ng-jsonresume lets you include a resume into a webpage by using an Angular directive and providing data in the standardized jsonresume format.
+
+- name: jsonresume (haskell)
+  link: http://hackage.haskell.org/package/jsonresume
+  description: This library encodes JSON Resume standard in Haskell datatypes, and provides a parser to read a CV in the JSON Resume format.

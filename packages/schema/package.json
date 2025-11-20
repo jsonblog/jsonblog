@@ -1,0 +1,67 @@
+{
+  "name": "@jsonblog/schema",
+  "version": "3.0.0",
+  "description": "A community-driven schema for blog content that emphasizes portability and content ownership",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "schema.json",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist .turbo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/schema"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "schema",
+    "json-schema",
+    "typescript",
+    "static-site",
+    "markdown"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsonblog/jsonblog/issues"
+  },
+  "homepage": "https://github.com/jsonblog/jsonblog/tree/main/packages/schema#readme",
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "commander": "^11.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
