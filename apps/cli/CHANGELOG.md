@@ -1,5 +1,19 @@
 # @jsonblog/cli
 
+## 3.0.2 - 2025-11-20
+
+### Patch Changes
+
+- Updated dependencies with professional design improvements
+  - @jsonblog/generator-boilerplate@3.2.0
+    - Redesigned header with semantic HTML and cleaner navigation
+    - Post title now at top with date underneath for better hierarchy
+    - Simplified AI indicator to subtle "AI-generated" badge
+    - Tags moved to footer section after content
+    - Professional styling inspired by Stripe, Linear, Vercel
+    - Footer now links to jsonblog.dev
+    - Enhanced spacing and typography throughout
+
 ## 3.0.1 - 2025-01-20
 
 ### Patch Changes
