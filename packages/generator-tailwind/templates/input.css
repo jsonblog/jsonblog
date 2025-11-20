@@ -29,19 +29,19 @@
   }
 
   .content h1 {
-    @apply text-[2.5rem] leading-tight;
+    @apply text-[2.25rem] leading-tight;
   }
 
   .content h2 {
-    @apply text-[1.8rem] leading-tight;
+    @apply text-[1.62rem] leading-tight;
   }
 
   .content h3 {
-    @apply text-[1.4rem] leading-snug;
+    @apply text-[1.26rem] leading-snug;
   }
 
   .content h4 {
-    @apply text-[1.1rem] leading-normal;
+    @apply text-[0.99rem] leading-normal;
   }
 
   .content p {
@@ -80,7 +80,7 @@
 
   /* Tables */
   .content table {
-    @apply border-collapse w-full my-6 text-[0.95rem];
+    @apply border-collapse w-full my-6 text-[0.85rem];
   }
 
   .content th,
@@ -121,12 +121,12 @@
   border: 1px solid #333;
   border-radius: 8px;
   line-height: 1.6;
-  font-size: 0.9rem;
+  font-size: 0.81rem;
 }
 
 .content code {
   font-family: 'IBM Plex Mono', 'Monaco', 'Courier New', monospace;
-  font-size: 0.9em;
+  font-size: 0.81em;
 }
 
 .content pre code {
@@ -148,7 +148,7 @@
   color: #c7254e;
   padding: 0.2em 0.4em;
   border-radius: 3px;
-  font-size: 0.9em;
+  font-size: 0.81em;
   font-family: 'IBM Plex Mono', monospace;
   border: 1px solid #e5e5e5;
 }
@@ -179,24 +179,24 @@
 
 @media (max-width: 768px) {
   body {
-    font-size: 17px;
+    font-size: 15.3px;
     padding: 0 1.5rem;
   }
 
   .content h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .content h2 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
   }
 
   .content h3 {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 
   .content h4 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .content ul,
@@ -212,20 +212,20 @@
 
 @media (max-width: 480px) {
   body {
-    font-size: 16px;
+    font-size: 14.4px;
     padding: 0 1rem;
   }
 
   .content h1 {
-    font-size: 1.75rem;
+    font-size: 1.575rem;
   }
 
   .content h2 {
-    font-size: 1.35rem;
+    font-size: 1.215rem;
   }
 
   .content h3 {
-    font-size: 1.15rem;
+    font-size: 1.035rem;
   }
 
   .content ul,

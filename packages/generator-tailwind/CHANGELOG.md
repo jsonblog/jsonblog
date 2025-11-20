@@ -1,5 +1,24 @@
 # @jsonblog/generator-tailwind
 
+## 2.1.0 - 2025-11-20
+
+### Minor Changes
+
+- Enhance header design, reduce font sizes, and remove .html extensions
+
+  **Visual Improvements:**
+  - Enhanced header with bold title, blue accent underline, italic description
+  - Animated navigation underlines that grow on hover
+  - Header hover effect with blue accent line sweep
+
+  **Font Size Reduction (-10%):**
+  - Base font: 19px → 17px
+  - All headings and UI elements scaled proportionally
+
+  **Pretty URLs:**
+  - Removed .html extensions from all links
+  - Configure hosting with `cleanUrls: true` for Vercel
+
 ## 2.0.1 - 2025-11-20
 
 ### Patch Changes
