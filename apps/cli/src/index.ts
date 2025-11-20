@@ -10,6 +10,19 @@ import logger from './logger.js';
 const BUILD_PATH = `${process.cwd()}/./build`;
 const DEFAULT_GENERATOR = '@jsonblog/generator-boilerplate';
 
+// Get generator name from blog.json or CLI flag (blog.json takes precedence)
+const getGeneratorName = (blog: any, cliOption?: string): string => {
+  if (blog.generator?.name) {
+    return blog.generator.name;
+  }
+  return cliOption || DEFAULT_GENERATOR;
+};
+
+// Get generator configuration from blog.json
+const getGeneratorConfig = (blog: any): Record<string, any> => {
+  return blog.generator?.config || {};
+};
+
 const getGenerator = async (generatorName?: string) => {
   if (!generatorName) {
     logger.info('Using default generator');
@@ -31,10 +44,16 @@ const build = async (generator: any, blog: any) => {
 
   // Get the directory of the blog.json file to use as base path
   const blogDir = process.cwd();
-  logger.debug({ basePath: blogDir }, 'Using base path');
-  
+  const generatorConfig = getGeneratorConfig(blog);
+  const hasConfig = Object.keys(generatorConfig).length > 0;
+
+  logger.debug({
+    basePath: blogDir,
+    hasGeneratorConfig: hasConfig
+  }, 'Using base path and generator config');
+
   try {
-    const files = await generator(blog, blogDir);
+    const files = await generator(blog, blogDir, generatorConfig);
     logger.debug({ fileCount: files.length }, 'Generated files');
     
     // Clean up build dir and make again
@@ -86,12 +105,13 @@ program
 program
   .command('build')
   .description('Build the blog')
-  .option('-g, --generator <name>', 'Generator to use', DEFAULT_GENERATOR)
+  .option('-g, --generator <name>', 'Generator to use (overridden by blog.json if specified)')
   .argument('[config]', 'Path to blog config file', 'blog.json')
   .action(async (config, options) => {
-    logger.info({ file: config, generator: options.generator }, 'Starting build command');
     const blog = getBlog(config);
-    const generator = await getGenerator(options.generator);
+    const generatorName = getGeneratorName(blog, options.generator);
+    logger.info({ file: config, generator: generatorName }, 'Starting build command');
+    const generator = await getGenerator(generatorName);
     await build(generator, blog);
   });
 
@@ -111,21 +131,25 @@ program
 program
   .command('watch')
   .description('Watch for changes and rebuild')
-  .option('-g, --generator <name>', 'Generator to use', DEFAULT_GENERATOR)
+  .option('-g, --generator <name>', 'Generator to use (overridden by blog.json if specified)')
   .argument('[config]', 'Path to blog config file', 'blog.json')
   .action(async (config, options) => {
-    logger.info({ file: config, generator: options.generator }, 'Starting watch command');
+    const blog = getBlog(config);
+    const generatorName = getGeneratorName(blog, options.generator);
+    logger.info({ file: config, generator: generatorName }, 'Starting watch command');
+
     const watcher = chokidar.watch([config, 'content/**/*', 'templates/**/*'], {
       ignored: /(^|[\/\\])\../,
       persistent: true
     });
 
     logger.info(`Watching ${config} and content directory for changes...`);
-    
+
     watcher.on('change', async (path) => {
       logger.info({ path }, 'File change detected');
       const blog = getBlog(config);
-      const generator = await getGenerator(options.generator);
+      const generatorName = getGeneratorName(blog, options.generator);
+      const generator = await getGenerator(generatorName);
       await build(generator, blog);
       logger.info('Rebuild completed');
     });

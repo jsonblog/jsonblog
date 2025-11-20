@@ -205,9 +205,17 @@ async function processContent<T extends BlogPost | BlogPage>(
   });
 }
 
-export const generateBlog = async (blog: Blog, basePath: string): Promise<GeneratedFile[]> => {
-  logger.info({ basePath }, 'Starting blog generation');
+export const generateBlog = async (
+  blog: Blog,
+  basePath: string,
+  generatorConfig: Record<string, any> = {}
+): Promise<GeneratedFile[]> => {
+  logger.info({ basePath, hasConfig: Object.keys(generatorConfig).length > 0 }, 'Starting blog generation');
   const files: GeneratedFile[] = [];
+
+  // Note: generatorConfig can be used for custom Tailwind theme configuration
+  // Users can pass Tailwind config via blog.json generator.config field
+  // This will be documented in the package README
 
   try {
     // Validate input

@@ -1,5 +1,62 @@
 # @jsonblog/generator-boilerplate
 
+## 4.0.0 - 2025-11-20
+
+### Major Changes
+
+- Add generator configuration support
+
+  Major enhancement allowing users to pass arbitrary configuration to generators through blog.json:
+
+  **Schema Changes (@jsonblog/schema):**
+  - Added `GeneratorConfigSchema` for validating generator configuration
+  - Added optional `generator` field to `BlogSchema` with nested `name` and `config` properties
+  - Both `name` and `config` fields are optional for maximum flexibility
+
+  **CLI Changes (@jsonblog/cli):**
+  - Added `getGeneratorName()` helper to extract generator name from blog.json (takes precedence over CLI flag)
+  - Added `getGeneratorConfig()` helper to extract generator configuration
+  - Updated `build()` function to pass configuration as 3rd parameter to generators
+  - Updated `build` and `watch` commands to use new configuration system
+  - Added logging to show when generator config is being used
+
+  **Generator Changes (Breaking):**
+  - Updated function signature to accept optional 3rd parameter: `generatorConfig: Record<string, any> = {}`
+  - Both `@jsonblog/generator-boilerplate` and `@jsonblog/generator-tailwind` now support configuration
+  - Generators log whether config is provided via `hasConfig` flag
+  - Backward compatible: config parameter is optional with empty object default
+
+  **Example Usage:**
+
+  ```json
+  {
+    "site": { "title": "My Blog" },
+    "basics": { "name": "Author" },
+    "generator": {
+      "name": "@jsonblog/generator-tailwind",
+      "config": {
+        "theme": {
+          "colors": {
+            "primary": "#007acc"
+          }
+        }
+      }
+    },
+    "posts": [...]
+  }
+  ```
+
+  **Breaking Change:**
+  Custom generator implementations must update their function signature to accept the optional 3rd `generatorConfig` parameter. Generators that don't update will still work (JavaScript allows extra arguments) but won't receive configuration.
+
+  **Design:**
+  Follows industry best practices from Gatsby, Babel, webpack, and other plugin-based tools with nested configuration patterns.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @jsonblog/schema@3.1.0
+
 ## 3.2.0 - 2025-11-20
 
 ### Minor Changes

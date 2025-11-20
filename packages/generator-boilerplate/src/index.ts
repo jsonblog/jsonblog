@@ -205,8 +205,12 @@ async function processContent<T extends BlogPost | BlogPage>(
   });
 }
 
-export const generateBlog = async (blog: Blog, basePath: string): Promise<GeneratedFile[]> => {
-  logger.info({ basePath }, 'Starting blog generation');
+export const generateBlog = async (
+  blog: Blog,
+  basePath: string,
+  generatorConfig: Record<string, any> = {}
+): Promise<GeneratedFile[]> => {
+  logger.info({ basePath, hasConfig: Object.keys(generatorConfig).length > 0 }, 'Starting blog generation');
   const files: GeneratedFile[] = [];
 
   try {
