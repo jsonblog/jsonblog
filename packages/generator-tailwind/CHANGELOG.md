@@ -1,5 +1,51 @@
 # @jsonblog/generator-tailwind
 
+## 4.0.0 - 2025-01-28
+
+### Major Changes
+
+- Transform to AI Lab Notebook aesthetic with dark theme and typographic swagger
+
+  **BREAKING CHANGE: Complete Visual Redesign**
+
+  This release completely transforms the generator-tailwind from an editorial/magazine aesthetic to an AI-product minimalism "lab notebook" design. This is a breaking aesthetic change that will significantly alter the appearance of blogs.
+
+  ## New Design Philosophy
+  - **Dark theme**: Muted charcoal/ink backgrounds (#0A0B0D) with soft chalk text (#F8F9FA)
+  - **Blueprint grid**: Subtle 32px grid pattern background (0.04 opacity)
+  - **Typography-driven hierarchy**: Fonts do the heavy lifting, minimal color usage
+  - **System UI language**: Monospace fonts for all metadata (timestamps, tags, navigation)
+  - **Technical but friendly**: Readable at 2am, appeals to VCs and Dota teammates alike
+
+  ## Typography System (Three Layers)
+
+  **Headlines**: Archivo (fallback for Clash Grotesk) - architectural, sharp, modern geometric sans
+  **Body**: Manrope - soft, friendly, excellent readability for long-form content
+  **System UI**: JetBrains Mono - developer-focused monospace for timestamps, tags, navigation, code
+
+  ## Visual Changes
+
+  **Removed**:
+  - Drop caps, pull quotes, gradient dividers, editorial serif fonts
+  - Light off-white background, burgundy/forest/golden colors
+  - Heavy 2px borders
+
+  **Added**:
+  - Dark ink backgrounds with blueprint grid
+  - Blue accent for links only, 1px soft borders
+  - Mono font for system UI, simple blockquotes
+  - Minimal color usage - hierarchy via weight and size
+
+  ## Color Palette
+
+  **Ink** (backgrounds): #0A0B0D to #4A5264
+  **Chalk** (text): #F8F9FA to #495057
+  **Accent Blue**: #60A5FA (links only)
+
+  ## Migration Notes
+
+  This release drastically changes visual appearance. Best for technical blogs, AI/ML content, developer portfolios. Test thoroughly before production.
+
 ## 3.2.1 - 2025-01-28
 
 ### Patch Changes

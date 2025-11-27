@@ -1,69 +1,74 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./templates/**/*.hbs'],
+  content: ['./templates/**/*.hbs', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        body: ['Lora', 'Georgia', 'serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        // Clash Grotesk (if self-hosted), fallback to Archivo from Google Fonts
+        headline: ['"Clash Grotesk"', 'Archivo', 'system-ui', 'sans-serif'],
+        body: ['Manrope', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'Consolas', 'monospace'],
       },
       fontSize: {
-        base: '18px',
-        xs: '0.8125rem',     // 13px - tags/categories
-        sm: '0.875rem',      // 14px - metadata
-        lg: '1.125rem',      // 18px - descriptions
-        xl: '1.25rem',       // 20px - h4
-        '2xl': '1.75rem',    // 28px - h3
-        '3xl': '2.25rem',    // 36px - h2
-        '4xl': '3rem',       // 48px - site title
-        '5xl': '3.5rem',     // 56px - h1/post title
+        base: '18px',  // 1.125rem
+        xs: '0.75rem',      // 12px - system labels
+        sm: '0.8125rem',    // 13px - timestamps, nav
+        lg: '1.1875rem',    // 19px - emphasized body
+        xl: '1.25rem',      // 20px - h4
+        '2xl': '1.75rem',   // 28px - h3
+        '3xl': '2.25rem',   // 36px - h2
+        '4xl': '3rem',      // 48px - site title
+        '5xl': '3.5rem',    // 56px - post title
       },
       colors: {
-        burgundy: {
-          DEFAULT: '#8B2635',
-          dark: '#6D1E2A',
-          light: '#A63646',
+        // Dark "ink" backgrounds
+        ink: {
+          900: '#0A0B0D',  // Deepest - body background
+          800: '#12151A',  // Cards, elevated surfaces
+          700: '#1C2028',  // Hover states
+          600: '#252A35',  // Borders (visible)
+          500: '#3A4157',  // Subtle borders
+          400: '#4A5264',  // Disabled text
         },
-        forest: {
-          DEFAULT: '#2C5F4D',
-          dark: '#1F4536',
-          light: '#3A7A62',
+        // Soft "chalk" text
+        chalk: {
+          100: '#F8F9FA',  // Primary text
+          200: '#E9ECEF',  // Secondary text
+          300: '#CED4DA',  // Tertiary text
+          400: '#ADB5BD',  // Metadata text
+          500: '#868E96',  // Subtle text
+          600: '#495057',  // Barely visible
         },
-        golden: {
-          DEFAULT: '#C79F5C',
-          dark: '#A67F3E',
-          light: '#D9B57A',
-        },
-        neutral: {
-          50: '#FAFAF8',
-          100: '#F5F3F0',
-          200: '#E5E5E5',
-          300: '#D1D1D1',
-          400: '#A0A0A0',
-          500: '#737373',
-          600: '#4A4A4A',
-          900: '#1A1A1A',
+        // Minimal accent colors
+        accent: {
+          blue: '#60A5FA',    // Links only
+          cyan: '#22D3EE',    // Rare highlights
+          green: '#34D399',   // Success states
+          orange: '#FB923C',  // Warnings (rare)
         },
       },
       maxWidth: {
-        content: '720px',    // Narrower for better readability
-        wide: '1100px',      // Wider container for grid layouts
+        content: '720px',   // Single-column reading
+        wide: '1000px',     // Grid layouts
       },
       lineHeight: {
-        relaxed: '1.75',
+        relaxed: '1.7',
         loose: '1.8',
       },
       letterSpacing: {
-        tighter: '-0.04em',
-        tight: '-0.02em',
-        wide: '0.05em',
-        wider: '0.08em',
-        widest: '0.1em',
+        tightest: '-0.03em',  // Large headlines
+        tighter: '-0.02em',   // Medium headlines
+        normal: '0',          // Body text
+        wide: '0.03em',       // Mono timestamps
+        wider: '0.08em',      // Mono nav
+        widest: '0.1em',      // Mono tags
       },
-      spacing: {
-        '18': '4.5rem',
-        '22': '5.5rem',
+      backgroundImage: {
+        'blueprint-grid': 'linear-gradient(rgba(96, 165, 250, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(96, 165, 250, 0.04) 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'grid-32': '32px 32px',
+        'grid-64': '64px 64px',
       },
     },
   },

@@ -1,467 +1,241 @@
+/*
+ * AI Lab Notebook Design - Dark Theme
+ * Typography: Archivo (headlines), Manrope (body), JetBrains Mono (system UI)
+ * Note: Using Archivo from Google Fonts as fallback for Clash Grotesk
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Editorial Font Imports */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-
+/* ===== BASE LAYER (Dark Theme Foundation) ===== */
 @layer base {
   body {
-    @apply font-body text-neutral-900 bg-neutral-50;
+    @apply font-body text-chalk-100 bg-ink-900;
     font-size: 18px;
     line-height: 1.8;
   }
 
   a {
-    @apply text-burgundy underline transition-colors duration-200;
+    @apply text-accent-blue no-underline transition-colors duration-200;
   }
 
   a:hover {
-    @apply text-burgundy-dark no-underline;
+    @apply text-accent-cyan;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-semibold;
+    @apply font-headline font-semibold text-chalk-100;
+  }
+
+  code {
+    @apply font-mono;
   }
 }
 
-/* Content Styles for Markdown-rendered HTML */
+/* ===== COMPONENT LAYER (Lab Notebook Elements) ===== */
+@layer components {
+  /* Site Header */
+  .lab-header {
+    @apply mb-16 pb-8 border-b border-ink-600;
+  }
+
+  .site-title {
+    @apply font-headline font-bold text-4xl md:text-5xl text-chalk-100 mb-3;
+    letter-spacing: -0.02em;
+  }
+
+  .site-description {
+    @apply font-body text-chalk-300 text-base md:text-lg mb-6;
+  }
+
+  .site-navigation {
+    @apply flex flex-wrap gap-6 font-mono text-sm uppercase tracking-wider;
+  }
+
+  .site-navigation a {
+    @apply text-chalk-300 hover:text-chalk-100 transition-colors;
+  }
+
+  /* Post Cards - Dark Lab Style */
+  .lab-card {
+    @apply bg-ink-800 border border-ink-600 rounded-lg p-6 mb-6;
+    @apply transition-all duration-200;
+  }
+
+  .lab-card:hover {
+    @apply border-ink-500 bg-ink-700;
+  }
+
+  .lab-card--featured {
+    @apply border-2 border-ink-500 p-8;
+  }
+
+  .post-meta {
+    @apply font-mono text-xs text-chalk-400 uppercase tracking-wide mb-3;
+  }
+
+  .post-title {
+    @apply font-headline font-bold text-2xl md:text-3xl text-chalk-100 mb-3;
+    letter-spacing: -0.02em;
+  }
+
+  .post-title--featured {
+    @apply text-3xl md:text-4xl;
+    letter-spacing: -0.03em;
+  }
+
+  .post-title a {
+    @apply text-chalk-100 hover:text-accent-blue transition-colors;
+  }
+
+  .post-excerpt {
+    @apply font-body text-chalk-200 text-base leading-relaxed mb-4;
+  }
+
+  .post-read-more {
+    @apply font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider;
+  }
+
+  /* Tags - Mono Font System UI */
+  .tag {
+    @apply inline-block font-mono text-xs uppercase tracking-widest;
+    @apply px-3 py-1 border border-ink-600 rounded bg-ink-800;
+    @apply text-chalk-300 hover:text-chalk-100 hover:border-ink-500;
+    @apply transition-all duration-200;
+  }
+
+  /* AI Badge - System Label */
+  .ai-badge {
+    @apply inline-block font-mono text-xs uppercase tracking-wider;
+    @apply px-2 py-1 bg-ink-700 border border-ink-600 rounded text-chalk-400;
+  }
+
+  /* Pagination */
+  .pagination {
+    @apply flex justify-between items-center mt-12 pt-8 border-t border-ink-600;
+  }
+
+  .pagination-button {
+    @apply font-mono text-sm uppercase tracking-wider;
+    @apply px-6 py-3 bg-ink-800 border border-ink-600 rounded;
+    @apply text-chalk-200 hover:text-chalk-100 hover:bg-ink-700 hover:border-ink-500;
+    @apply transition-all duration-200;
+  }
+
+  .pagination-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Footer - Mono System Font */
+  .lab-footer {
+    @apply mt-20 pt-8 border-t border-ink-600;
+    @apply font-mono text-xs text-chalk-500 text-center;
+  }
+}
+
+/* ===== CONTENT UTILITIES (Post Content Styling) ===== */
 @layer utilities {
-  /* Typography */
-  .content h1,
-  .content h2,
-  .content h3,
-  .content h4 {
-    @apply font-serif font-semibold tracking-tight mb-6 mt-10 first:mt-0;
+  .content {
+    @apply font-body text-chalk-100 leading-loose;
   }
 
   .content h1 {
-    @apply text-5xl leading-tight;
+    @apply font-headline font-bold text-5xl mt-12 mb-6;
+    letter-spacing: -0.03em;
   }
 
   .content h2 {
-    @apply text-3xl leading-tight mt-14 mb-6;
+    @apply font-headline font-semibold text-3xl mt-10 mb-5;
+    letter-spacing: -0.02em;
   }
 
   .content h3 {
-    @apply text-2xl leading-snug mt-10 mb-5;
+    @apply font-headline font-semibold text-2xl mt-8 mb-4;
+    letter-spacing: -0.02em;
   }
 
   .content h4 {
-    @apply text-xl leading-normal mt-8 mb-4;
+    @apply font-headline font-semibold text-xl mt-6 mb-3;
   }
 
   .content p {
-    @apply mb-7 leading-loose font-body;
+    @apply mb-6;
   }
 
-  /* Lists */
-  .content ul,
-  .content ol {
-    @apply pl-10 mb-6;
+  .content a {
+    @apply text-accent-blue underline hover:text-accent-cyan;
+  }
+
+  .content ul, .content ol {
+    @apply mb-6 pl-8;
   }
 
   .content li {
-    @apply mb-3 leading-[1.8];
+    @apply mb-2;
   }
 
-  .content li + li {
-    @apply mt-2;
+  .content ul li {
+    @apply list-disc;
   }
 
-  .content ol ol,
-  .content ul ul,
-  .content ol ul,
-  .content ul ol {
-    @apply mt-3 mb-3 pl-8;
+  .content ol li {
+    @apply list-decimal;
   }
 
-  /* Blockquotes - Pull Quote Style */
+  /* Blockquotes - Simple Left Border (No Pull Quotes) */
   .content blockquote {
-    @apply my-12 py-12 px-16 bg-neutral-100 border-0 text-center relative;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #2C5F4D;
+    @apply my-8 pl-6 border-l-4 border-accent-blue;
+    @apply text-chalk-200 italic text-lg;
   }
 
-  .content blockquote::before {
-    content: '\201C';
-    font-family: 'Playfair Display', serif;
-    font-size: 6rem;
-    color: #C79F5C;
-    position: absolute;
-    top: -1rem;
-    left: 1rem;
-    opacity: 0.3;
+  /* Inline Code - Cyan Accent */
+  .content code {
+    @apply font-mono text-sm bg-ink-800 text-accent-cyan px-2 py-1 rounded;
   }
 
-  .content blockquote p {
-    @apply mb-4 last:mb-0;
+  /* Code Blocks - Dark with Border */
+  .content pre {
+    @apply my-8 p-6 bg-ink-800 border border-ink-600 rounded-lg overflow-x-auto;
   }
 
-  /* Tables */
+  .content pre code {
+    @apply bg-transparent text-chalk-200 p-0;
+  }
+
+  /* Images */
+  .content img {
+    @apply my-8 rounded-lg border border-ink-600;
+  }
+
+  /* Tables - Mono Headers */
   .content table {
-    @apply border-collapse w-full my-6 text-[0.85rem];
-  }
-
-  .content th,
-  .content td {
-    @apply border border-gray-300 p-4 text-left;
+    @apply w-full my-8 border-collapse;
   }
 
   .content th {
-    @apply bg-gray-50 font-semibold;
+    @apply font-mono text-sm uppercase tracking-wider;
+    @apply bg-ink-800 border border-ink-600 px-4 py-3 text-left;
   }
 
-  .content tr:nth-child(even) {
-    @apply bg-gray-50;
+  .content td {
+    @apply border border-ink-600 px-4 py-3;
   }
 
   /* Horizontal Rule */
   .content hr {
-    @apply border-0 border-t border-gray-300 my-10;
-  }
-
-  /* Links */
-  .content a {
-    @apply text-burgundy underline transition-colors duration-200;
-  }
-
-  .content a:hover {
-    @apply text-burgundy-dark;
+    @apply my-12 border-ink-600;
   }
 }
 
-@layer components {
-  /* Editorial Header */
-  .editorial-header {
-    @apply text-center py-16 border-b-2 border-neutral-300 mb-16;
-  }
-
-  .site-title {
-    @apply font-serif font-black text-4xl md:text-5xl tracking-tighter mb-4 text-neutral-900;
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-  }
-
-  .site-description {
-    @apply text-neutral-600 text-lg italic mb-8 max-w-2xl mx-auto leading-relaxed;
-  }
-
-  .site-navigation {
-    @apply flex justify-center gap-8 flex-wrap;
-  }
-
-  .site-navigation a {
-    @apply font-sans text-sm uppercase tracking-widest font-medium;
-    @apply no-underline text-neutral-600 hover:text-burgundy;
-    @apply transition-colors duration-200;
-  }
-
-  /* Post Cards - Magazine Style */
-  .post-card {
-    @apply mb-16 pb-12 border-b border-neutral-200 last:border-b-0;
-    @apply transition-all duration-300;
-  }
-
-  .post-card--featured {
-    @apply mb-20 pb-16 border-b-2 border-neutral-300;
-  }
-
-  .post-card__meta {
-    @apply flex items-center gap-4 mb-4 flex-wrap;
-  }
-
-  .post-card__category {
-    @apply font-sans text-sm uppercase tracking-wider text-burgundy font-medium;
-  }
-
-  .post-card__title {
-    @apply font-serif font-bold text-3xl leading-tight mb-4 tracking-tight;
-  }
-
-  .post-card__title--featured {
-    @apply text-4xl md:text-5xl mb-6;
-  }
-
-  .post-card__title a {
-    @apply no-underline text-neutral-900 hover:text-burgundy transition-colors duration-200;
-  }
-
-  .post-card__excerpt {
-    @apply font-body text-lg text-neutral-600 leading-relaxed mb-6;
-  }
-
-  .post-card__read-more {
-    @apply font-sans text-sm uppercase tracking-widest font-medium;
-    @apply text-burgundy hover:text-burgundy-dark;
-    @apply inline-flex items-center gap-2 no-underline transition-colors duration-200;
-  }
-
-  .post-card__read-more::after {
-    content: '→';
-    @apply transition-transform duration-300;
-  }
-
-  .post-card__read-more:hover::after {
-    @apply translate-x-1;
-  }
-
-  /* Tags - Editorial Style */
-  .tag {
-    @apply font-sans text-xs uppercase tracking-widest font-medium;
-    @apply inline-block px-4 py-2 border-2 border-neutral-300 rounded;
-    @apply hover:bg-forest hover:border-forest hover:text-white;
-    @apply transition-all duration-200 no-underline;
-  }
-
-  /* Post Single Page */
-  .post-header {
-    @apply text-center mb-12;
-  }
-
-  .post-category {
-    @apply font-sans text-xs uppercase tracking-widest text-burgundy font-medium block mb-6;
-  }
-
-  .post-title {
-    @apply font-serif font-bold text-4xl md:text-5xl leading-tight tracking-tight mb-8;
-  }
-
-  .post-byline {
-    @apply flex items-center justify-center gap-4 text-neutral-500 flex-wrap;
-  }
-
-  .post-date {
-    @apply font-sans text-sm uppercase tracking-wider;
-  }
-
-  .post-ai-badge {
-    @apply font-sans text-xs uppercase tracking-wider px-3 py-1 bg-neutral-100 border border-neutral-300 rounded-full;
-  }
-
-  .post-header-divider {
-    @apply w-24 h-0.5 bg-burgundy mx-auto mt-8;
-  }
-
-  .post-footer {
-    @apply mt-16 pt-12 border-t border-neutral-200;
-  }
-
-  .tags-label {
-    @apply font-sans text-sm uppercase tracking-wider text-neutral-500 block mb-4;
-  }
-
-  /* Archive Pages */
-  .archive-header {
-    @apply text-center mb-16 pb-12 border-b-2 border-neutral-200;
-  }
-
-  .archive-type {
-    @apply font-sans text-xs uppercase tracking-widest text-neutral-500 block mb-4;
-  }
-
-  .archive-title {
-    @apply font-serif font-bold text-4xl tracking-tight text-neutral-900;
-  }
-
-  .archive-count {
-    @apply font-sans text-sm text-neutral-500 mt-4;
-  }
-}
-
-/* Drop Cap */
-.post-content > p:first-of-type::first-letter {
-  font-family: 'Playfair Display', serif;
-  font-size: 4.5rem;
-  font-weight: 700;
-  line-height: 0.85;
-  float: left;
-  margin: 0.1em 0.15em 0 0;
-  color: #8B2635;
-}
-
-/* Code Blocks - Custom styles */
-.content pre {
-  margin: 1.5rem 0;
-  padding: 1.5rem;
-  overflow-x: auto;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  border: 1px solid #333;
-  border-radius: 8px;
-  line-height: 1.6;
-  font-size: 0.81rem;
-}
-
-.content code {
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 0.81em;
-}
-
-.content pre code {
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-}
-
-/* Inline code */
-.content p code,
-.content li code,
-.content dt code,
-.content h1 code,
-.content h2 code,
-.content h3 code,
-.content h4 code {
-  background: #f5f5f5;
-  color: #c7254e;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-size: 0.81em;
-  font-family: 'Monaco', monospace;
-  border: 1px solid #e5e5e5;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .animate-fade-in {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* Staggered animations for post cards */
-.post-card:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
-.post-card:nth-child(2) { animation-delay: 0.2s; opacity: 0; }
-.post-card:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
-.post-card:nth-child(4) { animation-delay: 0.4s; opacity: 0; }
-.post-card:nth-child(5) { animation-delay: 0.5s; opacity: 0; }
-
-/* Responsive Design */
-@media (max-width: 900px) {
-  body {
-    max-width: 90%;
-    padding: 0 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    font-size: 16px;
-    padding: 0 1.5rem;
-  }
-
-  .site-title {
-    font-size: 2.25rem;
-  }
-
-  .post-card__title--featured {
-    font-size: 2rem;
-  }
-
-  .post-title {
-    font-size: 2rem;
-  }
-
-  .content h1 {
-    font-size: 2rem;
-  }
-
-  .content h2 {
-    font-size: 1.5rem;
-  }
-
-  .content h3 {
-    font-size: 1.25rem;
-  }
-
-  .content h4 {
-    font-size: 1.125rem;
-  }
-
-  .content blockquote {
-    padding: 2rem;
-    font-size: 1.25rem;
-  }
-
-  .content blockquote::before {
-    font-size: 4rem;
-  }
-
-  .post-content > p:first-of-type::first-letter {
-    font-size: 3rem;
-  }
-
-  .content ul,
-  .content ol {
-    padding-left: 2rem;
-  }
-
-  .content pre {
-    padding: 1.25rem;
-    border-radius: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 15px;
-    padding: 0 1rem;
-  }
-
-  .site-title {
-    font-size: 1.875rem;
-  }
-
-  .post-card__title--featured {
-    font-size: 1.75rem;
-  }
-
-  .post-title {
-    font-size: 1.75rem;
-  }
-
-  .content h1 {
-    font-size: 1.75rem;
-  }
-
-  .content h2 {
-    font-size: 1.375rem;
-  }
-
-  .content h3 {
-    font-size: 1.125rem;
-  }
-
-  .content blockquote {
-    padding: 1.5rem;
-    font-size: 1.125rem;
-  }
-
-  .content ul,
-  .content ol {
-    padding-left: 1.75rem;
-  }
-
-  .post-content > p:first-of-type::first-letter {
-    font-size: 2.5rem;
-  }
+  animation: fadeIn 0.4s ease-out;
 }

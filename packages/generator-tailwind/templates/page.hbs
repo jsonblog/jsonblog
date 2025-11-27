@@ -1,22 +1,20 @@
 {{#> layout}}
   {{#*inline "content"}}
-    <article class="max-w-content mx-auto animate-fade-in-up">
-      <header class="post-header">
-        <h1 class="post-title">
+    <article class="max-w-content mx-auto animate-fade-in">
+
+      <header class="mb-12 pb-8 border-b border-ink-600">
+        <h1 class="font-headline font-bold text-5xl text-chalk-100">
           {{page.title}}
         </h1>
-        <div class="post-header-divider"></div>
       </header>
 
       <div class="content">
         {{{page.content}}}
       </div>
 
-      <nav class="mt-16 pt-8 border-t border-neutral-200 text-center">
-        <a href="/" class="font-sans text-sm uppercase tracking-widest text-neutral-600 hover:text-burgundy transition-colors no-underline">
-          ← Back to all posts
-        </a>
-      </nav>
+      <div class="mt-12">
+        <a href="/" class="font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider">← Back to posts</a>
+      </div>
     </article>
   {{/inline}}
 {{/layout}}

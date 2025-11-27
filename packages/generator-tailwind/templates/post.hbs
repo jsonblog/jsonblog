@@ -1,69 +1,49 @@
 {{#> layout}}
   {{#*inline "content"}}
-    <article class="max-w-content mx-auto animate-fade-in-up">
+    <article class="max-w-content mx-auto animate-fade-in">
+
       <!-- Post Header -->
-      <header class="post-header">
-        {{#if post.categories}}
-          <span class="post-category">
-            {{post.categories.[0]}}
-          </span>
-        {{/if}}
-
-        <h1 class="post-title">
-          {{post.title}}
-        </h1>
-
-        <div class="post-byline">
+      <header class="mb-12 pb-8 border-b border-ink-600">
+        <!-- Metadata -->
+        <div class="post-meta flex items-center gap-4 mb-4">
           {{#if post.createdAt}}
-            <time datetime="{{post.createdAt}}" class="post-date">
-              {{formatDate post.createdAt}}
-            </time>
+            <time datetime="{{post.createdAt}}">{{formatDate post.createdAt}}</time>
+          {{/if}}
+          {{#if post.categories}}
+            <span class="text-chalk-500">•</span>
+            <span>{{post.categories.[0]}}</span>
           {{/if}}
           {{#if (eq post.type 'ai')}}
-            <span class="post-ai-badge">AI-assisted</span>
+            <span class="ai-badge">AI</span>
           {{/if}}
         </div>
 
-        <div class="post-header-divider"></div>
+        <!-- Title -->
+        <h1 class="font-headline font-bold text-5xl text-chalk-100 mb-0">
+          {{post.title}}
+        </h1>
       </header>
 
-      <!-- Post Content with Drop Cap Support -->
-      <div class="post-content content">
+      <!-- Post Content (No Drop Caps) -->
+      <div class="content">
         {{{post.content}}}
       </div>
 
       <!-- Post Footer -->
-      <footer class="post-footer">
-        {{#if post.tags}}
-          <div class="post-tags">
-            <span class="tags-label">Topics</span>
-            <div class="flex flex-wrap gap-3">
-              {{#each post.tags}}
-                <a href="/tag/{{slugify this}}" class="tag">{{this}}</a>
-              {{/each}}
-            </div>
+      {{#if post.tags}}
+        <footer class="mt-12 pt-8 border-t border-ink-600">
+          <div class="font-mono text-xs uppercase tracking-wider text-chalk-400 mb-4">Topics</div>
+          <div class="flex flex-wrap gap-2">
+            {{#each post.tags}}
+              <a href="/tag/{{slugify this}}" class="tag">{{this}}</a>
+            {{/each}}
           </div>
-        {{/if}}
+        </footer>
+      {{/if}}
 
-        {{#if post.categories}}
-          {{#unless post.tags}}
-            <div class="post-tags">
-              <span class="tags-label">Categories</span>
-              <div class="flex flex-wrap gap-3">
-                {{#each post.categories}}
-                  <a href="/category/{{slugify this}}" class="tag">{{this}}</a>
-                {{/each}}
-              </div>
-            </div>
-          {{/unless}}
-        {{/if}}
-      </footer>
-
-      <!-- Back to posts link -->
-      <div class="text-center mt-12">
-        <a href="/" class="font-sans text-sm uppercase tracking-widest text-neutral-600 hover:text-burgundy transition-colors no-underline">
-          ← Back to all posts
-        </a>
+      <!-- Back Link -->
+      <div class="mt-12">
+        <a href="/" class="font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider">← Back to posts</a>
       </div>
     </article>
   {{/inline}}
