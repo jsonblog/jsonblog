@@ -165,7 +165,13 @@ async function processContent<T extends BlogPost | BlogPage>(
 
         // Try to render markdown, fallback to error message if it fails
         try {
-          const rendered = md.render(String(content));
+          let rendered = md.render(String(content));
+
+          // For posts, strip the first H1 if it exists (title is already in template)
+          if (type === 'post') {
+            rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, '');
+          }
+
           return {
             ...item,
             content: rendered,

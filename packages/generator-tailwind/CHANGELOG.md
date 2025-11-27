@@ -1,5 +1,15 @@
 # @jsonblog/generator-tailwind
 
+## 4.1.0 - 2025-11-28
+
+### Minor Changes
+
+- Improve content width, remove duplicate titles, and add syntax highlighting
+  - **Increased max-width**: Content width increased from 720px to 960px for better readability on modern screens
+  - **Fixed duplicate H1**: Post pages no longer show duplicate title (removed H1 from markdown content since title is in template)
+  - **Syntax highlighting**: Added Highlight.js with Atom One Dark theme for code blocks
+  - All code blocks now have proper syntax highlighting across 190+ languages
+
 ## 4.0.1 - 2025-11-28
 
 ### Patch Changes

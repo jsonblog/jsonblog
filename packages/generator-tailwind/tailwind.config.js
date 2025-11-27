@@ -48,7 +48,7 @@ module.exports = {
         },
       },
       maxWidth: {
-        content: '720px',   // Single-column reading
+        content: '960px',   // Single-column reading
         wide: '1000px',     // Grid layouts
       },
       lineHeight: {

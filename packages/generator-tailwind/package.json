@@ -1,6 +1,6 @@
 {
   "name": "@jsonblog/generator-tailwind",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "A Tailwind CSS generator for JsonBlog",
   "type": "module",
   "main": "./dist/index.cjs",
