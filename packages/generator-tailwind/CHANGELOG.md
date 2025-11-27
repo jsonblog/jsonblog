@@ -1,5 +1,49 @@
 # @jsonblog/generator-tailwind
 
+## 3.1.0 - 2025-01-28
+
+### Minor Changes
+
+- Transform generator-tailwind with sophisticated Editorial/Magazine aesthetic
+
+  ## Major Design Overhaul
+
+  **Typography:**
+  - Replace IBM Plex Mono with editorial font stack: Playfair Display (headings), Lora (body), DM Sans (UI)
+  - Dramatic typographic hierarchy with larger, more elegant sizing
+  - Uppercase tracking for navigation and metadata
+
+  **Color Palette:**
+  - Primary: Burgundy (#8B2635) replacing generic blue
+  - Secondary: Forest Green (#2C5F4D) for tags and accents
+  - Tertiary: Golden (#C79F5C) for decorative elements
+  - Warm neutrals with off-white background
+
+  **Layout Enhancements:**
+  - Remove tsparticles animation; add centered editorial header with gradient dividers
+  - Featured first post with large title and "Continue Reading" link
+  - 2-column responsive grid for remaining posts
+  - Magazine-style post cards with refined hover effects
+
+  **Editorial Design Elements:**
+  - Drop caps on first paragraph (4.5rem burgundy Playfair)
+  - Pull quotes with large decorative quotation marks
+  - Elegant gradient dividers
+  - Sophisticated spacing (1.8 line-height, generous margins)
+  - Refined "AI-assisted" badge (replacing "[AI-Generated]")
+
+  **Animations:**
+  - Staggered fade-in-up animations on post cards
+  - Smooth hover transitions on tags (forest green fill)
+  - Animated arrows on "Continue Reading" links
+
+  **Responsive Design:**
+  - Mobile-optimized typography scaling
+  - Single column on mobile, 2-column grid on desktop
+  - Responsive drop caps and pull quotes
+
+  This release elevates blogs to premium editorial publication quality, differentiating from generic blog templates with sophisticated, content-focused design.
+
 ## 3.0.0
 
 ### Major Changes

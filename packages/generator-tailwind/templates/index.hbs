@@ -1,57 +1,114 @@
 {{#> layout}}
   {{#*inline "content"}}
-    {{#each posts}}
-      <article class="mb-10 pb-8 border-b border-gray-200 last:border-b-0 transition-all duration-300 hover:translate-y-[-2px]">
-        <h2 class="{{#if (eq this.type 'ai')}}text-[1.08rem] text-gray-600 opacity-85{{else}}text-[1.8rem] text-gray-900{{/if}} mb-2 leading-tight">
-          <a href="/{{this.slug}}" class="no-underline {{#if (eq this.type 'ai')}}text-gray-600{{else}}text-gray-900{{/if}} transition-colors hover:text-[#0066cc]">{{this.title}}</a>
-          {{#if (eq this.type 'ai')}}
-            <span class="inline-block text-[0.63em] font-medium text-gray-500 border border-gray-300 px-2 py-1 ml-2 rounded bg-gray-50 align-middle tracking-wide">[AI-Generated]</span>
+    {{#if posts}}
+      {{#with (lookup posts 0)}}
+        <!-- Featured Post (First Post) -->
+        <article class="post-card post-card--featured animate-fade-in-up">
+          <div class="post-card__meta">
+            {{#if this.createdAt}}
+              <time datetime="{{this.createdAt}}" class="font-sans text-sm uppercase tracking-wider text-neutral-500">
+                {{formatDate this.createdAt}}
+              </time>
+            {{/if}}
+            {{#if this.categories}}
+              <span class="post-card__category">
+                {{this.categories.[0]}}
+              </span>
+            {{/if}}
+          </div>
+
+          <h2 class="post-card__title post-card__title--featured">
+            <a href="/{{this.slug}}">{{this.title}}</a>
+          </h2>
+
+          {{#if this.description}}
+            <p class="post-card__excerpt">
+              {{this.description}}
+            </p>
           {{/if}}
-        </h2>
-        {{#if this.description}}
-          <p class="my-3 {{#if (eq this.type 'ai')}}text-gray-500{{else}}text-gray-700{{/if}} leading-normal text-[0.9rem]">{{this.description}}</p>
-        {{/if}}
-        <div class="text-[0.76rem] text-gray-600">
-          {{#if this.createdAt}}
-            <time datetime="{{this.createdAt}}">{{formatDate this.createdAt}}</time>
-          {{/if}}
-          {{#if this.tags}}
-            <div class="inline-block mt-3">
-              {{#each this.tags}}
-                <a href="/tag/{{slugify this}}" class="inline-block px-3 py-2 mr-3 mb-3 bg-gray-50 border border-gray-300 text-[0.76rem] no-underline rounded font-medium transition-all hover:bg-black hover:text-white hover:border-black">{{this}}</a>
-              {{/each}}
-            </div>
-          {{/if}}
-          {{#if this.categories}}
-            <div class="inline-block mt-3">
-              {{#each this.categories}}
-                <a href="/category/{{slugify this}}" class="inline-block px-3 py-2 mr-3 mb-3 bg-gray-50 border border-gray-300 text-[0.76rem] no-underline rounded font-medium transition-all hover:bg-black hover:text-white hover:border-black">{{this}}</a>
-              {{/each}}
-            </div>
-          {{/if}}
+
+          <a href="/{{this.slug}}" class="post-card__read-more">
+            Continue Reading
+          </a>
+        </article>
+      {{/with}}
+
+      {{#if (gt posts.length 1)}}
+        <!-- Remaining Posts in Grid -->
+        <div class="grid md:grid-cols-2 gap-12 mt-12">
+          {{#each posts}}
+            {{#unless @first}}
+              <article class="post-card group animate-fade-in-up">
+                <div class="post-card__meta mb-3">
+                  {{#if this.createdAt}}
+                    <time datetime="{{this.createdAt}}" class="font-sans text-xs uppercase tracking-wider text-neutral-500">
+                      {{formatDate this.createdAt}}
+                    </time>
+                  {{/if}}
+                </div>
+
+                <h2 class="post-card__title">
+                  <a href="/{{this.slug}}">
+                    {{this.title}}
+                  </a>
+                  {{#if (eq this.type 'ai')}}
+                    <span class="post-ai-badge ml-2 align-middle">AI-assisted</span>
+                  {{/if}}
+                </h2>
+
+                {{#if this.description}}
+                  <p class="post-card__excerpt text-base line-clamp-3">
+                    {{this.description}}
+                  </p>
+                {{/if}}
+
+                {{#if this.tags}}
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {{#each this.tags}}
+                      <a href="/tag/{{slugify this}}" class="tag">{{this}}</a>
+                    {{/each}}
+                  </div>
+                {{/if}}
+
+                {{#if this.categories}}
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {{#each this.categories}}
+                      <a href="/category/{{slugify this}}" class="tag">{{this}}</a>
+                    {{/each}}
+                  </div>
+                {{/if}}
+              </article>
+            {{/unless}}
+          {{/each}}
         </div>
-      </article>
-    {{/each}}
+      {{/if}}
+    {{/if}}
 
     {{#if pagination}}
       {{#if (gt pagination.totalPages 1)}}
-        <nav class="flex justify-between items-center mt-12 pt-8 border-t-2 border-gray-300">
+        <nav class="flex justify-between items-center mt-16 pt-8 border-t border-neutral-200">
           {{#if pagination.hasPrev}}
             {{#if pagination.isFirstPage}}
-              <a href="/" class="px-5 py-3 bg-gray-50 border border-gray-400 no-underline rounded font-medium text-[0.85rem] transition-all hover:bg-black hover:text-white hover:border-black hover:scale-105">← Previous</a>
+              <a href="/" class="px-6 py-3 bg-neutral-100 border-2 border-neutral-300 no-underline rounded font-sans text-sm uppercase tracking-wider font-medium transition-all hover:bg-forest hover:border-forest hover:text-white">
+                ← Previous
+              </a>
             {{else}}
-              <a href="/page/{{pagination.prevPage}}" class="px-5 py-3 bg-gray-50 border border-gray-400 no-underline rounded font-medium text-[0.85rem] transition-all hover:bg-black hover:text-white hover:border-black hover:scale-105">← Previous</a>
+              <a href="/page/{{pagination.prevPage}}" class="px-6 py-3 bg-neutral-100 border-2 border-neutral-300 no-underline rounded font-sans text-sm uppercase tracking-wider font-medium transition-all hover:bg-forest hover:border-forest hover:text-white">
+                ← Previous
+              </a>
             {{/if}}
           {{else}}
             <span></span>
           {{/if}}
 
-          <span class="text-gray-600 text-[0.76rem]">
+          <span class="text-neutral-600 font-sans text-sm">
             Page {{pagination.currentPage}} of {{pagination.totalPages}}
           </span>
 
           {{#if pagination.hasNext}}
-            <a href="/page/{{pagination.nextPage}}" class="px-5 py-3 bg-gray-50 border border-gray-400 no-underline rounded font-medium text-[0.85rem] transition-all hover:bg-black hover:text-white hover:border-black hover:scale-105">Next →</a>
+            <a href="/page/{{pagination.nextPage}}" class="px-6 py-3 bg-neutral-100 border-2 border-neutral-300 no-underline rounded font-sans text-sm uppercase tracking-wider font-medium transition-all hover:bg-forest hover:border-forest hover:text-white">
+              Next →
+            </a>
           {{else}}
             <span></span>
           {{/if}}

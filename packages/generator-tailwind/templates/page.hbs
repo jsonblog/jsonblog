@@ -1,7 +1,22 @@
 {{#> layout}}
   {{#*inline "content"}}
-    <article class="mt-8">
-      {{{page.content}}}
+    <article class="max-w-content mx-auto animate-fade-in-up">
+      <header class="post-header">
+        <h1 class="post-title">
+          {{page.title}}
+        </h1>
+        <div class="post-header-divider"></div>
+      </header>
+
+      <div class="content">
+        {{{page.content}}}
+      </div>
+
+      <nav class="mt-16 pt-8 border-t border-neutral-200 text-center">
+        <a href="/" class="font-sans text-sm uppercase tracking-widest text-neutral-600 hover:text-burgundy transition-colors no-underline">
+          ← Back to all posts
+        </a>
+      </nav>
     </article>
   {{/inline}}
 {{/layout}}
