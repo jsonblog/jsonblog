@@ -1,26 +1,47 @@
 {
   "site": {
-    "title": "Test Blog",
-    "description": "Testing Tailwind Generator"
+    "title": "Editorial Test Blog",
+    "description": "Testing the editorial/magazine aesthetic with comprehensive sample content",
+    "url": "http://localhost:3000"
   },
   "basics": {
-    "name": "Test Author"
+    "name": "Test Author",
+    "email": "test@jsonblog.dev"
   },
   "posts": [
     {
-      "title": "AI-Generated Test Post",
-      "description": "Testing AI badge styling",
-      "content": "# Hello World\n\nThis is a test post with **bold** and *italic* text.\n\n```js\nconsole.log('Hello!');\n```",
-      "createdAt": "2025-01-20",
-      "type": "ai",
-      "tags": ["test", "ai"]
+      "title": "The Art of Editorial Design",
+      "slug": "editorial-design",
+      "description": "Exploring traditional print design principles in modern web experiences.",
+      "content": "# Introduction\n\nEditorial design has a rich history. This opening features a drop cap.\n\n## Typography Matters\n\nSerif fonts like **Playfair Display** bring sophistication.\n\n> \"Typography is what language looks like.\" — Ellen Lupton\n\n## Code Examples\n\n```javascript\nfunction test() {\n  return { design: 'editorial' };\n}\n```",
+      "createdAt": "2025-01-28",
+      "categories": ["Design"],
+      "tags": ["editorial", "typography"]
     },
     {
-      "title": "Regular Test Post",
-      "description": "Testing regular post styling",
-      "content": "# Regular Post\n\nThis is a regular post.",
-      "createdAt": "2025-01-19",
-      "tags": ["test"]
+      "title": "Building Color Palettes",
+      "slug": "color-palettes",
+      "description": "Moving beyond primary colors for distinctive brands.",
+      "content": "# Color Psychology\n\n**Burgundy** evokes sophistication.\n\n## Our Palette\n\n- Primary: Burgundy (#8B2635)\n- Secondary: Forest Green (#2C5F4D)",
+      "createdAt": "2025-01-27",
+      "categories": ["Design"],
+      "tags": ["color", "branding"]
+    },
+    {
+      "title": "Static Site Generators",
+      "slug": "static-sites",
+      "description": "The future of fast, secure websites.",
+      "content": "# Static in 2025\n\nSimple, fast, and secure.",
+      "createdAt": "2025-01-26",
+      "type": "ai",
+      "tags": ["tech"]
+    }
+  ],
+  "pages": [
+    {
+      "title": "About",
+      "slug": "about",
+      "content": "# About\n\nTest blog for editorial design."
     }
   ]
 }

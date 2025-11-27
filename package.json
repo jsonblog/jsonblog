@@ -18,6 +18,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "turbo run test",
+    "test:generator": "node scripts/test-generator-direct.mjs",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json}\"",
     "clean": "turbo run clean && rm -rf node_modules .turbo",
