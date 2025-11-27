@@ -1,6 +1,15 @@
 # @jsonblog/generator-tailwind
 
-## 3.2.0 - 2025-01-28
+## 3.2.1 - 2025-01-28
+
+### Patch Changes
+
+- Fix publishing issue from 3.2.0 where workspace dependencies were not properly transformed
+  - v3.2.0 was published with `npm publish` which left `workspace:*` dependencies untransformed
+  - v3.2.1 published correctly with `pnpm publish` to properly transform workspace dependencies
+  - v3.2.0 has been deprecated - please use v3.2.1 or v3.1.0 instead
+
+## 3.2.0 - 2025-01-28 (DEPRECATED)
 
 ### Minor Changes
 
