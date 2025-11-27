@@ -1,5 +1,36 @@
 # @jsonblog/generator-tailwind
 
+## 4.3.0 - 2025-11-28
+
+### Minor Changes
+
+- Add `itemsSource` field for loading grid items from external JSON files
+  - **Keep blog.json clean**: Grid items can now be stored in separate files (e.g., `videos.json`, `projects.json`)
+  - **New field**: `itemsSource` - path to JSON file containing array of grid items
+  - **Automatic loading**: Items are fetched and parsed automatically during build
+  - **Backward compatible**: Inline `items` arrays still work
+  - **Recommended pattern**: Use `itemsSource` for large lists to avoid bloating blog.json
+
+  Example:
+  ```json
+  {
+    "pages": [
+      {
+        "title": "Videos",
+        "layout": "grid",
+        "itemsSource": "videos.json"
+      }
+    ]
+  }
+  ```
+
+  Then create `videos.json`:
+  ```json
+  [
+    {"title": "My Talk", "url": "...", "featured": true}
+  ]
+  ```
+
 ## 4.2.0 - 2025-11-28
 
 ### Minor Changes

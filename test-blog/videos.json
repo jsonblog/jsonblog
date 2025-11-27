@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Building Production RAG Systems",
+    "description": "A comprehensive guide to building retrieval-augmented generation systems that actually work in production. Covers vector databases, chunking strategies, and evaluation.",
+    "url": "https://youtube.com/watch?v=example1",
+    "image": "https://placehold.co/1200x675/1C2028/60A5FA?text=RAG+Systems",
+    "date": "2025-01-20",
+    "featured": true,
+    "tags": ["RAG", "LLM", "Production"]
+  },
+  {
+    "title": "TypeScript Monorepo Setup",
+    "description": "How to set up a modern TypeScript monorepo with Turborepo, pnpm, and tsup.",
+    "url": "https://youtube.com/watch?v=example2",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Monorepo",
+    "date": "2025-01-15",
+    "tags": ["TypeScript", "DevOps"]
+  },
+  {
+    "title": "Prompt Engineering Best Practices",
+    "description": "Practical techniques for getting better results from GPT-4 and Claude.",
+    "url": "https://youtube.com/watch?v=example3",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Prompts",
+    "date": "2025-01-10",
+    "tags": ["LLM", "Prompts"]
+  },
+  {
+    "title": "Agent Orchestration Patterns",
+    "description": "ReAct, chain-of-thought, and other patterns for building agentic systems.",
+    "url": "https://youtube.com/watch?v=example4",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Agents",
+    "date": "2025-01-05",
+    "tags": ["Agents", "AI"]
+  },
+  {
+    "title": "Debugging Vector Search",
+    "description": "Common pitfalls and how to fix them when working with embeddings.",
+    "url": "https://youtube.com/watch?v=example5",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Vector+Search",
+    "date": "2024-12-28",
+    "tags": ["Embeddings", "Debugging"]
+  },
+  {
+    "title": "AI Tool Use APIs",
+    "description": "Building robust tool calling systems with GPT-4 and Claude.",
+    "url": "https://youtube.com/watch?v=example6",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Tool+Use",
+    "date": "2024-12-20",
+    "tags": ["API", "Tools"]
+  }
+]

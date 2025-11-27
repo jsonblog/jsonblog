@@ -109,7 +109,9 @@ The generator supports grid layouts for pages like videos, projects, portfolios,
 
 ### Usage
 
-In your `blog.json`, add a page with `layout: "grid"` and an `items` array:
+**Recommended: Load items from external file**
+
+In your `blog.json`, add a page with `layout: "grid"` and `itemsSource` pointing to a JSON file:
 
 ```json
 {
@@ -119,24 +121,48 @@ In your `blog.json`, add a page with `layout: "grid"` and an `items` array:
       "slug": "videos",
       "description": "My talks and presentations",
       "layout": "grid",
+      "itemsSource": "videos.json"
+    }
+  ]
+}
+```
+
+Then create `videos.json` in the same directory as your `blog.json`:
+
+```json
+[
+  {
+    "title": "Building AI Products at Scale",
+    "description": "A deep dive into production ML systems and the infrastructure needed to run them at scale.",
+    "url": "https://youtube.com/watch?v=...",
+    "image": "https://i.ytimg.com/vi/.../maxresdefault.jpg",
+    "date": "2025-01-15",
+    "featured": true,
+    "tags": ["AI", "Infrastructure", "Scale"]
+  },
+  {
+    "title": "Intro to RAG Systems",
+    "description": "Understanding retrieval-augmented generation for building intelligent applications.",
+    "url": "https://youtube.com/watch?v=...",
+    "thumbnail": "https://i.ytimg.com/vi/.../hqdefault.jpg",
+    "date": "2025-01-10",
+    "tags": ["RAG", "LLM"]
+  }
+]
+```
+
+**Alternative: Inline items**
+
+You can also define items directly in `blog.json` (not recommended for large lists):
+
+```json
+{
+  "pages": [
+    {
+      "title": "Videos",
+      "layout": "grid",
       "items": [
-        {
-          "title": "Building AI Products at Scale",
-          "description": "A deep dive into production ML systems and the infrastructure needed to run them at scale.",
-          "url": "https://youtube.com/watch?v=...",
-          "image": "https://i.ytimg.com/vi/.../maxresdefault.jpg",
-          "date": "2025-01-15",
-          "featured": true,
-          "tags": ["AI", "Infrastructure", "Scale"]
-        },
-        {
-          "title": "Intro to RAG Systems",
-          "description": "Understanding retrieval-augmented generation for building intelligent applications.",
-          "url": "https://youtube.com/watch?v=...",
-          "thumbnail": "https://i.ytimg.com/vi/.../hqdefault.jpg",
-          "date": "2025-01-10",
-          "tags": ["RAG", "LLM"]
-        }
+        { "title": "...", "url": "..." }
       ]
     }
   ]

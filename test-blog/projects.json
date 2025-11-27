@@ -1,0 +1,35 @@
+[
+  {
+    "title": "JSONBlog",
+    "description": "A JSON-based static blog generator with TypeScript monorepo architecture. Features Turborepo, pnpm workspaces, and dual ESM/CJS builds.",
+    "url": "https://github.com/jsonblog/jsonblog",
+    "image": "https://placehold.co/1200x675/1C2028/34D399?text=JSONBlog",
+    "date": "2025-01-15",
+    "featured": true,
+    "tags": ["TypeScript", "Monorepo", "Static Site"]
+  },
+  {
+    "title": "Neural Search Engine",
+    "description": "Semantic search powered by embeddings and vector databases.",
+    "url": "https://github.com/example/neural-search",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Search",
+    "date": "2024-12-10",
+    "tags": ["Embeddings", "Search"]
+  },
+  {
+    "title": "LLM Eval Framework",
+    "description": "Automated evaluation framework for testing LLM outputs at scale.",
+    "url": "https://github.com/example/llm-eval",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Eval",
+    "date": "2024-11-20",
+    "tags": ["Testing", "LLM"]
+  },
+  {
+    "title": "Agent Toolkit",
+    "description": "Reusable components for building agentic systems with tool use.",
+    "url": "https://github.com/example/agent-toolkit",
+    "thumbnail": "https://placehold.co/480x270/12151A/60A5FA?text=Toolkit",
+    "date": "2024-10-15",
+    "tags": ["Agents", "Tools"]
+  }
+]

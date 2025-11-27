@@ -52,13 +52,14 @@ export interface PageGridItem {
 export interface BlogPage {
   title: string;
   description?: string;
-  source?: string;
+  source?: string;              // Load content from file
   createdAt?: string;
   updatedAt?: string;
   content?: string;
   slug?: string;
   layout?: 'default' | 'grid';  // Page layout type
   items?: PageGridItem[];        // For grid layouts (videos, projects, etc.)
+  itemsSource?: string;          // Load items from external JSON file
 }
 
 export interface Blog {

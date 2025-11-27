@@ -140,6 +140,8 @@ async function processContent<T extends BlogPost | BlogPage>(
 
   const processedItems = await Promise.all(
     items.map(async (item) => {
+      let gridItems: any = 'items' in item ? item.items : undefined;
+
       try {
         let content = item.content || '';
 
@@ -151,8 +153,21 @@ async function processContent<T extends BlogPost | BlogPage>(
           }
         }
 
-        // Return error content if no content found
-        if (!content) {
+        // If itemsSource is specified, fetch items from JSON file
+        if ('itemsSource' in item && item.itemsSource) {
+          const fetchedItems = await fetchFile(item.itemsSource, basePath);
+          if (fetchedItems) {
+            try {
+              gridItems = JSON.parse(fetchedItems);
+              logger.debug({ itemsSource: item.itemsSource }, 'Loaded grid items from external file');
+            } catch (error) {
+              logger.error({ error, itemsSource: item.itemsSource }, 'Failed to parse items JSON');
+            }
+          }
+        }
+
+        // Return error content if no content found (but allow grid pages without content)
+        if (!content && (!('layout' in item) || item.layout !== 'grid')) {
           return {
             ...item,
             content: '<p>Error: No content found</p>',
@@ -161,12 +176,13 @@ async function processContent<T extends BlogPost | BlogPage>(
               strict: true,
               remove: /[*+~.()'"!:@]/g,
             }),
-          };
+            ...(gridItems && { items: gridItems }),
+          } as T;
         }
 
         // Try to render markdown, fallback to error message if it fails
         try {
-          let rendered = md.render(String(content));
+          let rendered = content ? md.render(String(content)) : '';
 
           // For posts, strip the first H1 if it exists (title is already in template)
           if (type === 'post') {
@@ -181,7 +197,8 @@ async function processContent<T extends BlogPost | BlogPage>(
               strict: true,
               remove: /[*+~.()'"!:@]/g,
             }),
-          };
+            ...(gridItems && { items: gridItems }),
+          } as T;
         } catch (error) {
           logger.error({ error, title: item.title }, 'Failed to render markdown');
           return {
@@ -192,7 +209,8 @@ async function processContent<T extends BlogPost | BlogPage>(
               strict: true,
               remove: /[*+~.()'"!:@]/g,
             }),
-          };
+            ...(gridItems && { items: gridItems }),
+          } as T;
         }
       } catch (error) {
         logger.error({ error, title: item.title, type }, 'Failed to process content');
@@ -204,7 +222,8 @@ async function processContent<T extends BlogPost | BlogPage>(
             strict: true,
             remove: /[*+~.()'"!:@]/g,
           }),
-        };
+          ...(gridItems && { items: gridItems }),
+        } as T;
       }
     })
   );
