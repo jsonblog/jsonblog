@@ -1,5 +1,14 @@
 # @jsonblog/generator-tailwind
 
+## 4.0.1 - 2025-11-28
+
+### Patch Changes
+
+- Fix CSS stylesheet path in HTML templates
+  - Fixed critical bug where generated HTML referenced `/templates/tailwind.css` instead of `/main.css`
+  - This caused 404 errors and completely unstyled pages in production
+  - All generated HTML now correctly links to `/main.css`
+
 ## 4.0.0 - 2025-01-28
 
 ### Major Changes
