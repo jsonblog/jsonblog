@@ -1,5 +1,39 @@
 # @jsonblog/generator-tailwind
 
+## 4.2.0 - 2025-11-28
+
+### Minor Changes
+
+- Add grid layout support for pages (videos, projects, portfolios)
+  - **New page layouts**: Pages can now specify `layout: "grid"` for grid-based layouts
+  - **Grid items**: Add `items` array to pages for structured content (videos, projects, etc.)
+  - **Featured items**: Support `featured: true` to display items prominently at the top
+  - **Rich metadata**: Items support title, description, url, image/thumbnail, date, and tags
+  - **Responsive grid**: Automatic 2-column desktop grid that collapses to single column on mobile
+  - **New types**: Added `PageGridItem` interface to TypeScript types
+  - **Documentation**: Comprehensive README section explaining grid layout usage and examples
+
+  Perfect for showcasing videos, conference talks, projects, publications, courses, and more.
+
+  Example usage:
+  ```json
+  {
+    "pages": [
+      {
+        "title": "Videos",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "My Latest Talk",
+            "url": "https://youtube.com/...",
+            "featured": true
+          }
+        ]
+      }
+    ]
+  }
+  ```
+
 ## 4.1.0 - 2025-11-28
 
 ### Minor Changes

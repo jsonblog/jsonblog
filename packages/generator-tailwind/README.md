@@ -103,6 +103,75 @@ The \`templates/input.css\` file uses Tailwind's \`@layer\` directive:
 }
 ```
 
+## Grid Layout Pages
+
+The generator supports grid layouts for pages like videos, projects, portfolios, etc. This allows you to showcase items in a visual grid with a featured item at the top.
+
+### Usage
+
+In your `blog.json`, add a page with `layout: "grid"` and an `items` array:
+
+```json
+{
+  "pages": [
+    {
+      "title": "Videos",
+      "slug": "videos",
+      "description": "My talks and presentations",
+      "layout": "grid",
+      "items": [
+        {
+          "title": "Building AI Products at Scale",
+          "description": "A deep dive into production ML systems and the infrastructure needed to run them at scale.",
+          "url": "https://youtube.com/watch?v=...",
+          "image": "https://i.ytimg.com/vi/.../maxresdefault.jpg",
+          "date": "2025-01-15",
+          "featured": true,
+          "tags": ["AI", "Infrastructure", "Scale"]
+        },
+        {
+          "title": "Intro to RAG Systems",
+          "description": "Understanding retrieval-augmented generation for building intelligent applications.",
+          "url": "https://youtube.com/watch?v=...",
+          "thumbnail": "https://i.ytimg.com/vi/.../hqdefault.jpg",
+          "date": "2025-01-10",
+          "tags": ["RAG", "LLM"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Grid Item Fields
+
+Each item in the `items` array supports:
+
+- `title` (required): Item title
+- `description` (optional): Item description
+- `url` (optional): Link URL (makes title/image clickable)
+- `image` (optional): Full-size image (used for featured items)
+- `thumbnail` (optional): Thumbnail image (used for grid items)
+- `featured` (optional): Set to `true` to display as featured item at top
+- `date` (optional): Display date (formatted automatically)
+- `tags` (optional): Array of tags to display
+
+### Layout Behavior
+
+- **Featured items**: Display full-width at the top with larger image and more prominent styling
+- **Regular items**: Display in a 2-column grid below the featured item
+- **Optional content**: You can include regular markdown `content` that appears before the grid
+- **Responsive**: Grid automatically adjusts to single column on mobile
+
+### Use Cases
+
+Perfect for:
+- **Videos** - YouTube/conference talks with thumbnails
+- **Projects** - Portfolio items with screenshots
+- **Publications** - Papers/articles with cover images
+- **Courses** - Educational content with thumbnails
+- **Talks** - Speaking engagements and presentations
+
 ## Development
 
 ```bash

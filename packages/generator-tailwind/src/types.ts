@@ -38,6 +38,17 @@ export interface BlogPost {
   type?: 'ai' | 'human';
 }
 
+export interface PageGridItem {
+  title: string;
+  description?: string;
+  url?: string;
+  thumbnail?: string;
+  image?: string;
+  featured?: boolean;
+  date?: string;
+  tags?: string[];
+}
+
 export interface BlogPage {
   title: string;
   description?: string;
@@ -46,6 +57,8 @@ export interface BlogPage {
   updatedAt?: string;
   content?: string;
   slug?: string;
+  layout?: 'default' | 'grid';  // Page layout type
+  items?: PageGridItem[];        // For grid layouts (videos, projects, etc.)
 }
 
 export interface Blog {

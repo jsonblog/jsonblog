@@ -1,0 +1,118 @@
+{{#> layout}}
+  {{#*inline "content"}}
+    <div class="max-w-content mx-auto animate-fade-in">
+
+      <!-- Page Header -->
+      <header class="mb-12 pb-8 border-b border-ink-600">
+        <h1 class="font-headline font-bold text-5xl text-chalk-100 mb-3">
+          {{page.title}}
+        </h1>
+        {{#if page.description}}
+          <p class="font-body text-lg text-chalk-300">{{page.description}}</p>
+        {{/if}}
+      </header>
+
+      <!-- Optional Content (before grid) -->
+      {{#if page.content}}
+        <div class="content mb-12">
+          {{{page.content}}}
+        </div>
+      {{/if}}
+
+      <!-- Grid Items -->
+      {{#if page.items}}
+        <!-- Featured Item (if exists) -->
+        {{#each page.items}}
+          {{#if this.featured}}
+            <article class="lab-card lab-card--featured mb-8">
+              {{#if this.image}}
+                <a href="{{this.url}}" class="block mb-6">
+                  <img src="{{this.image}}" alt="{{this.title}}" class="w-full h-auto rounded border border-ink-600">
+                </a>
+              {{/if}}
+
+              <div class="flex items-center gap-3 mb-4">
+                {{#if this.date}}
+                  <time datetime="{{this.date}}" class="font-mono text-xs uppercase tracking-wide text-chalk-400">
+                    {{formatDate this.date}}
+                  </time>
+                {{/if}}
+                <span class="font-mono text-xs uppercase tracking-wider px-2 py-1 bg-accent-blue bg-opacity-20 text-accent-blue rounded border border-accent-blue border-opacity-30">Featured</span>
+              </div>
+
+              <h2 class="font-headline font-bold text-3xl text-chalk-100 mb-3">
+                {{#if this.url}}
+                  <a href="{{this.url}}" class="hover:text-accent-blue transition-colors">{{this.title}}</a>
+                {{else}}
+                  {{this.title}}
+                {{/if}}
+              </h2>
+
+              {{#if this.description}}
+                <p class="font-body text-lg text-chalk-200 mb-4">{{this.description}}</p>
+              {{/if}}
+
+              {{#if this.tags}}
+                <div class="flex flex-wrap gap-2">
+                  {{#each this.tags}}
+                    <span class="tag">{{this}}</span>
+                  {{/each}}
+                </div>
+              {{/if}}
+            </article>
+          {{/if}}
+        {{/each}}
+
+        <!-- Grid of Regular Items -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {{#each page.items}}
+            {{#unless this.featured}}
+              <article class="lab-card">
+                {{#if this.thumbnail}}
+                  <a href="{{this.url}}" class="block mb-4">
+                    <img src="{{this.thumbnail}}" alt="{{this.title}}" class="w-full h-auto rounded border border-ink-600">
+                  </a>
+                {{else if this.image}}
+                  <a href="{{this.url}}" class="block mb-4">
+                    <img src="{{this.image}}" alt="{{this.title}}" class="w-full h-auto rounded border border-ink-600">
+                  </a>
+                {{/if}}
+
+                {{#if this.date}}
+                  <time datetime="{{this.date}}" class="font-mono text-xs uppercase tracking-wide text-chalk-400 block mb-3">
+                    {{formatDate this.date}}
+                  </time>
+                {{/if}}
+
+                <h3 class="font-headline font-bold text-xl text-chalk-100 mb-2">
+                  {{#if this.url}}
+                    <a href="{{this.url}}" class="hover:text-accent-blue transition-colors">{{this.title}}</a>
+                  {{else}}
+                    {{this.title}}
+                  {{/if}}
+                </h3>
+
+                {{#if this.description}}
+                  <p class="font-body text-chalk-300 mb-3">{{this.description}}</p>
+                {{/if}}
+
+                {{#if this.tags}}
+                  <div class="flex flex-wrap gap-2">
+                    {{#each this.tags}}
+                      <span class="tag">{{this}}</span>
+                    {{/each}}
+                  </div>
+                {{/if}}
+              </article>
+            {{/unless}}
+          {{/each}}
+        </div>
+      {{/if}}
+
+      <!-- Back Link -->
+      <div class="mt-12">
+        <a href="/" class="font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider">← Back to posts</a>
+      </div>
+    </div>
+  {{/inline}}
+{{/layout}}

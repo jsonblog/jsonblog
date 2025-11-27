@@ -18,6 +18,7 @@ const templateFiles = {
   index: fs.readFileSync(path.join(__dirname, '../templates/index.hbs'), 'utf8'),
   post: fs.readFileSync(path.join(__dirname, '../templates/post.hbs'), 'utf8'),
   page: fs.readFileSync(path.join(__dirname, '../templates/page.hbs'), 'utf8'),
+  pageGrid: fs.readFileSync(path.join(__dirname, '../templates/page-grid.hbs'), 'utf8'),
   layout: fs.readFileSync(path.join(__dirname, '../templates/layout.hbs'), 'utf8'),
   tag: fs.readFileSync(path.join(__dirname, '../templates/tag.hbs'), 'utf8'),
   category: fs.readFileSync(path.join(__dirname, '../templates/category.hbs'), 'utf8'),
@@ -256,6 +257,7 @@ export const generateBlog = async (
       index: Handlebars.compile(templateFiles.index),
       post: Handlebars.compile(templateFiles.post),
       page: Handlebars.compile(templateFiles.page),
+      pageGrid: Handlebars.compile(templateFiles.pageGrid),
       tag: Handlebars.compile(templateFiles.tag),
       category: Handlebars.compile(templateFiles.category),
     };
@@ -333,9 +335,11 @@ export const generateBlog = async (
     const pageFiles = await Promise.all(
       pages.map(async (page) => {
         logger.debug(`Generating page: ${page.title}`);
+        // Choose template based on layout field
+        const template = page.layout === 'grid' ? compiledTemplates.pageGrid : compiledTemplates.page;
         return {
           name: `${page.slug}/index.html`,
-          content: compiledTemplates.page({ blog, page, posts, pages, generatorName, generatorVersion }),
+          content: template({ blog, page, posts, pages, generatorName, generatorVersion }),
         };
       })
     );
