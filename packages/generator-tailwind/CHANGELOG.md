@@ -1,5 +1,16 @@
 # @jsonblog/generator-tailwind
 
+## 3.2.0 - 2025-01-28
+
+### Minor Changes
+
+- Add comprehensive generator testing documentation and scripts
+  - Created TESTING-GENERATORS.md with 6 testing strategies
+  - Added test:generator npm script for quick testing
+  - Included sample test-blog content for development
+  - Added visual regression, snapshot, and performance testing approaches
+  - Improved development workflow documentation
+
 ## 3.1.0 - 2025-01-28
 
 ### Minor Changes
