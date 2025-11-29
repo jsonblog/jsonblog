@@ -1,6 +1,7 @@
 import { getGeneratorRegistry } from '@/lib/generators';
 import { enrichGeneratorWithStats } from '@/lib/npm-stats';
 import { MarketplaceGrid } from '@/components/marketplace/MarketplaceGrid';
+import { Header } from '@/components/Header';
 
 export const metadata = {
   title: 'Generator Marketplace - JSONBlog',
@@ -17,6 +18,8 @@ export default async function MarketplacePage() {
 
   return (
     <div className="min-h-screen">
+      <Header />
+
       {/* Hero Section */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

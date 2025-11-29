@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { getGeneratorBySlug, GENERATORS } from '@/lib/generators';
 import { enrichGeneratorWithStats } from '@/lib/npm-stats';
 import { InstallInstructions } from '@/components/marketplace/InstallInstructions';
+import { Header } from '@/components/Header';
 
 export async function generateStaticParams() {
   return GENERATORS.map((gen) => ({
@@ -40,7 +41,9 @@ export default async function GeneratorDetailPage({ params }: { params: Promise<
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      <Header />
+
+      {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link
