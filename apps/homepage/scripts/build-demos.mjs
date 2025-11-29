@@ -128,24 +128,20 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
 
     // Fix absolute paths in HTML files to work with static hosting
     if (file.name.endsWith('.html')) {
-      // Calculate relative path depth based on file location
-      const depth = file.name.split('/').length - 1;
-      const prefix = depth > 0 ? '../'.repeat(depth) : './';
-
-      // Replace absolute paths with relative paths FIRST
+      // Replace absolute paths with relative paths (relative to base URL)
       content = content
-        .replace(/href="\/main\.css"/g, `href="${prefix}main.css"`)
-        .replace(/href="\/rss\.xml"/g, `href="${prefix}rss.xml"`)
+        .replace(/href="\/main\.css"/g, `href="main.css"`)
+        .replace(/href="\/rss\.xml"/g, `href="rss.xml"`)
         .replace(/href="\/([^"]+)"/g, (match, path) => {
-          // Skip external URLs and already relative paths
-          if (path.startsWith('http') || path.startsWith('.') || path.startsWith('#')) {
+          // Skip external URLs, already relative paths, and base tags
+          if (path.startsWith('http') || path.startsWith('.') || path.startsWith('#') || path.startsWith('demos/')) {
             return match;
           }
-          return `href="${prefix}${path}"`;
+          return `href="${path}"`;
         });
 
-      // Add base tag AFTER href replacements to fix relative path resolution
-      // This ensures relative paths work correctly even when accessed without trailing slash
+      // Add base tag AFTER path replacements to avoid it being modified
+      // With base tag, all relative paths resolve from the base URL
       const baseUrl = `/demos/${outputSubdir}/`;
       const baseTag = `  <base href="${baseUrl}">\n`;
 
