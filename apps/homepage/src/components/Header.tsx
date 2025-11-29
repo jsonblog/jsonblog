@@ -12,6 +12,9 @@ export function Header() {
             <Link href="/getting-started" className="text-secondary hover:text-primary transition-colors">
               Getting Started
             </Link>
+            <Link href="/marketplace" className="text-secondary hover:text-primary transition-colors">
+              Marketplace
+            </Link>
             <Link href="/generators" className="text-secondary hover:text-primary transition-colors">
               Generators
             </Link>
