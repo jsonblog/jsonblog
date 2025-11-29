@@ -4,9 +4,9 @@
         <description><![CDATA[A demo blog showing off JSONBlog generator features]]></description>
         <link>https://jsonblog.dev/demos/boilerplate</link>
         <generator>JsonBlog Generator</generator>
-        <lastBuildDate>Sat, 29 Nov 2025 14:49:33 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 29 Nov 2025 15:03:33 GMT</lastBuildDate>
         <atom:link href="https://jsonblog.dev/demos/boilerplate/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 29 Nov 2025 14:49:33 GMT</pubDate>
+        <pubDate>Sat, 29 Nov 2025 15:03:33 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>

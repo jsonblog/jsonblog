@@ -114,7 +114,7 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
 
   console.log(`Generated ${files.length} files for ${generatorName}`);
 
-  // Write each file to disk
+  // Write each file to disk, fixing absolute paths in HTML files
   files.forEach((file) => {
     const filePath = join(outputDir, file.name);
     const fileDir = dirname(filePath);
@@ -124,8 +124,29 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
       fs.mkdirSync(fileDir, { recursive: true });
     }
 
+    let content = file.content;
+
+    // Fix absolute paths in HTML files to work with static hosting
+    if (file.name.endsWith('.html')) {
+      // Calculate relative path depth based on file location
+      const depth = file.name.split('/').length - 1;
+      const prefix = depth > 0 ? '../'.repeat(depth) : './';
+
+      // Replace absolute paths with relative paths
+      content = content
+        .replace(/href="\/main\.css"/g, `href="${prefix}main.css"`)
+        .replace(/href="\/rss\.xml"/g, `href="${prefix}rss.xml"`)
+        .replace(/href="\/([^"]+)"/g, (match, path) => {
+          // Skip external URLs and already relative paths
+          if (path.startsWith('http') || path.startsWith('.') || path.startsWith('#')) {
+            return match;
+          }
+          return `href="${prefix}${path}"`;
+        });
+    }
+
     console.log(`  Writing: ${file.name}`);
-    fs.writeFileSync(filePath, file.content, 'utf8');
+    fs.writeFileSync(filePath, content, 'utf8');
   });
 
   console.log(`✓ ${generatorName} demo built successfully at ${outputDir}`);
