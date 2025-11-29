@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/welcome-to-jsonblog/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/welcome-to-jsonblog/</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/syntax-highlighting-demo/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/syntax-highlighting-demo/</loc>
     <lastmod>2025-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ai-content-example/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/ai-content-example/</loc>
     <lastmod>2025-01-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/about/</loc>
-    <lastmod>2025-11-29T14:44:36.340Z</lastmod>
+    <loc>https://jsonblog.dev/demos/tailwind/about/</loc>
+    <lastmod>2025-11-29T14:49:33.261Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/demo/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/tag/demo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/welcome/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/tag/welcome/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/code/</loc>
+    <loc>https://jsonblog.dev/demos/tailwind/tag/code/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

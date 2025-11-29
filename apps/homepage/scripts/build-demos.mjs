@@ -93,8 +93,24 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
   }
   fs.mkdirSync(outputDir, { recursive: true });
 
-  // Generate files using the generator
-  const files = await generatorFn(demoBlog, __dirname, {});
+  // Create a demo blog with URL prefixed to the demo subdirectory
+  const demoBlogWithPrefix = {
+    ...demoBlog,
+    site: {
+      ...demoBlog.site,
+      url: `https://jsonblog.dev/demos/${outputSubdir}`
+    },
+    meta: {
+      canonical: `https://jsonblog.dev/demos/${outputSubdir}`
+    }
+  };
+
+  // Generate files using the generator with URL prefix config
+  const generatorConfig = {
+    urlPrefix: `/demos/${outputSubdir}`
+  };
+
+  const files = await generatorFn(demoBlogWithPrefix, __dirname, generatorConfig);
 
   console.log(`Generated ${files.length} files for ${generatorName}`);
 

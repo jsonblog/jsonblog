@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/welcome-to-jsonblog/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/welcome-to-jsonblog/</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/syntax-highlighting-demo/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/syntax-highlighting-demo/</loc>
     <lastmod>2025-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ai-content-example/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/ai-content-example/</loc>
     <lastmod>2025-01-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/about/</loc>
-    <lastmod>2025-11-29T14:44:36.262Z</lastmod>
+    <loc>https://jsonblog.dev/demos/boilerplate/about/</loc>
+    <lastmod>2025-11-29T14:49:33.171Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/demo/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/tag/demo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/welcome/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/tag/welcome/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/tag/code/</loc>
+    <loc>https://jsonblog.dev/demos/boilerplate/tag/code/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

@@ -2,11 +2,11 @@
     <channel>
         <title><![CDATA[Generator Demo]]></title>
         <description><![CDATA[A demo blog showing off JSONBlog generator features]]></description>
-        <link>https://example.com</link>
+        <link>https://jsonblog.dev/demos/boilerplate</link>
         <generator>JsonBlog Generator</generator>
-        <lastBuildDate>Sat, 29 Nov 2025 14:44:36 GMT</lastBuildDate>
-        <atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 29 Nov 2025 14:44:36 GMT</pubDate>
+        <lastBuildDate>Sat, 29 Nov 2025 14:49:33 GMT</lastBuildDate>
+        <atom:link href="https://jsonblog.dev/demos/boilerplate/rss.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Sat, 29 Nov 2025 14:49:33 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>
@@ -17,8 +17,8 @@ Full markdown support with bold, italic, and inline code.
 Code Blocks
 const blog = {
   site: { title: 'My B...]]></description>
-            <link>https://example.com/welcome-to-jsonblog/</link>
-            <guid isPermaLink="false">https://example.com/welcome-to-jsonblog/</guid>
+            <link>https://jsonblog.dev/demos/boilerplate/welcome-to-jsonblog/</link>
+            <guid isPermaLink="false">https://jsonblog.dev/demos/boilerplate/welcome-to-jsonblog/</guid>
             <category><![CDATA[demo]]></category>
             <category><![CDATA[welcome]]></category>
             <pubDate>Mon, 20 Jan 2025 00:00:00 GMT</pubDate>
@@ -30,8 +30,8 @@ const blog = {
   content: string;
   createdAt: string;
 }]]></description>
-            <link>https://example.com/syntax-highlighting-demo/</link>
-            <guid isPermaLink="false">https://example.com/syntax-highlighting-demo/</guid>
+            <link>https://jsonblog.dev/demos/boilerplate/syntax-highlighting-demo/</link>
+            <guid isPermaLink="false">https://jsonblog.dev/demos/boilerplate/syntax-highlighting-demo/</guid>
             <category><![CDATA[demo]]></category>
             <category><![CDATA[code]]></category>
             <pubDate>Sun, 19 Jan 2025 00:00:00 GMT</pubDate>
@@ -39,8 +39,8 @@ const blog = {
         <item>
             <title><![CDATA[AI Content Example]]></title>
             <description><![CDATA[This demonstrates AI-generated content styling with dimmed appearance.]]></description>
-            <link>https://example.com/ai-content-example/</link>
-            <guid isPermaLink="false">https://example.com/ai-content-example/</guid>
+            <link>https://jsonblog.dev/demos/boilerplate/ai-content-example/</link>
+            <guid isPermaLink="false">https://jsonblog.dev/demos/boilerplate/ai-content-example/</guid>
             <pubDate>Sat, 18 Jan 2025 00:00:00 GMT</pubDate>
         </item>
     </channel>

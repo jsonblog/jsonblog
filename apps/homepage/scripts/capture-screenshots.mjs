@@ -11,9 +11,21 @@ const SCREENSHOTS_DIR = path.join(__dirname, '..', 'public', 'marketplace', 'scr
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 
 async function captureScreenshots() {
+  // Track current demo context for routing
+  let currentDemo = null;
+
   // Start a simple local server
   const server = http.createServer((req, res) => {
-    const filePath = path.join(PUBLIC_DIR, req.url);
+    let filePath = path.join(PUBLIC_DIR, req.url);
+
+    // Special handling for absolute paths like /main.css when viewing demos
+    // If requesting /main.css while viewing a demo, serve from the demo directory
+    if (currentDemo && req.url.startsWith('/') && !req.url.startsWith('/demos/')) {
+      const demoFilePath = path.join(PUBLIC_DIR, 'demos', currentDemo, req.url.slice(1));
+      if (fs.existsSync(demoFilePath) && fs.statSync(demoFilePath).isFile()) {
+        filePath = demoFilePath;
+      }
+    }
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
       const ext = path.extname(filePath);
@@ -51,6 +63,9 @@ async function captureScreenshots() {
   for (const demo of demos) {
     try {
       console.log(`Capturing screenshot for ${demo.name}...`);
+
+      // Set current demo context for server routing
+      currentDemo = demo.name;
 
       await page.goto(demo.url);
 
