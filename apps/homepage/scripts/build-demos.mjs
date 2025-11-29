@@ -124,33 +124,8 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
       fs.mkdirSync(fileDir, { recursive: true });
     }
 
-    let content = file.content;
-
-    // Fix absolute paths in HTML files to work with static hosting
-    if (file.name.endsWith('.html')) {
-      // Replace absolute paths with relative paths (relative to base URL)
-      content = content
-        .replace(/href="\/main\.css"/g, `href="main.css"`)
-        .replace(/href="\/rss\.xml"/g, `href="rss.xml"`)
-        .replace(/href="\/([^"]+)"/g, (match, path) => {
-          // Skip external URLs, already relative paths, and base tags
-          if (path.startsWith('http') || path.startsWith('.') || path.startsWith('#') || path.startsWith('demos/')) {
-            return match;
-          }
-          return `href="${path}"`;
-        });
-
-      // Add base tag AFTER path replacements to avoid it being modified
-      // With base tag, all relative paths resolve from the base URL
-      const baseUrl = `/demos/${outputSubdir}/`;
-      const baseTag = `  <base href="${baseUrl}">\n`;
-
-      // Insert base tag right after <head>
-      content = content.replace(/(<head>)\s*\n/, `$1\n${baseTag}`);
-    }
-
     console.log(`  Writing: ${file.name}`);
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, file.content, 'utf8');
   });
 
   console.log(`✓ ${generatorName} demo built successfully at ${outputDir}`);
