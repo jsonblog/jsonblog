@@ -4,9 +4,9 @@
         <description><![CDATA[A demo blog showing off JSONBlog generator features]]></description>
         <link>https://jsonblog.dev/demos/tailwind</link>
         <generator>JsonBlog Generator</generator>
-        <lastBuildDate>Sat, 29 Nov 2025 15:03:33 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 29 Nov 2025 15:30:28 GMT</lastBuildDate>
         <atom:link href="https://jsonblog.dev/demos/tailwind/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 29 Nov 2025 15:03:33 GMT</pubDate>
+        <pubDate>Sat, 29 Nov 2025 15:30:28 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>

@@ -132,7 +132,7 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
       const depth = file.name.split('/').length - 1;
       const prefix = depth > 0 ? '../'.repeat(depth) : './';
 
-      // Replace absolute paths with relative paths
+      // Replace absolute paths with relative paths FIRST
       content = content
         .replace(/href="\/main\.css"/g, `href="${prefix}main.css"`)
         .replace(/href="\/rss\.xml"/g, `href="${prefix}rss.xml"`)
@@ -143,6 +143,14 @@ async function buildDemo(generatorName, generatorFn, outputSubdir) {
           }
           return `href="${prefix}${path}"`;
         });
+
+      // Add base tag AFTER href replacements to fix relative path resolution
+      // This ensures relative paths work correctly even when accessed without trailing slash
+      const baseUrl = `/demos/${outputSubdir}/`;
+      const baseTag = `  <base href="${baseUrl}">\n`;
+
+      // Insert base tag right after <head>
+      content = content.replace(/(<head>)\s*\n/, `$1\n${baseTag}`);
     }
 
     console.log(`  Writing: ${file.name}`);
