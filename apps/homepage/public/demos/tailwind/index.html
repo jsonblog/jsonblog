@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Demo - Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        code {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <header class="mb-8 pb-6 border-b border-gray-200">
+            <h1 class="text-4xl font-bold mb-4 font-mono">Generator Demo</h1>
+            <nav class="flex gap-6 text-sm">
+                <a href="/" class="text-blue-600 hover:underline">Home</a>
+                <a href="/about.html" class="text-blue-600 hover:underline">About</a>
+            </nav>
+        </header>
+
+        <main class="space-y-12">
+            <article class="bg-white rounded-lg shadow-sm p-8">
+                <h2 class="text-3xl font-bold mb-4">
+                    <a href="/welcome.html" class="text-gray-900 hover:text-blue-600">Welcome to JSONBlog</a>
+                </h2>
+                <div class="text-sm text-gray-500 mb-6">
+                    January 20, 2025 · <span class="text-blue-600">demo</span>, <span class="text-blue-600">welcome</span>
+                </div>
+                <div class="prose max-w-none">
+                    <p class="mb-4">This is a demo post showing how your content will look with this generator.</p>
+
+                    <h3 class="text-2xl font-bold mb-3 mt-6">Markdown Support</h3>
+                    <p class="mb-4">Full markdown support with <strong>bold</strong>, <em>italic</em>, and <code class="bg-gray-100 text-pink-600 px-2 py-1 rounded text-sm">inline code</code>.</p>
+
+                    <h3 class="text-2xl font-bold mb-3 mt-6">Code Blocks</h3>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4"><code class="language-javascript">const blog = {
+  site: { title: 'My Blog' },
+  posts: [
+    { title: 'Hello World', content: '# Hello!' }
+  ]
+};</code></pre>
+
+                    <h3 class="text-2xl font-bold mb-3 mt-6">Lists</h3>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li>Clean typography</li>
+                        <li>Responsive design</li>
+                        <li>Fast loading</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-lg shadow-sm p-8">
+                <h2 class="text-3xl font-bold mb-4">
+                    <a href="/syntax.html" class="text-gray-900 hover:text-blue-600">Syntax Highlighting Demo</a>
+                </h2>
+                <div class="text-sm text-gray-500 mb-6">
+                    January 19, 2025 · <span class="text-blue-600">demo</span>, <span class="text-blue-600">code</span>
+                </div>
+                <div class="prose max-w-none">
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto"><code class="language-typescript">interface BlogPost {
+  title: string;
+  content: string;
+  createdAt: string;
+}</code></pre>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-lg shadow-sm p-8 opacity-75">
+                <h2 class="text-2xl font-bold mb-4 text-gray-600">
+                    <a href="/ai.html" class="hover:text-blue-600">AI Content Example</a>
+                    <span class="text-xs text-gray-500 border border-gray-300 px-2 py-1 rounded ml-2">[AI-Generated]</span>
+                </h2>
+                <div class="text-sm text-gray-500 mb-6">January 18, 2025</div>
+                <div class="prose max-w-none">
+                    <p class="text-gray-600">This demonstrates AI-generated content styling with dimmed appearance.</p>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

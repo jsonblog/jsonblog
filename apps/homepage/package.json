@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/build-demos.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "capture-screenshots": "node scripts/capture-screenshots.mjs"
   },
   "dependencies": {
     "@jsonblog/generator-boilerplate": "workspace:*",
