@@ -38,4 +38,11 @@ export function registerBaseHelpers(hb: typeof Handlebars): void {
   hb.registerHelper('multiply', (a: number, b: number) => a * b);
   hb.registerHelper('gt', (a: number, b: number) => a > b);
   hb.registerHelper('lt', (a: number, b: number) => a < b);
+  hb.registerHelper('or', (...args: unknown[]) => args.slice(0, -1).some(Boolean));
+  hb.registerHelper('and', (...args: unknown[]) => args.slice(0, -1).every(Boolean));
+  // Emit a value as safe, correctly-escaped JSON (for JSON-LD / structured data).
+  hb.registerHelper(
+    'json',
+    (value: unknown) => new hb.SafeString(JSON.stringify(value ?? null))
+  );
 }

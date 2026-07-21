@@ -138,9 +138,17 @@ async function processContent<T extends BlogPost | BlogPage>(
             rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, '');
           }
 
+          // A plain-text excerpt for meta descriptions / OG tags / feeds.
+          const excerpt = rendered
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 160);
+
           return {
             ...item,
             content: rendered,
+            excerpt,
             slug: slug(item.title),
             ...(gridItems && { items: gridItems }),
           } as T;
@@ -301,14 +309,17 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       files.push(...(await Promise.all(paginationTasks)));
 
       logger.info('Generating post pages...');
+      // posts are sorted newest-first, so index-1 is newer and index+1 is older.
       const postFiles = await Promise.all(
-        posts.map(async (post) => ({
+        posts.map(async (post, i) => ({
           name: `${post.slug}/index.html`,
           content: compiledTemplates.post({
             blog,
             post,
             posts,
             pages,
+            newerPost: posts[i - 1],
+            olderPost: posts[i + 1],
             generatorName,
             generatorVersion,
           }),

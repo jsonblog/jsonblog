@@ -34,6 +34,8 @@ export interface BlogPost {
   createdAt?: string;
   updatedAt?: string;
   content?: string;
+  /** Plain-text excerpt derived from content (set by the engine). */
+  excerpt?: string;
   slug?: string;
   tags?: string[];
   categories?: string[];
@@ -58,6 +60,8 @@ export interface BlogPage {
   createdAt?: string;
   updatedAt?: string;
   content?: string;
+  /** Plain-text excerpt derived from content (set by the engine). */
+  excerpt?: string;
   slug?: string;
   layout?: 'default' | 'grid'; // Page layout type
   items?: PageGridItem[]; // For grid layouts (videos, projects, etc.)
