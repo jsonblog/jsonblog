@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import chokidar from 'chokidar';
 import WebSocket, { WebSocketServer } from 'ws';
 import { generateBlog } from './index.js';
-import { Blog } from './types.js';
+import type { Blog } from '@jsonblog/core';
 
 const app = express();
 const PORT = process.env.TEST_PORT
