@@ -1,0 +1,25 @@
+{{#> layout}}
+  {{#*inline "content"}}
+    <article class="post">
+      <div class="post-frontmatter">
+        {{~#if post.createdAt~}}<span class="kv"><span class="k">date</span><span class="v">{{formatDate post.createdAt}}</span></span>{{~/if~}}
+        {{~#if post.type~}}<span class="kv"><span class="k">type</span><span class="v">{{post.type}}</span></span>{{~/if~}}
+        {{~#if post.categories~}}<span class="kv"><span class="k">in</span><span class="v">{{post.categories.[0]}}</span></span>{{~/if~}}
+      </div>
+
+      <h1 class="post-title">{{post.title}}</h1>
+
+      <div class="content">
+        {{{post.content}}}
+      </div>
+
+      {{#if post.tags}}
+        <div class="tags">
+          {{#each post.tags}}<a href="/tag/{{slugify this}}" class="tag">{{this}}</a>{{/each}}
+        </div>
+      {{/if}}
+
+      <a href="/" class="back">← back to index</a>
+    </article>
+  {{/inline}}
+{{/layout}}

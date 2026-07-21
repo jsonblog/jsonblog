@@ -1,0 +1,14 @@
+{{#> layout}}
+  {{#*inline "content"}}
+    <article class="post">
+      <div class="page-eyebrow">{{page.slug}}</div>
+      <h1 class="post-title">{{page.title}}</h1>
+
+      <div class="content">
+        {{{page.content}}}
+      </div>
+
+      <a href="/" class="back">← back to index</a>
+    </article>
+  {{/inline}}
+{{/layout}}
