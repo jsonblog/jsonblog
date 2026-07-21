@@ -62,12 +62,6 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.2
-      pino:
-        specifier: ^9.6.0
-        version: 9.14.0
-      pino-pretty:
-        specifier: ^13.0.0
-        version: 13.1.2
     devDependencies:
       '@jsonblog/tsconfig':
         specifier: workspace:*

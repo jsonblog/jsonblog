@@ -12,8 +12,6 @@ export default defineConfig({
     'fs-extra',
     'express',
     'chokidar',
-    'pino',
-    'pino-pretty',
     'chalk',
   ],
   banner: {

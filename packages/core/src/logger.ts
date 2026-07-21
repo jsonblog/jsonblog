@@ -9,7 +9,9 @@ const logger = pino({
       ignore: 'pid,hostname',
     },
   },
-  level: process.env.LOG_LEVEL || 'info',
+  // Quiet by default so the engine never spams CLI/consumer output; set
+  // LOG_LEVEL=info or debug for verbose generation logs.
+  level: process.env.LOG_LEVEL || 'warn',
 });
 
 export default logger;
