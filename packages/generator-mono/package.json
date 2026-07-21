@@ -30,7 +30,8 @@
   },
   "files": [
     "dist",
-    "templates"
+    "templates",
+    "fonts"
   ],
   "engines": {
     "node": ">=20.0.0"
