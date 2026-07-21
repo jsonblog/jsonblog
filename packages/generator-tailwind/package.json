@@ -15,8 +15,7 @@
   },
   "files": [
     "dist",
-    "templates",
-    "assets"
+    "templates"
   ],
   "engines": {
     "node": ">=20.0.0"
@@ -28,7 +27,7 @@
     "dev": "tsup --watch",
     "test": "jest --passWithNoTests",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf dist .turbo templates/tailwind.css"
+    "clean": "rm -rf dist .turbo"
   },
   "repository": {
     "type": "git",

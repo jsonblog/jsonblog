@@ -24,6 +24,11 @@
         "description": {
           "type": "string",
           "description": "Welcome to my webpage"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical site origin, e.g. https://example.dev"
         }
       }
     },
@@ -66,7 +71,7 @@
           "properties": {
             "address": {
               "type": "string",
-              "description": "To add multiple address lines, use \n. For example, 1234 Glücklichkeit Straße\nHinterhaus 5. Etage li."
+              "description": "To add multiple address lines, use \n. For example, 1234 Gl\u00fccklichkeit Stra\u00dfe\nHinterhaus 5. Etage li."
             },
             "postalCode": {
               "type": "string"

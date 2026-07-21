@@ -15,6 +15,9 @@ export const BlogSchema = z.object({
   site: z.object({
     title: z.string(),
     description: z.string().optional(),
+    // Canonical site origin, e.g. "https://example.dev". Source of truth for
+    // canonical <link>, Open Graph, RSS and sitemap URLs.
+    url: z.string().url().optional(),
   }).catchall(z.any()),
 
   basics: z.object({
