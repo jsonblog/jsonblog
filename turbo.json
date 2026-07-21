@@ -1,39 +1,27 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": ["**/.env.*local", "tsconfig.json", "biome.json"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "src/**/*.ts",
-        "templates/**/*",
-        "assets/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
+      "inputs": ["src/**/*.ts", "templates/**/*", "assets/**/*", "tsconfig.json", "tsup.config.ts", "package.json"],
       "outputs": ["dist/**", ".next/**", "build/**", "public/demos/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
+      "outputs": []
     },
     "test": {
       "dependsOn": ["build"],
-      "inputs": ["src/**/*.ts", "**/__tests__/**/*.ts", "jest.config.js"],
+      "inputs": ["src/**/*.ts", "vitest.config.ts"],
       "outputs": ["coverage/**"]
     },
     "lint": {
-      "dependsOn": ["^build"],
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        ".eslintrc.*",
-        "eslint.config.js"
-      ],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "biome.json"],
       "outputs": []
     },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "clean": {
-      "cache": false
-    }
+    "dev": { "cache": false, "persistent": true },
+    "clean": { "cache": false }
   }
 }

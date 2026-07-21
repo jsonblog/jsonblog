@@ -8,14 +8,24 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./dev-server": {
-      "types": "./dist/dev-server.d.ts",
-      "import": "./dist/dev-server.js",
-      "require": "./dist/dev-server.cjs"
+      "import": {
+        "types": "./dist/dev-server.d.ts",
+        "default": "./dist/dev-server.js"
+      },
+      "require": {
+        "types": "./dist/dev-server.d.cts",
+        "default": "./dist/dev-server.cjs"
+      }
     }
   },
   "files": [
@@ -31,7 +41,10 @@
     "test": "vitest run --passWithNoTests",
     "lint": "biome lint ./src",
     "clean": "rm -rf dist .turbo",
-    "format": "biome format --write ./src"
+    "format": "biome format --write ./src",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "publint --strict",
+    "check:exports": "attw --pack ."
   },
   "repository": {
     "type": "git",
@@ -74,5 +87,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "sideEffects": false
 }
