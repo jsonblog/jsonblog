@@ -1,0 +1,1 @@
+{{#> layout}}{{#*inline "content"}}<article><h1>{{post.title}}</h1><time datetime="{{post.createdAt}}">{{formatDate post.createdAt}}</time><div class="body">{{{post.content}}}</div>{{#if post.tags}}<div class="tags">{{#each post.tags}}<a href="/tag/{{slugify this}}/">{{this}}</a>{{/each}}</div>{{/if}}</article>{{/inline}}{{/layout}}

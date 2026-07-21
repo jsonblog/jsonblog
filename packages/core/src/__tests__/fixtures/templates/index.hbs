@@ -1,0 +1,1 @@
+{{#> layout}}{{#*inline "content"}}<ul class="posts">{{#each posts}}<li><a href="/{{this.slug}}/">{{this.title}}</a> <span class="date">{{formatDate this.createdAt}}</span></li>{{/each}}</ul>{{#if pagination.hasNext}}<a class="next" href="/page/{{pagination.nextPage}}/">older</a>{{/if}}{{/inline}}{{/layout}}
