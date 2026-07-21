@@ -353,9 +353,13 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       files.push(...categoryFiles);
 
       logger.info('Generating RSS feed...');
-      // NOTE: canonical URL resolution is unified onto `blog.site.url` in a later
-      // phase; kept as-is here so the core extraction is behaviour-preserving.
-      const siteUrl = blog.meta?.canonical || 'https://example.com';
+      // Canonical origin: `blog.site.url` is the source of truth; `meta.canonical`
+      // is accepted for back-compat. Builds must be deterministic, so we never fall
+      // back to `new Date()` — feed/sitemap dates come from post dates or are omitted.
+      const siteUrl = blog.site.url || blog.meta?.canonical || 'https://example.com';
+      // The feed's build date is the most recent post date (posts are sorted newest
+      // first), keeping the output reproducible.
+      const feedPubDate = posts.find((p) => p.createdAt)?.createdAt;
 
       const feed = new RSS({
         title: blog.site.title,
@@ -365,7 +369,7 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
         site_url: siteUrl,
         image_url: blog.basics.image,
         language: 'en',
-        pubDate: new Date().toUTCString(),
+        ...(feedPubDate ? { pubDate: feedPubDate } : {}),
         ttl: 60,
       });
 
@@ -375,16 +379,28 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
         const description =
           post.description ||
           plainTextContent.substring(0, 200) + (plainTextContent.length > 200 ? '...' : '');
-        feed.item({
+        // Built as a loose object so `date` can be omitted (the rss types require
+        // it) — omitting keeps builds deterministic for undated posts.
+        const item: Record<string, unknown> = {
           title: post.title,
           description,
           url: `${siteUrl}/${post.slug}/`,
           guid: `${siteUrl}/${post.slug}/`,
-          date: post.createdAt || new Date().toISOString(),
           categories: [...(post.tags || []), ...(post.categories || [])],
-        });
+        };
+        if (post.createdAt) item.date = post.createdAt;
+        feed.item(item as unknown as Parameters<typeof feed.item>[0]);
       }
-      files.push({ name: 'rss.xml', content: feed.xml({ indent: true }) });
+      // The rss library injects a `<lastBuildDate>` of `new Date()`; pin it to the
+      // deterministic feed date (or drop it) so the build is reproducible.
+      let rssXml = feed.xml({ indent: true });
+      rssXml = feedPubDate
+        ? rssXml.replace(
+            /<lastBuildDate>[^<]*<\/lastBuildDate>/,
+            `<lastBuildDate>${new Date(feedPubDate).toUTCString()}</lastBuildDate>`
+          )
+        : rssXml.replace(/<lastBuildDate>[^<]*<\/lastBuildDate>\s*/, '');
+      files.push({ name: 'rss.xml', content: rssXml });
 
       logger.info('Generating sitemap...');
       const urls: string[] = [];
@@ -393,18 +409,17 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>`);
+      const lastmodLine = (d?: string) => (d ? `\n    <lastmod>${d}</lastmod>` : '');
       for (const post of posts) {
         urls.push(`  <url>
-    <loc>${siteUrl}/${post.slug}/</loc>
-    <lastmod>${post.updatedAt || post.createdAt || new Date().toISOString()}</lastmod>
+    <loc>${siteUrl}/${post.slug}/</loc>${lastmodLine(post.updatedAt || post.createdAt)}
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>`);
       }
       for (const page of pages) {
         urls.push(`  <url>
-    <loc>${siteUrl}/${page.slug}/</loc>
-    <lastmod>${page.updatedAt || page.createdAt || new Date().toISOString()}</lastmod>
+    <loc>${siteUrl}/${page.slug}/</loc>${lastmodLine(page.updatedAt || page.createdAt)}
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>`);
