@@ -1,6 +1,6 @@
-import { validateBlog } from '../index';
 import fs from 'fs';
 import path from 'path';
+import { validateBlog } from '../index';
 
 describe('Blog Schema Validation', () => {
   const validBlog = {

@@ -1,10 +1,10 @@
-import express from 'express';
-import path from 'path';
-import fs from 'fs/promises';
+import type { Blog } from '@jsonblog/core';
 import chokidar from 'chokidar';
+import express from 'express';
+import fs from 'fs/promises';
+import path from 'path';
 import WebSocket, { WebSocketServer } from 'ws';
 import { generateBlog } from './index.js';
-import type { Blog } from '@jsonblog/core';
 
 const app = express();
 const PORT = process.env.TEST_PORT
@@ -15,7 +15,7 @@ const PORT = process.env.TEST_PORT
 
 let wss: WebSocketServer;
 let blogData: Blog;
-let generatedFiles: Map<string, string> = new Map();
+const generatedFiles: Map<string, string> = new Map();
 
 const injectLiveReloadScript = (html: string): string => {
   const script = `

@@ -1,12 +1,12 @@
+import { generateBlog } from '@jsonblog/generator-boilerplate';
+import * as schema from '@jsonblog/schema';
+import chalk from 'chalk';
+import chokidar from 'chokidar';
 import { Command } from 'commander';
+import express from 'express';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as schema from '@jsonblog/schema';
-import { generateBlog } from '@jsonblog/generator-boilerplate';
-import express from 'express';
-import chokidar from 'chokidar';
-import chalk from 'chalk';
 
 // ESM-safe __dirname (the CLI is built as ESM, so the CommonJS __dirname is not
 // available — this is what previously crashed `jsonblog init`).
@@ -40,13 +40,17 @@ const getGenerator = async (generatorName: string) => {
 const getBlog = (file: string) => {
   const blogPath = path.resolve(file);
   if (!fs.existsSync(blogPath)) {
-    out.err(`No config found at ${chalk.bold(file)}. Run ${chalk.bold('jsonblog init')} to create one.`);
+    out.err(
+      `No config found at ${chalk.bold(file)}. Run ${chalk.bold('jsonblog init')} to create one.`
+    );
     process.exit(1);
   }
   try {
     return JSON.parse(fs.readFileSync(blogPath, 'utf-8'));
   } catch (error) {
-    out.err(`Could not parse ${chalk.bold(file)}: ${error instanceof Error ? error.message : String(error)}`);
+    out.err(
+      `Could not parse ${chalk.bold(file)}: ${error instanceof Error ? error.message : String(error)}`
+    );
     process.exit(1);
   }
 };
@@ -77,7 +81,9 @@ const build = async (blog: any, generatorName: string): Promise<boolean> => {
     for (const file of files) {
       fs.outputFileSync(path.join(BUILD_PATH, file.name), file.content, 'utf8');
     }
-    out.ok(`Built ${chalk.bold(String(files.length))} files to ${chalk.bold('./build')} (via ${generatorName})`);
+    out.ok(
+      `Built ${chalk.bold(String(files.length))} files to ${chalk.bold('./build')} (via ${generatorName})`
+    );
     return true;
   } catch (error) {
     out.err(`Build failed: ${error instanceof Error ? error.message : String(error)}`);
@@ -194,7 +200,11 @@ program
     const clients: express.Response[] = [];
     const app = express();
     app.get('/__livereload', (_req, res) => {
-      res.set({ 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
+      res.set({
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      });
       res.flushHeaders();
       clients.push(res);
       _req.on('close', () => {
@@ -205,13 +215,20 @@ program
     // Serve build/, injecting the live-reload snippet into HTML responses.
     app.use((req, res, next) => {
       if (!req.path.endsWith('/') && !req.path.endsWith('.html')) return next();
-      const file = path.join(BUILD_PATH, req.path.endsWith('/') ? req.path + 'index.html' : req.path);
+      const file = path.join(
+        BUILD_PATH,
+        req.path.endsWith('/') ? req.path + 'index.html' : req.path
+      );
       if (!fs.existsSync(file)) return next();
-      const html = fs.readFileSync(file, 'utf8').replace('</body>', LIVE_RELOAD_SNIPPET + '</body>');
+      const html = fs
+        .readFileSync(file, 'utf8')
+        .replace('</body>', LIVE_RELOAD_SNIPPET + '</body>');
       res.type('html').send(html);
     });
     app.use(express.static(BUILD_PATH));
-    app.listen(port, () => out.ok(`Dev server at ${chalk.bold(`http://localhost:${port}`)} (live-reload on)`));
+    app.listen(port, () =>
+      out.ok(`Dev server at ${chalk.bold(`http://localhost:${port}`)} (live-reload on)`)
+    );
 
     let timer: NodeJS.Timeout | undefined;
     const watcher = chokidar.watch([config, 'content/**/*', 'pages/**/*', 'posts/**/*'], {

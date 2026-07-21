@@ -1,12 +1,12 @@
-import Handlebars from 'handlebars';
-import * as fs from 'fs';
-import * as path from 'path';
 import axios from 'axios';
-import RSS from 'rss';
+import * as fs from 'fs';
+import Handlebars from 'handlebars';
 import MarkdownIt from 'markdown-it';
-import logger from './logger';
+import * as path from 'path';
+import RSS from 'rss';
 import { registerBaseHelpers, slug } from './helpers';
-import { Blog, BlogPost, BlogPage, GeneratedFile } from './types';
+import logger from './logger';
+import type { Blog, BlogPage, BlogPost, GeneratedFile } from './types';
 
 export interface ThemeConfig {
   /** Absolute path to the theme's `templates/` directory. */
@@ -111,7 +111,10 @@ async function processContent<T extends BlogPost | BlogPage>(
           if (fetchedItems) {
             try {
               gridItems = JSON.parse(fetchedItems);
-              logger.debug({ itemsSource: item.itemsSource }, 'Loaded grid items from external file');
+              logger.debug(
+                { itemsSource: item.itemsSource },
+                'Loaded grid items from external file'
+              );
             } catch (error) {
               logger.error({ error, itemsSource: item.itemsSource }, 'Failed to parse items JSON');
             }
@@ -246,7 +249,9 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       logger.info(`Posts processed: ${posts.length}`);
 
       logger.info('Processing pages...');
-      const pages = blog.pages ? await processContent(blog.pages, 'page', basePath, stripPostTitle) : [];
+      const pages = blog.pages
+        ? await processContent(blog.pages, 'page', basePath, stripPostTitle)
+        : [];
       logger.info(`Pages processed: ${pages.length}`);
 
       const postsPerPage = blog.settings?.postsPerPage || 10;
@@ -271,7 +276,14 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
           isLastPage: page === totalPages,
         };
 
-        const pageData = { blog, posts: pagePosts, pages, pagination, generatorName, generatorVersion };
+        const pageData = {
+          blog,
+          posts: pagePosts,
+          pages,
+          pagination,
+          generatorName,
+          generatorVersion,
+        };
 
         if (page === 1) {
           paginationTasks.push(
@@ -279,7 +291,10 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
           );
         }
         paginationTasks.push(
-          Promise.resolve({ name: `page/${page}/index.html`, content: compiledTemplates.index(pageData) })
+          Promise.resolve({
+            name: `page/${page}/index.html`,
+            content: compiledTemplates.index(pageData),
+          })
         );
       }
 
@@ -289,7 +304,14 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       const postFiles = await Promise.all(
         posts.map(async (post) => ({
           name: `${post.slug}/index.html`,
-          content: compiledTemplates.post({ blog, post, posts, pages, generatorName, generatorVersion }),
+          content: compiledTemplates.post({
+            blog,
+            post,
+            posts,
+            pages,
+            generatorName,
+            generatorVersion,
+          }),
         }))
       );
       files.push(...postFiles);
@@ -322,7 +344,14 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       const tagFiles = await Promise.all(
         Array.from(tagMap.entries()).map(async ([tag, tagPosts]) => ({
           name: `tag/${slug(tag)}/index.html`,
-          content: compiledTemplates.tag({ blog, tag, posts: tagPosts, pages, generatorName, generatorVersion }),
+          content: compiledTemplates.tag({
+            blog,
+            tag,
+            posts: tagPosts,
+            pages,
+            generatorName,
+            generatorVersion,
+          }),
         }))
       );
       files.push(...tagFiles);
