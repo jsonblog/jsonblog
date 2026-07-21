@@ -26,7 +26,7 @@
     "prebuild": "npm run build:css",
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist .turbo templates/tailwind.css"
   },

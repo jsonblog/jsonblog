@@ -22,6 +22,13 @@ export interface ThemeConfig {
    * The common override is `formatDate`.
    */
   helpers?: Record<string, Handlebars.HelperDelegate>;
+  /**
+   * Strip the first `<h1>` from rendered post content (the post template already
+   * renders the title, so keeping it would duplicate the heading). Defaults to
+   * `true`; the boilerplate theme's template does not render its own title, so it
+   * sets this `false`.
+   */
+  stripPostTitle?: boolean;
 }
 
 export type GenerateBlog = (
@@ -79,7 +86,8 @@ async function fetchFile(uri: string, basePath: string): Promise<string | undefi
 async function processContent<T extends BlogPost | BlogPage>(
   items: T[],
   type: 'post' | 'page',
-  basePath: string
+  basePath: string,
+  stripPostTitle: boolean
 ): Promise<T[]> {
   if (!items) return [];
   logger.info(`Processing ${items.length} ${type}s`);
@@ -123,7 +131,7 @@ async function processContent<T extends BlogPost | BlogPage>(
           let rendered = content ? md.render(String(content)) : '';
 
           // For posts, strip the first H1 (the title is already in the template).
-          if (type === 'post') {
+          if (type === 'post' && stripPostTitle) {
             rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, '');
           }
 
@@ -170,6 +178,7 @@ async function processContent<T extends BlogPost | BlogPage>(
 export function createGenerator(theme: ThemeConfig): GenerateBlog {
   const { templatesDir, generatorName, generatorVersion } = theme;
   const cssSourceFile = theme.cssSourceFile ?? 'main.css';
+  const stripPostTitle = theme.stripPostTitle ?? true;
 
   const read = (name: string) => fs.readFileSync(path.join(templatesDir, name), 'utf8');
   const readOptional = (name: string): string | undefined => {
@@ -233,11 +242,11 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       }
 
       logger.info('Processing posts...');
-      const posts = await processContent(blog.posts, 'post', basePath);
+      const posts = await processContent(blog.posts, 'post', basePath, stripPostTitle);
       logger.info(`Posts processed: ${posts.length}`);
 
       logger.info('Processing pages...');
-      const pages = blog.pages ? await processContent(blog.pages, 'page', basePath) : [];
+      const pages = blog.pages ? await processContent(blog.pages, 'page', basePath, stripPostTitle) : [];
       logger.info(`Pages processed: ${pages.length}`);
 
       const postsPerPage = blog.settings?.postsPerPage || 10;
