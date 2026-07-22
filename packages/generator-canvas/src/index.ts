@@ -6,17 +6,10 @@ import { buildRobots, buildRss, buildSitemap, type SitemapEntry } from '@jsonblo
 import { collectTerms, longFormDate, paginate, readingTime, slug as slugify } from '@jsonblog/helpers';
 import { createMarkdownFor, excerpt as toExcerpt, render as renderMd, stripFirstH1 } from '@jsonblog/markdown';
 import type { Blog } from '@jsonblog/schema';
-import { type PostSummary, type PostView, renderDocument, type SiteView } from '@jsonblog/ui';
+import { type PostSummary, type PostView, renderDocument } from '@jsonblog/ui';
 import { h } from 'preact';
-import {
-  type Assets,
-  GridPage,
-  IndexPage,
-  PostPage,
-  StaticPage,
-  StyleguidePage,
-  TagPage,
-} from './pages';
+import { chromeFrom, type HomeConfig, HomePage } from './home';
+import { GridPage, IndexPage, PostPage, StaticPage, StyleguidePage, TagPage } from './pages';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = path.join(__dirname, '..');
@@ -68,7 +61,6 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   );
   const md = await createMarkdownFor([...rawPosts, ...rawPages]);
 
-  // Posts — newest first.
   const posts: PostView[] = (blog.posts || [])
     .map((p, i): PostView => {
       const rendered = rawPosts[i] ? stripFirstH1(renderMd(md, rawPosts[i])) : '';
@@ -96,7 +88,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
           try {
             items = JSON.parse(raw);
           } catch {
-            /* keep inline items on parse failure */
+            /* keep inline items */
           }
         }
       }
@@ -119,21 +111,21 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
     type: p.type,
   });
 
-  const site: SiteView = {
-    title: blog.site.title,
-    description: blog.site.description,
-    url: blog.site.url,
-    author: blog.basics.name,
-    nav: [
-      ...pages.map((pg) => ({ label: pg.title.toLowerCase(), href: `/${pg.slug}/` })),
-      { label: 'rss', href: '/rss.xml' },
-    ],
-  };
+  // Optional rich homepage config (home.json alongside blog.json).
+  let home: HomeConfig | undefined;
+  const homePath = path.join(basePath, 'home.json');
+  if (fs.existsSync(homePath)) {
+    try {
+      home = JSON.parse(fs.readFileSync(homePath, 'utf8'));
+    } catch {
+      /* ignore malformed home.json */
+    }
+  }
+  const chrome = chromeFrom(home, blog);
 
-  // Stylesheet: read theme.css, content-hash for cache-busting.
   const css = fs.readFileSync(path.join(PKG_ROOT, 'styles', 'theme.css'), 'utf8');
   const cssHash = createHash('sha256').update(css).digest('hex').slice(0, 8);
-  const assets: Assets = {
+  const assets = {
     stylesheet: `/canvas.css?v=${cssHash}`,
     fonts: ['/fonts/source-serif-4.woff2', '/fonts/jetbrains-mono.woff2'],
   };
@@ -141,48 +133,67 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   const files: OutputFile[] = [];
   const html = (vnode: Parameters<typeof renderDocument>[0]) => renderDocument(vnode);
 
-  // Paginated index.
+  // Paginated essay list at /page/N (page 1 = the full list).
   const perPage = blog.settings?.postsPerPage || 10;
   const paged = paginate(posts, perPage);
   for (const pg of paged) {
     const pagination = {
       page: pg.page,
       totalPages: pg.totalPages,
-      prevHref: pg.prevPage ? (pg.prevPage === 1 ? '/' : `/page/${pg.prevPage}/`) : undefined,
+      prevHref: pg.prevPage ? `/page/${pg.prevPage}/` : undefined,
       nextHref: pg.nextPage ? `/page/${pg.nextPage}/` : undefined,
     };
-    const node = h(IndexPage, {
-      blog,
-      site,
-      seo: { kind: 'home', title: blog.site.title, path: pg.page === 1 ? '/' : `/page/${pg.page}/` },
-      assets,
-      intro: pg.page === 1 ? (blog.basics as { summary?: string }).summary : undefined,
-      posts: pg.items.map(summary),
-      pagination,
+    files.push({
+      name: `page/${pg.page}/index.html`,
+      content: html(
+        h(IndexPage, {
+          blog,
+          chrome,
+          seo: { kind: 'home', title: 'Essays', path: `/page/${pg.page}/` },
+          assets,
+          posts: pg.items.map(summary),
+          pagination,
+        })
+      ),
     });
-    if (pg.page === 1) files.push({ name: 'index.html', content: html(node) });
-    files.push({ name: `page/${pg.page}/index.html`, content: html(node) });
   }
+
+  // Homepage: the rich editorial page when home.json is present, else the essay list.
+  const homeNode = home
+    ? h(HomePage, { blog, home, chrome, seo: { kind: 'home', title: blog.site.title, path: '/' }, assets })
+    : h(IndexPage, {
+        blog,
+        chrome,
+        seo: { kind: 'home', title: blog.site.title, path: '/' },
+        assets,
+        posts: (paged[0]?.items || []).map(summary),
+        pagination: { page: 1, totalPages: paged.length, nextHref: paged.length > 1 ? '/page/2/' : undefined },
+      });
+  files.push({ name: 'index.html', content: html(homeNode) });
 
   // Posts.
   posts.forEach((post, i) => {
-    const node = h(PostPage, {
-      blog,
-      site,
-      seo: {
-        kind: 'post',
-        title: post.title,
-        path: `/${post.slug}/`,
-        description: post.excerpt,
-        datePublished: post.date,
-        tags: post.tags,
-      },
-      assets,
-      post,
-      newer: posts[i - 1] ? summary(posts[i - 1]) : undefined,
-      older: posts[i + 1] ? summary(posts[i + 1]) : undefined,
+    files.push({
+      name: `${post.slug}/index.html`,
+      content: html(
+        h(PostPage, {
+          blog,
+          chrome,
+          seo: {
+            kind: 'post',
+            title: post.title,
+            path: `/${post.slug}/`,
+            description: post.excerpt,
+            datePublished: post.date,
+            tags: post.tags,
+          },
+          assets,
+          post,
+          newer: posts[i - 1] ? summary(posts[i - 1]) : undefined,
+          older: posts[i + 1] ? summary(posts[i + 1]) : undefined,
+        })
+      ),
     });
-    files.push({ name: `${post.slug}/index.html`, content: html(node) });
   });
 
   // Static + grid pages.
@@ -190,25 +201,29 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
     const seo = { kind: 'page' as const, title: pg.title, path: `/${pg.slug}/`, description: toExcerpt(pg.html) };
     const node =
       pg.layout === 'grid'
-        ? h(GridPage, { blog, site, seo, assets, title: pg.title, items: (pg.items || []) as never[] })
-        : h(StaticPage, { blog, site, seo, assets, title: pg.title, html: pg.html });
+        ? h(GridPage, { blog, chrome, seo, assets, title: pg.title, items: (pg.items || []) as never[] })
+        : h(StaticPage, { blog, chrome, seo, assets, title: pg.title, html: pg.html });
     files.push({ name: `${pg.slug}/index.html`, content: html(node) });
   }
 
-  // Tag + category pages.
+  // Tag + category archives.
   const renderTerms = (map: Map<string, PostView[]>, kind: 'tag' | 'category') => {
     for (const [term, termPosts] of map) {
       const tslug = slugify(term);
-      const node = h(TagPage, {
-        blog,
-        site,
-        seo: { kind: 'page' as const, title: `${kind}: ${term}`, path: `/${kind}/${tslug}/` },
-        assets,
-        term,
-        kind,
-        posts: termPosts.map(summary),
+      files.push({
+        name: `${kind}/${tslug}/index.html`,
+        content: html(
+          h(TagPage, {
+            blog,
+            chrome,
+            seo: { kind: 'page' as const, title: `${kind}: ${term}`, path: `/${kind}/${tslug}/` },
+            assets,
+            term,
+            kind,
+            posts: termPosts.map(summary),
+          })
+        ),
       });
-      files.push({ name: `${kind}/${tslug}/index.html`, content: html(node) });
     }
   };
   const tagMap = collectTerms(posts, (p) => p.tags);
@@ -220,12 +235,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   files.push({
     name: 'styleguide/index.html',
     content: html(
-      h(StyleguidePage, {
-        blog,
-        site,
-        seo: { kind: 'page', title: 'Styleguide', path: '/styleguide/' },
-        assets,
-      })
+      h(StyleguidePage, { blog, chrome, seo: { kind: 'page', title: 'Styleguide', path: '/styleguide/' }, assets })
     ),
   });
 
@@ -247,7 +257,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
     ...pages.map((p) => ({ path: `/${p.slug}/`, changefreq: 'monthly', priority: 0.6 })),
     ...[...tagMap.keys()].map((t) => ({ path: `/tag/${slugify(t)}/`, changefreq: 'weekly', priority: 0.5 })),
     ...[...catMap.keys()].map((c) => ({ path: `/category/${slugify(c)}/`, changefreq: 'weekly', priority: 0.5 })),
-    ...paged.slice(1).map((pg) => ({ path: `/page/${pg.page}/`, changefreq: 'daily', priority: 0.7 })),
+    ...paged.map((pg) => ({ path: `/page/${pg.page}/`, changefreq: 'daily', priority: 0.7 })),
   ];
   files.push({ name: 'sitemap.xml', content: buildSitemap(blog, sitemapEntries) });
   files.push({ name: 'robots.txt', content: buildRobots(blog) });
@@ -259,7 +269,6 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   return files;
 }
 
-/** Back-compat alias matching the classic generator name. */
 export const generateBlog = generate;
 export default generate;
-export type { Assets } from './pages';
+export type { Assets } from './home';
