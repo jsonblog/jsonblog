@@ -1,0 +1,72 @@
+{
+  "name": "@jsonblog/generator-canvas",
+  "version": "1.0.0",
+  "description": "Canvas \u2014 the flagship modern JsonBlog theme. Type-forward, high-contrast, zero-JS. Built on @jsonblog/ui.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "styles",
+    "fonts"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit",
+    "format": "biome format --write ./src",
+    "clean": "rm -rf dist .turbo",
+    "prepublishOnly": "publint --strict"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/generator-canvas"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "theme",
+    "generator",
+    "preact"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "dependencies": {
+    "@jsonblog/feed": "workspace:*",
+    "@jsonblog/helpers": "workspace:*",
+    "@jsonblog/markdown": "workspace:*",
+    "@jsonblog/seo": "workspace:*",
+    "@jsonblog/ui": "workspace:*",
+    "preact": "^10.24.0"
+  },
+  "devDependencies": {
+    "@jsonblog/schema": "workspace:*",
+    "@jsonblog/tsconfig": "workspace:*",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
