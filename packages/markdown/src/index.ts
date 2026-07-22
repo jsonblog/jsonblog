@@ -25,13 +25,19 @@ export interface MarkdownOptions {
 /** Create a markdown-it instance (with Shiki highlighting when a highlighter is given). */
 export function createMarkdown(options: MarkdownOptions = {}): MarkdownIt {
   const { highlighter, themes = DEFAULT_THEMES } = options;
-  return new MarkdownIt({
+  const md = new MarkdownIt({
     html: true,
     linkify: true,
     typographer: true,
     highlight: highlighter ? (code, lang) => highlightToHtml(highlighter, code, lang, themes) : undefined,
     ...options.markdownIt,
   });
+  // Only auto-link real URLs (http/https/mailto). Without this, markdown-it's
+  // "fuzzy" linkifier turns bare tokens like `CLAUDE.md`, `install.sh`, `Z.AI`,
+  // or `www.company.com` into phantom `http://…` links. Explicit `[text](url)`
+  // links and scheme'd URLs still linkify.
+  md.linkify.set({ fuzzyLink: false, fuzzyEmail: false, fuzzyIP: false });
+  return md;
 }
 
 /**

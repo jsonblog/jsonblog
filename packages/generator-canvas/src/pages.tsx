@@ -22,23 +22,56 @@ interface Common {
   assets: Assets;
 }
 
-export function IndexPage(props: Common & { posts: PostSummary[]; pagination: PaginationView }) {
-  const { posts, pagination, ...shell } = props;
+/** A titled list of posts (essays, devlog, etc.). */
+export function ListPage(
+  props: Common & { title: string; note?: string; posts: PostSummary[]; pagination?: PaginationView }
+) {
+  const { title, note, posts, pagination, ...shell } = props;
   return (
     <Shell {...shell}>
       <div class="ed-list">
-        <span class="ed-label">Essays</span>
+        <header class="ed-list-head">
+          <h1 class="canvas-page-title">{title}</h1>
+          {note ? <p class="ed-list-note">{note}</p> : null}
+        </header>
         <EntryList posts={posts} />
-        <Pagination pagination={pagination} />
+        {pagination ? <Pagination pagination={pagination} /> : null}
       </div>
     </Shell>
   );
 }
 
-export function PostPage(props: Common & { post: PostView; newer?: PostSummary; older?: PostSummary }) {
-  const { post, newer, older, ...shell } = props;
+export interface Provenance {
+  text?: string;
+  code?: string;
+}
+
+export function PostPage(
+  props: Common & {
+    post: PostView;
+    provenance?: Provenance;
+    newer?: PostSummary;
+    older?: PostSummary;
+  }
+) {
+  const { post, provenance, newer, older, ...shell } = props;
+  const isAi = post.type === 'ai';
+  const prov = provenance
+    ? [
+        provenance.text ? `Words: ${provenance.text}` : null,
+        provenance.code ? `Code: ${provenance.code}` : null,
+      ].filter(Boolean)
+    : [];
   return (
     <Shell {...shell}>
+      {isAi ? (
+        <p class="ed-ai-banner">
+          <span class="ed-ai-dot" aria-hidden="true" /> Devlog entry — written by AI. An autonomous
+          weekly log, not a human essay.
+        </p>
+      ) : prov.length ? (
+        <p class="ed-provenance">{prov.join(' · ')}</p>
+      ) : null}
       <PostArticle post={post} newer={newer} older={older} />
     </Shell>
   );
@@ -131,7 +164,7 @@ export function StyleguidePage(props: Common) {
           <p class="canvas-lede">Every component in the Canvas theme, rendered from @jsonblog/ui.</p>
         </header>
         {section('Post index', <EntryList posts={sample} />)}
-        {section('Pagination', <Pagination pagination={{ page: 2, totalPages: 5, prevHref: '/', nextHref: '/page/3/' }} />)}
+        {section('Pagination', <Pagination pagination={{ page: 2, totalPages: 5, prevHref: '#', nextHref: '#' }} />)}
         {section('Tags', <TagList tags={['essays', 'craft', 'software']} />)}
         {section('Article', <PostArticle post={post} newer={sample[0]} older={sample[1]} />)}
       </div>

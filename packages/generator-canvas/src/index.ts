@@ -3,13 +3,13 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildRobots, buildRss, buildSitemap, type SitemapEntry } from '@jsonblog/feed';
-import { collectTerms, longFormDate, paginate, readingTime, slug as slugify } from '@jsonblog/helpers';
+import { collectTerms, longFormDate, readingTime, slug as slugify } from '@jsonblog/helpers';
 import { createMarkdownFor, excerpt as toExcerpt, render as renderMd, stripFirstH1 } from '@jsonblog/markdown';
 import type { Blog } from '@jsonblog/schema';
 import { type PostSummary, type PostView, renderDocument } from '@jsonblog/ui';
 import { h } from 'preact';
 import { chromeFrom, type HomeConfig, HomePage } from './home';
-import { GridPage, IndexPage, PostPage, StaticPage, StyleguidePage, TagPage } from './pages';
+import { GridPage, ListPage, PostPage, StaticPage, StyleguidePage, TagPage } from './pages';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = path.join(__dirname, '..');
@@ -51,6 +51,42 @@ async function resolveRaw(item: { content?: string; source?: string }, basePath:
   return item.content || '';
 }
 
+/** Human/AI provenance the author annotates at the top of a post. */
+export interface Provenance {
+  text?: string;
+  code?: string;
+}
+
+const PROV_RE = /^\*\*(text|code):\*\*\s*(.+?)\s*$/i;
+// A provenance *value* is a short token like "human", "AI", "Human-ish" — never a
+// full sentence (some AI posts reuse `**text:**` as an in-body paragraph label).
+const isProvToken = (v: string) => v.length <= 24 && v.split(/\s+/).length <= 3;
+
+/**
+ * Pull the leading `**text:** …` / `**code:** …` provenance block (the contiguous
+ * run right after the H1) out of the raw markdown. Returns the cleaned body plus the
+ * parsed provenance, so it renders as a byline instead of leaking into the excerpt.
+ */
+function extractProvenance(raw: string): { provenance?: Provenance; body: string } {
+  const lines = raw.split(/\r?\n/);
+  let i = 0;
+  while (i < lines.length && lines[i].trim() === '') i++;
+  if (i < lines.length && /^#\s/.test(lines[i])) {
+    i++;
+    while (i < lines.length && lines[i].trim() === '') i++;
+  }
+  const prov: Provenance = {};
+  const remove = new Set<number>();
+  for (let j = i; j < lines.length; j++) {
+    const m = lines[j].match(PROV_RE);
+    if (!m || !isProvToken(m[2])) break;
+    prov[m[1].toLowerCase() as 'text' | 'code'] = m[2];
+    remove.add(j);
+  }
+  if (!remove.size) return { body: raw };
+  return { provenance: prov, body: lines.filter((_, idx) => !remove.has(idx)).join('\n') };
+}
+
 export async function generate(blog: Blog, basePath: string): Promise<OutputFile[]> {
   if (!blog?.site?.title) throw new Error('blog.site.title is required');
   if (!blog?.basics?.name) throw new Error('blog.basics.name is required');
@@ -59,11 +95,14 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   const rawPages = await Promise.all(
     (blog.pages || []).map((p) => resolveRaw(p as { content?: string; source?: string }, basePath))
   );
-  const md = await createMarkdownFor([...rawPosts, ...rawPages]);
+  const parsedPosts = rawPosts.map(extractProvenance);
+  const postBodies = parsedPosts.map((p) => p.body);
+  const md = await createMarkdownFor([...postBodies, ...rawPages]);
 
-  const posts: PostView[] = (blog.posts || [])
-    .map((p, i): PostView => {
-      const rendered = rawPosts[i] ? stripFirstH1(renderMd(md, rawPosts[i])) : '';
+  type PostViewX = PostView & { provenance?: Provenance };
+  const posts: PostViewX[] = (blog.posts || [])
+    .map((p, i): PostViewX => {
+      const rendered = postBodies[i] ? stripFirstH1(renderMd(md, postBodies[i])) : '';
       return {
         title: p.title,
         slug: slugify(p.title),
@@ -74,10 +113,15 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
         tags: p.tags,
         categories: p.categories,
         type: p.type,
+        provenance: parsedPosts[i].provenance,
         readingMinutes: readingTime(rendered),
       };
     })
     .sort((a, b) => new Date(b.date || '').getTime() - new Date(a.date || '').getTime());
+
+  // Human essays vs the AI-written devlog (weekly-activity posts carry type: 'ai').
+  const essays = posts.filter((p) => p.type !== 'ai');
+  const devlog = posts.filter((p) => p.type === 'ai');
 
   const pages: LoadedPage[] = await Promise.all(
     (blog.pages || []).map(async (p, i): Promise<LoadedPage> => {
@@ -121,6 +165,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
       /* ignore malformed home.json */
     }
   }
+  if (home?.hero && !home.hero.lastUpdated) home.hero.lastUpdated = posts[0]?.dateLabel;
   const chrome = chromeFrom(home, blog);
 
   const css = fs.readFileSync(path.join(PKG_ROOT, 'styles', 'theme.css'), 'utf8');
@@ -133,43 +178,62 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   const files: OutputFile[] = [];
   const html = (vnode: Parameters<typeof renderDocument>[0]) => renderDocument(vnode);
 
-  // Paginated essay list at /page/N (page 1 = the full list).
-  const perPage = blog.settings?.postsPerPage || 10;
-  const paged = paginate(posts, perPage);
-  for (const pg of paged) {
-    const pagination = {
-      page: pg.page,
-      totalPages: pg.totalPages,
-      prevHref: pg.prevPage ? `/page/${pg.prevPage}/` : undefined,
-      nextHref: pg.nextPage ? `/page/${pg.nextPage}/` : undefined,
-    };
-    files.push({
-      name: `page/${pg.page}/index.html`,
-      content: html(
-        h(IndexPage, {
-          blog,
-          chrome,
-          seo: { kind: 'home', title: 'Essays', path: `/page/${pg.page}/` },
-          assets,
-          posts: pg.items.map(summary),
-          pagination,
-        })
-      ),
-    });
-  }
-
   // Homepage: the rich editorial page when home.json is present, else the essay list.
+  const featured = essays[0]
+    ? { title: essays[0].title, summary: essays[0].excerpt, href: `/${essays[0].slug}/` }
+    : undefined;
   const homeNode = home
-    ? h(HomePage, { blog, home, chrome, seo: { kind: 'home', title: blog.site.title, path: '/' }, assets })
-    : h(IndexPage, {
+    ? h(HomePage, {
+        blog,
+        home,
+        chrome,
+        seo: { kind: 'home', title: blog.site.title, path: '/' },
+        assets,
+        featured,
+        essays: essays.slice(0, 6).map(summary),
+        devlog: devlog.slice(0, 8).map(summary),
+      })
+    : h(ListPage, {
         blog,
         chrome,
         seo: { kind: 'home', title: blog.site.title, path: '/' },
         assets,
-        posts: (paged[0]?.items || []).map(summary),
-        pagination: { page: 1, totalPages: paged.length, nextHref: paged.length > 1 ? '/page/2/' : undefined },
+        title: blog.site.title,
+        posts: posts.map(summary),
       });
   files.push({ name: 'index.html', content: html(homeNode) });
+
+  // Essays (human) + devlog (AI) list pages.
+  files.push({
+    name: 'essays/index.html',
+    content: html(
+      h(ListPage, {
+        blog,
+        chrome,
+        seo: { kind: 'page', title: 'Essays', path: '/essays/' },
+        assets,
+        title: 'Essays',
+        note: 'Longer pieces — written by a human.',
+        posts: essays.map(summary),
+      })
+    ),
+  });
+  if (devlog.length) {
+    files.push({
+      name: 'devlog/index.html',
+      content: html(
+        h(ListPage, {
+          blog,
+          chrome,
+          seo: { kind: 'page', title: 'The devlog', path: '/devlog/' },
+          assets,
+          title: 'The devlog',
+          note: 'Written by AI — an autonomous log of what shipped each week. Not human essays.',
+          posts: devlog.map(summary),
+        })
+      ),
+    });
+  }
 
   // Posts.
   posts.forEach((post, i) => {
@@ -189,6 +253,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
           },
           assets,
           post,
+          provenance: post.provenance,
           newer: posts[i - 1] ? summary(posts[i - 1]) : undefined,
           older: posts[i + 1] ? summary(posts[i + 1]) : undefined,
         })
@@ -231,13 +296,15 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   renderTerms(tagMap, 'tag');
   renderTerms(catMap, 'category');
 
-  // Styleguide.
-  files.push({
-    name: 'styleguide/index.html',
-    content: html(
-      h(StyleguidePage, { blog, chrome, seo: { kind: 'page', title: 'Styleguide', path: '/styleguide/' }, assets })
-    ),
-  });
+  // Styleguide — theme-dev component gallery; opt-in via home.styleguide.
+  if (home?.styleguide) {
+    files.push({
+      name: 'styleguide/index.html',
+      content: html(
+        h(StyleguidePage, { blog, chrome, seo: { kind: 'page', title: 'Styleguide', path: '/styleguide/' }, assets })
+      ),
+    });
+  }
 
   // Feed / sitemap / robots.
   const feedItems = posts.map((p) => ({
@@ -253,11 +320,12 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
 
   const sitemapEntries: SitemapEntry[] = [
     { path: '/', changefreq: 'daily', priority: 1 },
+    { path: '/essays/', changefreq: 'weekly', priority: 0.7 },
+    ...(devlog.length ? [{ path: '/devlog/', changefreq: 'daily', priority: 0.7 }] : []),
     ...posts.map((p) => ({ path: `/${p.slug}/`, lastmod: p.date, changefreq: 'monthly', priority: 0.8 })),
     ...pages.map((p) => ({ path: `/${p.slug}/`, changefreq: 'monthly', priority: 0.6 })),
     ...[...tagMap.keys()].map((t) => ({ path: `/tag/${slugify(t)}/`, changefreq: 'weekly', priority: 0.5 })),
     ...[...catMap.keys()].map((c) => ({ path: `/category/${slugify(c)}/`, changefreq: 'weekly', priority: 0.5 })),
-    ...paged.map((pg) => ({ path: `/page/${pg.page}/`, changefreq: 'daily', priority: 0.7 })),
   ];
   files.push({ name: 'sitemap.xml', content: buildSitemap(blog, sitemapEntries) });
   files.push({ name: 'robots.txt', content: buildRobots(blog) });

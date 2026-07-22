@@ -1,12 +1,10 @@
 import type { Blog } from '@jsonblog/schema';
 import type { SeoContext } from '@jsonblog/seo';
-import { Document } from '@jsonblog/ui';
+import { Document, type PostSummary } from '@jsonblog/ui';
 import type { ComponentChildren } from 'preact';
 
 export interface Assets {
-  /** Stylesheet href (content-hashed for cache-busting). */
   stylesheet: string;
-  /** woff2 font URLs to preload. */
   fonts: string[];
 }
 
@@ -14,21 +12,21 @@ export interface NavLink {
   label: string;
   href: string;
 }
+
 export interface HomeConfig {
-  brand: string;
-  tagline: string[];
-  nav: NavLink[];
-  hero: {
-    headline: string;
-    subhead: string;
-    intro: string;
+  brand?: string;
+  tagline?: string[];
+  nav?: NavLink[];
+  hero?: {
+    headline?: string;
+    subhead?: string;
+    intro?: string;
     aboutHref?: string;
-    lens: string[];
+    lens?: string[];
     location?: string;
+    building?: string;
     lastUpdated?: string;
   };
-  featured?: { label?: string; title: string; summary?: string; href: string };
-  notes?: { date: string; title: string; href: string }[];
   projects?: {
     letter: string;
     color: string;
@@ -39,15 +37,12 @@ export interface HomeConfig {
     status?: string;
     href?: string;
   }[];
-  themes?: { icon: string; name: string; count: number; description: string }[];
-  reading?: { title: string; progress: number }[];
-  quote?: { text: string; author?: string };
-  newsletter?: { title: string; description?: string; placeholder?: string; action?: string; note?: string };
   footerNote?: string;
   social?: NavLink[];
+  /** Publish the /styleguide/ component gallery (theme-dev only; off by default). */
+  styleguide?: boolean;
 }
 
-/** Chrome (header + footer) shared by every page in the theme. */
 export interface Chrome {
   brand: string;
   tagline: string[];
@@ -65,13 +60,6 @@ export function chromeFrom(home: HomeConfig | undefined, blog: Blog): Chrome {
     social: home?.social,
   };
 }
-
-const SearchIcon = () => (
-  <svg class="canvas-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-    <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4" />
-    <line x1="10.5" y1="10.5" x2="14" y2="14" stroke="currentColor" stroke-width="1.4" />
-  </svg>
-);
 
 export function EditorialHeader({ chrome }: { chrome: Chrome }) {
   return (
@@ -94,7 +82,6 @@ export function EditorialHeader({ chrome }: { chrome: Chrome }) {
             {n.label}
           </a>
         ))}
-        <SearchIcon />
       </nav>
     </header>
   );
@@ -121,7 +108,6 @@ export function EditorialFooter({ chrome }: { chrome: Chrome }) {
   );
 }
 
-/** The editorial page shell used by every page (header + main + footer). */
 export function Shell(props: {
   blog: Blog;
   chrome: Chrome;
@@ -170,26 +156,34 @@ function FeaturedArt() {
 }
 
 function Hero({ home }: { home: HomeConfig }) {
-  const { hero } = home;
+  const hero = home.hero || {};
   return (
     <section class="ed-hero">
       <div class="ed-hero-lead">
-        <h1 class="ed-headline">{hero.headline}</h1>
-        <p class="ed-subhead">{hero.subhead}</p>
+        {hero.headline ? <h1 class="ed-headline">{hero.headline}</h1> : null}
+        {hero.subhead ? <p class="ed-subhead">{hero.subhead}</p> : null}
       </div>
       <div class="ed-hero-intro">
-        <p>{hero.intro}</p>
+        {hero.intro ? <p>{hero.intro}</p> : null}
         {hero.aboutHref ? (
           <a class="ed-more" href={hero.aboutHref}>
-            About {home.brand} →
+            About →
           </a>
         ) : null}
       </div>
       <aside class="ed-colophon">
-        <div>
-          <Label>Current lens</Label>
-          <p class="ed-colophon-val">{hero.lens.join(' · ')}</p>
-        </div>
+        {hero.lens?.length ? (
+          <div>
+            <Label>Currently thinking about</Label>
+            <p class="ed-colophon-val">{hero.lens.join(' · ')}</p>
+          </div>
+        ) : null}
+        {hero.building ? (
+          <div>
+            <Label>Currently building</Label>
+            <p class="ed-colophon-val">{hero.building}</p>
+          </div>
+        ) : null}
         {hero.location ? (
           <div>
             <Label>Location</Label>
@@ -207,38 +201,77 @@ function Hero({ home }: { home: HomeConfig }) {
   );
 }
 
-function FeaturedAndNotes({ home }: { home: HomeConfig }) {
+interface Featured {
+  title: string;
+  summary?: string;
+  href: string;
+}
+
+function EntryLines({ posts }: { posts: PostSummary[] }) {
+  return (
+    <ul class="ed-lines">
+      {posts.map((n) => (
+        <li key={n.slug}>
+          <a href={`/${n.slug}/`}>
+            <span class="ed-note-date">{n.dateLabel || n.date}</span>
+            <span class="ed-note-title">{n.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function FeaturedAndEssays({ featured, essays }: { featured?: Featured; essays: PostSummary[] }) {
   return (
     <section class="ed-featured-row">
-      {home.featured ? (
-        <a class="ed-featured" href={home.featured.href}>
+      {featured ? (
+        <a class="ed-featured" href={featured.href}>
           <FeaturedArt />
           <div class="ed-featured-body">
-            <Label>{home.featured.label || 'Featured'}</Label>
-            <h2 class="ed-featured-title">{home.featured.title}</h2>
-            {home.featured.summary ? <p class="ed-featured-sum">{home.featured.summary}</p> : null}
+            <Label>Featured essay</Label>
+            <h2 class="ed-featured-title">{featured.title}</h2>
+            {featured.summary ? <p class="ed-featured-sum">{featured.summary}</p> : null}
             <span class="ed-more">Read essay →</span>
           </div>
         </a>
       ) : null}
-      {home.notes?.length ? (
-        <div class="ed-notes">
-          <div class="ed-notes-head">
-            <Label>Selected notes</Label>
-            <Label href="/tag/notes/">View all notes →</Label>
-          </div>
-          <ul>
-            {home.notes.map((n) => (
-              <li key={n.href}>
-                <a href={n.href}>
-                  <span class="ed-note-date">{n.date}</span>
-                  <span class="ed-note-title">{n.title}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+      <div class="ed-notes">
+        <div class="ed-notes-head">
+          <Label>Writing</Label>
+          <Label href="/essays/">All essays →</Label>
         </div>
-      ) : null}
+        <EntryLines posts={essays} />
+      </div>
+    </section>
+  );
+}
+
+/** The AI devlog — clearly labelled as machine-written. */
+function DevlogSection({ devlog }: { devlog: PostSummary[] }) {
+  if (!devlog.length) return null;
+  return (
+    <section class="ed-section ed-section-tint">
+      <div class="ed-section-head">
+        <div class="ed-devlog-title">
+          <Label>The devlog</Label>
+          <span class="ed-ai-note">
+            <span class="ed-ai-dot" aria-hidden="true" /> Written by AI — an autonomous log of what
+            shipped each week
+          </span>
+        </div>
+        <Label href="/devlog/">All devlog entries →</Label>
+      </div>
+      <ul class="ed-lines ed-lines-2col">
+        {devlog.map((n) => (
+          <li key={n.slug}>
+            <a href={`/${n.slug}/`}>
+              <span class="ed-note-date">{n.dateLabel || n.date}</span>
+              <span class="ed-note-title">{n.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -248,12 +281,12 @@ function Projects({ home }: { home: HomeConfig }) {
   return (
     <section class="ed-section">
       <div class="ed-section-head">
-        <Label>Current projects</Label>
-        <Label href="/projects/">View all projects →</Label>
+        <Label>Projects</Label>
+        <Label href="/projects/">All projects →</Label>
       </div>
       <div class="ed-projects">
         {home.projects.map((p) => (
-          <a class="ed-project" key={p.name} href={p.href || '#'}>
+          <a class="ed-project" key={p.name} href={p.href || '#'} rel="noopener">
             <div class="ed-project-top">
               <span class="ed-badge" style={`background:${p.color}`}>
                 {p.letter}
@@ -273,88 +306,23 @@ function Projects({ home }: { home: HomeConfig }) {
   );
 }
 
-function ArchiveThemes({ home }: { home: HomeConfig }) {
-  if (!home.themes?.length) return null;
-  return (
-    <section class="ed-section ed-section-tint">
-      <div class="ed-section-head">
-        <Label>Archive by theme</Label>
-        <Label href="/archive/">Browse all essays →</Label>
-      </div>
-      <div class="ed-themes">
-        {home.themes.map((t) => (
-          <div class="ed-theme" key={t.name}>
-            <span class="ed-theme-icon" aria-hidden="true">
-              {t.icon}
-            </span>
-            <div class="ed-theme-head">
-              <span class="ed-theme-name">{t.name}</span>
-              <span class="ed-theme-count">{t.count} essays</span>
-            </div>
-            <p class="ed-theme-desc">{t.description}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Coda({ home }: { home: HomeConfig }) {
-  return (
-    <section class="ed-coda">
-      {home.reading?.length ? (
-        <div class="ed-reading">
-          <Label>What I'm working through</Label>
-          <ul>
-            {home.reading.map((r) => (
-              <li key={r.title}>
-                <span class="ed-reading-title">{r.title}</span>
-                <span class="ed-reading-bar">
-                  <span class="ed-reading-fill" style={`width:${r.progress}%`} />
-                </span>
-                <span class="ed-reading-pct">{r.progress}%</span>
-              </li>
-            ))}
-          </ul>
-          <Label href="/reading/">View reading list →</Label>
-        </div>
-      ) : null}
-      {home.quote ? (
-        <figure class="ed-quote">
-          <blockquote>{home.quote.text}</blockquote>
-          {home.quote.author ? <figcaption>{home.quote.author}</figcaption> : null}
-        </figure>
-      ) : null}
-      {home.newsletter ? (
-        <div class="ed-news">
-          <Label>{home.newsletter.title}</Label>
-          {home.newsletter.description ? <p class="ed-news-desc">{home.newsletter.description}</p> : null}
-          <form class="ed-news-form" method="post" action="#">
-            <input type="email" placeholder={home.newsletter.placeholder || 'Your email'} aria-label="Email" />
-            <button type="submit">{home.newsletter.action || 'Subscribe'}</button>
-          </form>
-          {home.newsletter.note ? <p class="ed-news-note">{home.newsletter.note}</p> : null}
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
 export function HomePage(props: {
   blog: Blog;
   home: HomeConfig;
   chrome: Chrome;
   seo: SeoContext;
   assets: Assets;
+  featured?: Featured;
+  essays: PostSummary[];
+  devlog: PostSummary[];
 }) {
-  const { home, ...shell } = props;
+  const { home, featured, essays, devlog, ...shell } = props;
   return (
     <Shell {...shell} wide>
       <Hero home={home} />
-      <FeaturedAndNotes home={home} />
+      <FeaturedAndEssays featured={featured} essays={essays} />
+      <DevlogSection devlog={devlog} />
       <Projects home={home} />
-      <ArchiveThemes home={home} />
-      <Coda home={home} />
     </Shell>
   );
 }
