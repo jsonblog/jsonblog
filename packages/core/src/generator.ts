@@ -37,8 +37,54 @@ export type GenerateBlog = (
   generatorConfig?: Record<string, unknown>
 ) => Promise<GeneratedFile[]>;
 
-// Shared markdown parser (matches the original generators' configuration).
-const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
+// Build-time syntax highlighting via Shiki. The highlighter is loaded once (async)
+// and reused; markdown rendering then stays synchronous. Dual light/dark themes are
+// emitted as CSS variables so there is no runtime JS and theme switching is pure CSS.
+const SHIKI_LANGS = [
+  'javascript', 'typescript', 'tsx', 'json', 'bash', 'python', 'rust', 'go',
+  'sql', 'yaml', 'html', 'css', 'markdown', 'diff',
+] as const;
+
+// Minimal local shape so the type build doesn't pull in Shiki's (huge) .d.ts.
+interface CodeHighlighter {
+  codeToHtml(code: string, options: Record<string, unknown>): string;
+  getLoadedLanguages(): string[];
+}
+
+let highlighterPromise: Promise<CodeHighlighter> | undefined;
+async function getHighlighter(): Promise<CodeHighlighter> {
+  if (!highlighterPromise) {
+    const { createHighlighter } = await import('shiki');
+    highlighterPromise = createHighlighter({
+      themes: ['github-light', 'github-dark'],
+      langs: SHIKI_LANGS as unknown as string[],
+    }) as unknown as Promise<CodeHighlighter>;
+  }
+  return highlighterPromise;
+}
+
+/** Create a markdown-it instance whose fenced code blocks are highlighted by Shiki. */
+function createMarkdown(highlighter?: CodeHighlighter): MarkdownIt {
+  return new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: highlighter
+      ? (code, lang) => {
+          const language = highlighter.getLoadedLanguages().includes(lang) ? lang : 'text';
+          try {
+            return highlighter.codeToHtml(code, {
+              lang: language,
+              themes: { light: 'github-light', dark: 'github-dark' },
+              defaultColor: false,
+            });
+          } catch {
+            return '';
+          }
+        }
+      : undefined,
+  });
+}
 
 // Fetch file content from URL or local path.
 async function fetchFile(uri: string, basePath: string): Promise<string | undefined> {
@@ -92,86 +138,62 @@ async function processContent<T extends BlogPost | BlogPage>(
   if (!items) return [];
   logger.info(`Processing ${items.length} ${type}s`);
 
-  const processedItems = await Promise.all(
+  // Phase 1 — resolve raw content + grid items (I/O).
+  const resolved = await Promise.all(
     items.map(async (item) => {
       let gridItems: any = 'items' in item ? item.items : undefined;
-
+      let content = item.content || '';
+      let failed = false;
       try {
-        let content = item.content || '';
-
         if ('source' in item && item.source) {
-          const fetchedContent = await fetchFile(item.source, basePath);
-          if (fetchedContent) {
-            content = fetchedContent;
-          }
+          const fetched = await fetchFile(item.source, basePath);
+          if (fetched) content = fetched;
         }
-
         if ('itemsSource' in item && item.itemsSource) {
-          const fetchedItems = await fetchFile(item.itemsSource, basePath);
-          if (fetchedItems) {
+          const fetched = await fetchFile(item.itemsSource, basePath);
+          if (fetched) {
             try {
-              gridItems = JSON.parse(fetchedItems);
-              logger.debug(
-                { itemsSource: item.itemsSource },
-                'Loaded grid items from external file'
-              );
+              gridItems = JSON.parse(fetched);
             } catch (error) {
               logger.error({ error, itemsSource: item.itemsSource }, 'Failed to parse items JSON');
             }
           }
         }
-
-        if (!content && (!('layout' in item) || item.layout !== 'grid')) {
-          return {
-            ...item,
-            content: '<p>Error: No content found</p>',
-            slug: slug(item.title),
-            ...(gridItems && { items: gridItems }),
-          } as T;
-        }
-
-        try {
-          let rendered = content ? md.render(String(content)) : '';
-
-          // For posts, strip the first H1 (the title is already in the template).
-          if (type === 'post' && stripPostTitle) {
-            rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, '');
-          }
-
-          // A plain-text excerpt for meta descriptions / OG tags / feeds.
-          const excerpt = rendered
-            .replace(/<[^>]*>/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim()
-            .slice(0, 160);
-
-          return {
-            ...item,
-            content: rendered,
-            excerpt,
-            slug: slug(item.title),
-            ...(gridItems && { items: gridItems }),
-          } as T;
-        } catch (error) {
-          logger.error({ error, title: item.title }, 'Failed to render markdown');
-          return {
-            ...item,
-            content: '<p>Error: Failed to render content</p>',
-            slug: slug(item.title),
-            ...(gridItems && { items: gridItems }),
-          } as T;
-        }
       } catch (error) {
         logger.error({ error, title: item.title, type }, 'Failed to process content');
-        return {
-          ...item,
-          content: '<p>Error: Failed to process content</p>',
-          slug: slug(item.title),
-          ...(gridItems && { items: gridItems }),
-        } as T;
+        failed = true;
       }
+      return { item, content, gridItems, failed };
     })
   );
+
+  // Only spin up the (heavy) syntax highlighter when there is code to highlight.
+  const hasCode = resolved.some((r) => r.content.includes('```') || r.content.includes('~~~'));
+  const md = createMarkdown(hasCode ? await getHighlighter() : undefined);
+
+  // Phase 2 — render markdown + slugify.
+  const processedItems = resolved.map(({ item, content, gridItems, failed }) => {
+    const withItems = gridItems ? { items: gridItems } : {};
+    if (failed) {
+      return { ...item, content: '<p>Error: Failed to process content</p>', slug: slug(item.title), ...withItems } as T;
+    }
+    if (!content && (!('layout' in item) || item.layout !== 'grid')) {
+      return { ...item, content: '<p>Error: No content found</p>', slug: slug(item.title), ...withItems } as T;
+    }
+    try {
+      let rendered = content ? md.render(String(content)) : '';
+      // For posts, strip the first H1 (the title is already in the template).
+      if (type === 'post' && stripPostTitle) {
+        rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, '');
+      }
+      // A plain-text excerpt for meta descriptions / OG tags / feeds.
+      const excerpt = rendered.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+      return { ...item, content: rendered, excerpt, slug: slug(item.title), ...withItems } as T;
+    } catch (error) {
+      logger.error({ error, title: item.title }, 'Failed to render markdown');
+      return { ...item, content: '<p>Error: Failed to render content</p>', slug: slug(item.title), ...withItems } as T;
+    }
+  });
 
   return processedItems.sort((a, b) => {
     if (type === 'post' && 'createdAt' in a && 'createdAt' in b) {
@@ -257,9 +279,7 @@ export function createGenerator(theme: ThemeConfig): GenerateBlog {
       logger.info(`Posts processed: ${posts.length}`);
 
       logger.info('Processing pages...');
-      const pages = blog.pages
-        ? await processContent(blog.pages, 'page', basePath, stripPostTitle)
-        : [];
+      const pages = blog.pages ? await processContent(blog.pages, 'page', basePath, stripPostTitle) : [];
       logger.info(`Pages processed: ${pages.length}`);
 
       const postsPerPage = blog.settings?.postsPerPage || 10;

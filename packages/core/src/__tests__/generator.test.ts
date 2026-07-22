@@ -141,6 +141,20 @@ describe('createGenerator', () => {
     expect(m.get('empty/index.html')).toContain('Error: No content found');
   });
 
+  it('highlights fenced code blocks with Shiki (build-time, dual-theme, no runtime JS)', async () => {
+    const withCode: Blog = {
+      site: { title: 'C', description: '' },
+      basics: { name: 'C' },
+      posts: [
+        { title: 'Snippet', createdAt: '2026-01-01', content: '```ts\nconst x: number = 42;\n```' },
+      ],
+    };
+    const post = asMap(await makeGen()(withCode, process.cwd())).get('snippet/index.html')!;
+    expect(post).toContain('class="shiki');
+    expect(post).toContain('--shiki-dark'); // dual light/dark theme
+    expect(post).not.toContain('hljs'); // no highlight.js runtime
+  });
+
   it('omits sitemap <lastmod> and rss dates for undated posts (still deterministic)', async () => {
     const undated: Blog = {
       site: { title: 'U', description: '', url: 'https://u.dev' },
