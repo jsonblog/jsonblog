@@ -1,0 +1,67 @@
+{
+  "name": "@jsonblog/helpers",
+  "version": "1.0.0",
+  "description": "Handlebars helpers and content utilities (dates, slugs, reading time, JSON-LD escaping) for JsonBlog theme authors.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit",
+    "format": "biome format --write ./src",
+    "clean": "rm -rf dist .turbo",
+    "prepublishOnly": "publint --strict"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/helpers"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "static-site",
+    "helpers"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsonblog/jsonblog/issues"
+  },
+  "homepage": "https://github.com/jsonblog/jsonblog/tree/main/packages/helpers#readme",
+  "dependencies": {
+    "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "@jsonblog/tsconfig": "workspace:*",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

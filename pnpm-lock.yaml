@@ -195,6 +195,31 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
+  packages/feed:
+    dependencies:
+      '@jsonblog/schema':
+        specifier: workspace:*
+        version: link:../schema
+      rss:
+        specifier: ^1.2.2
+        version: 1.2.2
+    devDependencies:
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/rss':
+        specifier: ^0.0.32
+        version: 0.0.32
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
+
   packages/generator-boilerplate:
     dependencies:
       '@jsonblog/core':
@@ -327,6 +352,69 @@ importers:
         specifier: ^8.18.3
         version: 8.18.3
 
+  packages/helpers:
+    dependencies:
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
+    devDependencies:
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
+
+  packages/highlight:
+    dependencies:
+      shiki:
+        specifier: ^3.0.0
+        version: 3.23.0
+    devDependencies:
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
+
+  packages/markdown:
+    dependencies:
+      '@jsonblog/highlight':
+        specifier: workspace:*
+        version: link:../highlight
+      markdown-it:
+        specifier: ^14.0.0
+        version: 14.1.0
+    devDependencies:
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/markdown-it':
+        specifier: ^13.0.0
+        version: 13.0.9
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
+
   packages/schema:
     dependencies:
       zod:
@@ -343,7 +431,57 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.19.25)(typescript@5.9.3)
 
+  packages/seo:
+    dependencies:
+      '@jsonblog/schema':
+        specifier: workspace:*
+        version: link:../schema
+    devDependencies:
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
+
   packages/tsconfig: {}
+
+  packages/ui:
+    dependencies:
+      '@jsonblog/helpers':
+        specifier: workspace:*
+        version: link:../helpers
+      '@jsonblog/seo':
+        specifier: workspace:*
+        version: link:../seo
+      preact:
+        specifier: ^10.24.0
+        version: 10.29.7(preact-render-to-string@6.7.0)
+      preact-render-to-string:
+        specifier: ^6.5.0
+        version: 6.7.0(preact@10.29.7)
+    devDependencies:
+      '@jsonblog/schema':
+        specifier: workspace:*
+        version: link:../schema
+      '@jsonblog/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.12)(@types/node@20.19.25)(jiti@1.21.7)(tsx@4.20.6)
 
 packages:
 
@@ -3389,6 +3527,19 @@ packages:
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
+
+  preact-render-to-string@6.7.0:
+    resolution: {integrity: sha512-Z4WR8fmLMRpdYqJ9i7vrlXSsSrxVJydwrkEXHapexfARbWfGb7vGcnvNQnIzN0cXciMVOlz/XLoiMCi9gUsy9Q==}
+    peerDependencies:
+      preact: '>=10 || >= 11.0.0-0'
+
+  preact@10.29.7:
+    resolution: {integrity: sha512-DCHYrK/B10yUD3ZjLfhZ3WIE/9Vf9VFUODcRE2dRomTYDpJk6z6L9wecSfhfE6M9ZTHUdyQkoC46arIDhEV84Q==}
+    peerDependencies:
+      preact-render-to-string: '>=5'
+    peerDependenciesMeta:
+      preact-render-to-string:
+        optional: true
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -7501,6 +7652,14 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  preact-render-to-string@6.7.0(preact@10.29.7):
+    dependencies:
+      preact: 10.29.7(preact-render-to-string@6.7.0)
+
+  preact@10.29.7(preact-render-to-string@6.7.0):
+    optionalDependencies:
+      preact-render-to-string: 6.7.0(preact@10.29.7)
 
   prelude-ls@1.2.1: {}
 

@@ -1,0 +1,91 @@
+/*
+ * @jsonblog/ui — design tokens.
+ *
+ * Semantic CSS custom properties every component reads. A theme overrides these
+ * (or ships its own token file) to reskin the whole kit. Light + dark are both
+ * defined; the viewer's OS preference wins, and [data-theme] can force one.
+ */
+:root {
+  /* palette (neutral default — themes override) */
+  --jb-bg: #ffffff;
+  --jb-surface: #f6f6f7;
+  --jb-fg: #16161a;
+  --jb-fg-soft: #3f3f46;
+  --jb-muted: #6b6b73;
+  --jb-border: #e4e4e7;
+  --jb-border-soft: #efeff1;
+  --jb-accent: #2563eb;
+  --jb-accent-soft: #93b4f5;
+
+  /* typography */
+  --jb-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --jb-font-serif: Georgia, 'Times New Roman', serif;
+  --jb-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --jb-font-body: var(--jb-font-sans);
+  --jb-font-heading: var(--jb-font-sans);
+
+  --jb-text-xs: 0.75rem;
+  --jb-text-sm: 0.875rem;
+  --jb-text-base: 1rem;
+  --jb-text-lg: 1.125rem;
+  --jb-text-xl: 1.375rem;
+  --jb-text-2xl: 1.75rem;
+  --jb-text-3xl: 2.5rem;
+
+  --jb-leading-tight: 1.15;
+  --jb-leading-normal: 1.6;
+  --jb-leading-prose: 1.72;
+
+  /* space scale (rem) */
+  --jb-space-1: 0.25rem;
+  --jb-space-2: 0.5rem;
+  --jb-space-3: 0.75rem;
+  --jb-space-4: 1rem;
+  --jb-space-5: 1.5rem;
+  --jb-space-6: 2rem;
+  --jb-space-7: 3rem;
+  --jb-space-8: 4rem;
+
+  /* structure */
+  --jb-radius: 6px;
+  --jb-radius-lg: 12px;
+  --jb-measure: 42rem; /* prose line length */
+  --jb-container: 56rem; /* page max width */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --jb-bg: #0f0f11;
+    --jb-surface: #17171a;
+    --jb-fg: #ececee;
+    --jb-fg-soft: #c3c3c8;
+    --jb-muted: #9a9aa2;
+    --jb-border: #2a2a2e;
+    --jb-border-soft: #202024;
+    --jb-accent: #6ea8fe;
+    --jb-accent-soft: #3b5c94;
+  }
+}
+
+:root[data-theme='light'] {
+  --jb-bg: #ffffff;
+  --jb-surface: #f6f6f7;
+  --jb-fg: #16161a;
+  --jb-fg-soft: #3f3f46;
+  --jb-muted: #6b6b73;
+  --jb-border: #e4e4e7;
+  --jb-border-soft: #efeff1;
+  --jb-accent: #2563eb;
+  --jb-accent-soft: #93b4f5;
+}
+:root[data-theme='dark'] {
+  --jb-bg: #0f0f11;
+  --jb-surface: #17171a;
+  --jb-fg: #ececee;
+  --jb-fg-soft: #c3c3c8;
+  --jb-muted: #9a9aa2;
+  --jb-border: #2a2a2e;
+  --jb-border-soft: #202024;
+  --jb-accent: #6ea8fe;
+  --jb-accent-soft: #3b5c94;
+}

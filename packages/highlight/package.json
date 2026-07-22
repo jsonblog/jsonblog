@@ -1,0 +1,67 @@
+{
+  "name": "@jsonblog/highlight",
+  "version": "1.0.0",
+  "description": "Build-time syntax highlighting for JsonBlog (Shiki, dual light/dark, zero runtime JS).",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit",
+    "format": "biome format --write ./src",
+    "clean": "rm -rf dist .turbo",
+    "prepublishOnly": "publint --strict"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/highlight"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "static-site",
+    "highlight"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsonblog/jsonblog/issues"
+  },
+  "homepage": "https://github.com/jsonblog/jsonblog/tree/main/packages/highlight#readme",
+  "dependencies": {
+    "shiki": "^3.0.0"
+  },
+  "devDependencies": {
+    "@jsonblog/tsconfig": "workspace:*",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

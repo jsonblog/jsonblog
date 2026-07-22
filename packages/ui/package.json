@@ -1,0 +1,73 @@
+{
+  "name": "@jsonblog/ui",
+  "version": "1.0.0",
+  "description": "The JsonBlog component kit \u2014 type-safe Preact components + design tokens for building modern, zero-JS blog themes.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./reset.css": "./dist/reset.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/copy-css.mjs",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit",
+    "format": "biome format --write ./src",
+    "clean": "rm -rf dist .turbo",
+    "prepublishOnly": "publint --strict"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsonblog/jsonblog.git",
+    "directory": "packages/ui"
+  },
+  "keywords": [
+    "jsonblog",
+    "blog",
+    "preact",
+    "components",
+    "ssg",
+    "design-system"
+  ],
+  "author": "JSON Blog Team",
+  "license": "MIT",
+  "dependencies": {
+    "@jsonblog/helpers": "workspace:*",
+    "@jsonblog/seo": "workspace:*",
+    "preact": "^10.24.0",
+    "preact-render-to-string": "^6.5.0"
+  },
+  "devDependencies": {
+    "@jsonblog/tsconfig": "workspace:*",
+    "@jsonblog/schema": "workspace:*",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
