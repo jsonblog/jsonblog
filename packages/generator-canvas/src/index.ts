@@ -105,7 +105,9 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
       const rendered = postBodies[i] ? stripFirstH1(renderMd(md, postBodies[i])) : '';
       return {
         title: p.title,
-        slug: slugify(p.title),
+        // Explicit `slug` pins the URL (e.g. to keep an already-shared link stable
+        // when the title changes); otherwise derive it from the title.
+        slug: (p as { slug?: string }).slug || slugify(p.title),
         html: rendered,
         excerpt: toExcerpt(rendered),
         date: p.createdAt,
