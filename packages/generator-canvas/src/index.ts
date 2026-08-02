@@ -117,6 +117,8 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
         type: p.type,
         provenance: parsedPosts[i].provenance,
         readingMinutes: readingTime(rendered),
+        image: (p as { image?: string }).image,
+        description: (p as { description?: string }).description,
       };
     })
     .sort((a, b) => new Date(b.date || '').getTime() - new Date(a.date || '').getTime());
@@ -249,7 +251,8 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
             kind: 'post',
             title: post.title,
             path: `/${post.slug}/`,
-            description: post.excerpt,
+            description: post.description || post.excerpt,
+            image: post.image,
             datePublished: post.date,
             tags: post.tags,
           },

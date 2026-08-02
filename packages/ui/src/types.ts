@@ -27,6 +27,10 @@ export interface PostView {
   categories?: string[];
   type?: string;
   readingMinutes?: number;
+  /** Social card image for this post; falls back to the site image. */
+  image?: string;
+  /** Explicit meta/OG description; falls back to the generated excerpt. */
+  description?: string;
 }
 
 export interface PostSummary {
