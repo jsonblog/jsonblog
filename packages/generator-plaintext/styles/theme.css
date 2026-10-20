@@ -1,0 +1,126 @@
+/* Plaintext — black on white, one column, all monospace. Reads like a text file.
+   Four programmer faces, each with one job:
+     Departure Mono      pixel-grid display — brand + page titles (crisp at 11px multiples)
+     Plaintext Body      prose (Monaspace Xenon, a slab-serif mono)
+     Plaintext Hand      emphasis + quotes (Monaspace Radon, a handwritten mono)
+     Plaintext Code      code (Monaspace Krypton, a mechanical mono)
+   No colour, no grid, no JS. Dark mode is the same page inverted. */
+
+@font-face{font-family:'Departure Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/departure-mono.woff2') format('woff2')}
+@font-face{font-family:'Plaintext Body';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/pt-body.woff2') format('woff2')}
+@font-face{font-family:'Plaintext Body';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/pt-body-bold.woff2') format('woff2')}
+@font-face{font-family:'Plaintext Hand';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/pt-hand.woff2') format('woff2')}
+@font-face{font-family:'Plaintext Code';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/pt-code.woff2') format('woff2')}
+
+:root{
+  --bg:#fff;
+  --fg:#000;
+  --display:'Departure Mono',ui-monospace,monospace;
+  --body:'Plaintext Body',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --hand:'Plaintext Hand',var(--body);
+  --code:'Plaintext Code',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --measure:72ch;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme='light']){--bg:#000;--fg:#fff;color-scheme:dark}}
+:root[data-theme='dark']{--bg:#000;--fg:#fff;color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);font-size:15px;line-height:1.65;font-variant-ligatures:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+::selection{background:var(--fg);color:var(--bg)}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{background:var(--fg);color:var(--bg);text-decoration:none}
+strong,b{font-weight:700}
+em,i,cite{font-family:var(--hand);font-style:normal}
+
+.pt-wrap{max-width:var(--measure);margin:0 auto;padding:2.5rem 16px 3rem}
+.jb-skip{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:.5ch 1ch}
+.jb-skip:focus{left:0}
+
+/* ── header / footer ─────────────────────────────────────────────────────── */
+.pt-head{padding-bottom:1.25rem;margin-bottom:2rem;border-bottom:1px dashed var(--fg)}
+.pt-brand{font-family:var(--display);font-size:22px;line-height:1;text-transform:uppercase;letter-spacing:.04em;text-decoration:none}
+.pt-tagline{margin-top:.5rem}
+.pt-nav{display:flex;flex-wrap:wrap;gap:0 2ch;margin-top:.5rem}
+.pt-nav a::before{content:'['}
+.pt-nav a::after{content:']'}
+.pt-nav a{text-decoration:none}
+
+.pt-foot{margin-top:3rem;padding-top:1.25rem;border-top:1px dashed var(--fg)}
+.pt-foot-links{display:flex;flex-wrap:wrap;gap:0 2ch}
+.pt-eof{margin-top:1rem;font-family:var(--display);font-size:11px;letter-spacing:.1em}
+
+/* ── page furniture ──────────────────────────────────────────────────────── */
+.pt-title{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.35;margin-bottom:.75rem;text-wrap:balance}
+.pt-h{font-size:inherit;font-weight:700;margin-bottom:.5rem}
+.pt-h::before{content:'## '}
+.pt-section+.pt-section{margin-top:2.5rem}
+.pt-section>p+p,.pt-section>p+dl{margin-top:1rem}
+.pt-note{margin-bottom:1rem}
+.pt-note::before{content:'// '}
+.pt-meta{margin-bottom:1.25rem}
+.pt-more{margin-top:.75rem}
+.pt-back{margin-bottom:1.25rem}
+.pt-box{border:1px solid var(--fg);padding:.5rem 1ch;margin-bottom:1.75rem}
+
+.pt-facts{display:grid;gap:0}
+.pt-facts div{display:grid;grid-template-columns:10ch 1fr;gap:2ch}
+.pt-facts dd{margin:0}
+
+.pt-lines{list-style:none}
+.pt-lines li{display:grid;grid-template-columns:10ch 1fr;gap:2ch;padding:.1rem 0}
+.pt-lines time{white-space:nowrap}
+
+.pt-items{list-style:none}
+.pt-items li+li{margin-top:1rem}
+.pt-items p{margin-top:.1rem}
+
+.pt-tags{display:flex;flex-wrap:wrap;gap:0 2ch;margin-top:2rem}
+.pt-postnav{margin-top:2rem;padding-top:1.25rem;border-top:1px dashed var(--fg)}
+
+@media (max-width:480px){
+  .pt-lines li{grid-template-columns:1fr;gap:0;padding:.35rem 0}
+}
+
+/* ── prose (rendered markdown) ───────────────────────────────────────────── */
+.jb-prose>*+*{margin-top:1.1rem}
+.jb-prose h1,.jb-prose h2,.jb-prose h3,.jb-prose h4{font-size:inherit;font-weight:700;line-height:1.5;margin-top:2.25rem}
+.jb-prose h1::before{content:'# '}
+.jb-prose h2::before{content:'## '}
+.jb-prose h3::before{content:'### '}
+.jb-prose h4::before{content:'#### '}
+.jb-prose h1+*,.jb-prose h2+*,.jb-prose h3+*,.jb-prose h4+*{margin-top:.5rem}
+.jb-prose ul,.jb-prose ol{padding-left:3ch}
+.jb-prose ul{list-style:none}
+.jb-prose ul>li{position:relative}
+.jb-prose ul>li::before{content:'-';position:absolute;left:-2ch}
+.jb-prose li+li{margin-top:.25rem}
+.jb-prose li>ul,.jb-prose li>ol{margin-top:.25rem}
+.jb-prose blockquote{font-family:var(--hand);border-left:1px solid var(--fg);padding-left:2ch}
+.jb-prose blockquote>*+*{margin-top:.75rem}
+.jb-prose hr{border:0;border-top:1px dashed var(--fg);margin:2.25rem 0}
+.jb-prose img,.jb-prose video,.jb-prose iframe{display:block;max-width:100%;height:auto;filter:grayscale(1);border:1px solid var(--fg)}
+.jb-prose iframe{width:100%;aspect-ratio:16/9;height:auto}
+.jb-prose figure figcaption{margin-top:.25rem}
+.jb-prose figcaption::before{content:'^ '}
+
+.jb-prose code,.jb-prose kbd,.jb-prose samp{font-family:var(--code);font-size:.95em}
+.jb-prose :not(pre)>code::before,.jb-prose :not(pre)>code::after{content:'`'}
+.jb-prose pre{font-family:var(--code);font-size:13.5px;line-height:1.55;border:1px solid var(--fg);padding:1rem 1.5ch;overflow-x:auto;tab-size:2}
+.jb-prose pre code{font-size:inherit}
+/* Shiki emits per-token colours; this theme is ink only. */
+.jb-prose pre.shiki,.jb-prose pre.shiki span{color:var(--fg)!important;background:transparent!important}
+
+.jb-prose table{display:block;overflow-x:auto;border-collapse:collapse;font-size:13.5px}
+.jb-prose th,.jb-prose td{border:1px solid var(--fg);padding:.2rem 1ch;text-align:left;vertical-align:top}
+.jb-prose th{font-weight:700}
+
+.jb-prose sup{line-height:0}
+.jb-prose .footnotes,.jb-prose section[data-footnotes]{margin-top:2.5rem;padding-top:1rem;border-top:1px dashed var(--fg);font-size:13.5px}
+.jb-prose .footnotes ol,.jb-prose section[data-footnotes] ol{padding-left:3ch}
