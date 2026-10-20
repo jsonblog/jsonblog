@@ -41,9 +41,13 @@ export function HomePage(props: Common & { home: HomeConfig }) {
           <ul class="pt-items">
             {home.projects.map((p) => (
               <li key={p.name}>
-                <a href={p.href || '#'} rel="noopener">
-                  {p.name}
-                </a>
+                {p.href ? (
+                  <a href={p.href} rel="noopener">
+                    {p.name}
+                  </a>
+                ) : (
+                  <strong>{p.name}</strong>
+                )}
                 {p.status ? <span class="pt-meta"> [{p.status.toLowerCase()}]</span> : null}
                 <p>{p.description}</p>
               </li>
