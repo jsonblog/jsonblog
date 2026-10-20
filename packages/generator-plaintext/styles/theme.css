@@ -45,7 +45,8 @@ em,i,cite{font-family:var(--hand);font-style:normal}
 
 /* ── header / footer ─────────────────────────────────────────────────────── */
 .pt-head{padding-bottom:1.25rem;margin-bottom:2rem;border-bottom:1px dashed var(--fg)}
-.pt-brand{font-family:var(--display);font-size:22px;line-height:1;text-transform:uppercase;letter-spacing:.04em;text-decoration:none}
+.pt-brandline{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 2ch}
+.pt-brand{font-family:var(--display);font-size:22px;line-height:1.2;text-transform:uppercase;letter-spacing:.04em;text-decoration:none}
 .pt-tagline{margin-top:.5rem}
 .pt-nav{display:flex;flex-wrap:wrap;gap:0 2ch;margin-top:.5rem}
 .pt-nav a::before{content:'['}
@@ -61,17 +62,13 @@ em,i,cite{font-family:var(--hand);font-style:normal}
 .pt-h{font-size:inherit;font-weight:700;margin-bottom:.5rem}
 .pt-h::before{content:'## '}
 .pt-section+.pt-section{margin-top:2.5rem}
-.pt-section>p+p,.pt-section>p+dl{margin-top:1rem}
+.pt-section>p+p{margin-top:1rem}
 .pt-note{margin-bottom:1rem}
 .pt-note::before{content:'// '}
 .pt-meta{margin-bottom:1.25rem}
 .pt-more{margin-top:.75rem}
 .pt-back{margin-bottom:1.25rem}
 .pt-box{border:1px solid var(--fg);padding:.5rem 1ch;margin-bottom:1.75rem}
-
-.pt-facts{display:grid;gap:0}
-.pt-facts div{display:grid;grid-template-columns:10ch 1fr;gap:2ch}
-.pt-facts dd{margin:0}
 
 .pt-lines{list-style:none}
 .pt-lines li{display:grid;grid-template-columns:10ch 1fr;gap:2ch;padding:.1rem 0}

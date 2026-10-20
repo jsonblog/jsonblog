@@ -17,56 +17,21 @@ export interface Provenance {
 
 const AI_NOTE = 'written by AI — an autonomous weekly log of what shipped, not a human essay.';
 
-/** The homepage: one column, top to bottom — intro, essays, devlog, projects. */
-export function HomePage(
-  props: Common & { home: HomeConfig; essays: PostSummary[]; devlog: PostSummary[] }
-) {
-  const { home, essays, devlog, ...shell } = props;
+/** The homepage: one column, top to bottom — a short bio, then projects. Posts live on /essays/ and /devlog/. */
+export function HomePage(props: Common & { home: HomeConfig }) {
+  const { home, ...shell } = props;
   const hero = home.hero || {};
-  const facts: [string, string | undefined][] = [
-    ['building', hero.building],
-    ['thinking', hero.lens?.join(', ').toLowerCase()],
-    ['location', hero.location],
-    ['updated', hero.lastUpdated],
-  ];
   return (
     <Shell {...shell}>
-      <section class="pt-section">
-        {hero.headline ? (
-          <h1 class="pt-title">
-            {hero.headline}
-            {hero.subhead ? ` ${hero.subhead}` : ''}
-          </h1>
-        ) : null}
-        {hero.intro ? <p>{hero.intro}</p> : null}
-        <dl class="pt-facts">
-          {facts
-            .filter(([, v]) => v)
-            .map(([k, v]) => (
-              <div key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </div>
-            ))}
-        </dl>
-      </section>
-
-      <section class="pt-section">
-        <h2 class="pt-h">essays</h2>
-        <Lines posts={essays} />
-        <p class="pt-more">
-          <a href="/essays/">all essays →</a>
-        </p>
-      </section>
-
-      {devlog.length ? (
+      {hero.headline || hero.intro ? (
         <section class="pt-section">
-          <h2 class="pt-h">devlog</h2>
-          <p class="pt-note">{AI_NOTE}</p>
-          <Lines posts={devlog} />
-          <p class="pt-more">
-            <a href="/devlog/">all devlog entries →</a>
-          </p>
+          {hero.headline ? (
+            <h1 class="pt-title">
+              {hero.headline}
+              {hero.subhead ? ` ${hero.subhead}` : ''}
+            </h1>
+          ) : null}
+          {hero.intro ? <p>{hero.intro}</p> : null}
         </section>
       ) : null}
 

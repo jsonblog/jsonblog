@@ -170,7 +170,6 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
       /* ignore malformed home.json */
     }
   }
-  if (home?.hero && !home.hero.lastUpdated) home.hero.lastUpdated = posts[0]?.dateLabel;
   const chrome = chromeFrom(home, blog);
 
   const css = fs.readFileSync(path.join(PKG_ROOT, 'styles', 'theme.css'), 'utf8');
@@ -183,7 +182,7 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
   const files: OutputFile[] = [];
   const html = (vnode: Parameters<typeof renderDocument>[0]) => renderDocument(vnode);
 
-  // Homepage: intro + essays + devlog + projects when home.json is present, else the post list.
+  // Homepage: bio + projects when home.json is present, else the post list.
   const homeNode = home
     ? h(HomePage, {
         blog,
@@ -191,8 +190,6 @@ export async function generate(blog: Blog, basePath: string): Promise<OutputFile
         chrome,
         seo: { kind: 'home', title: blog.site.title, path: '/' },
         assets,
-        essays: essays.slice(0, 10).map(summary),
-        devlog: devlog.slice(0, 6).map(summary),
       })
     : h(ListPage, {
         blog,

@@ -42,6 +42,8 @@ export interface HomeConfig {
 
 export interface Chrome {
   brand: string;
+  /** One line set beside the brand (the site description). */
+  motto?: string;
   tagline: string[];
   nav: NavLink[];
   footerNote?: string;
@@ -51,7 +53,8 @@ export interface Chrome {
 export function chromeFrom(home: HomeConfig | undefined, blog: Blog): Chrome {
   return {
     brand: home?.brand || blog.site.title,
-    tagline: home?.tagline || (blog.site.description ? [blog.site.description] : []),
+    motto: blog.site.description,
+    tagline: home?.tagline || [],
     nav: home?.nav || [{ label: 'Home', href: '/' }],
     footerNote: home?.footerNote,
     social: home?.social,
@@ -64,9 +67,12 @@ export const isoDay = (date?: string) => (date ? date.slice(0, 10) : '');
 function Header({ chrome }: { chrome: Chrome }) {
   return (
     <header class="pt-head">
-      <a class="pt-brand" href="/">
-        {chrome.brand}
-      </a>
+      <p class="pt-brandline">
+        <a class="pt-brand" href="/">
+          {chrome.brand}
+        </a>
+        {chrome.motto ? <span class="pt-motto">{chrome.motto}</span> : null}
+      </p>
       {chrome.tagline.length ? <p class="pt-tagline">{chrome.tagline.join(' ')}</p> : null}
       <nav class="pt-nav" aria-label="Primary">
         {chrome.nav.map((n) => (
