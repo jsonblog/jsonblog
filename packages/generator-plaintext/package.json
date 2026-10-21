@@ -1,6 +1,6 @@
 {
   "name": "@jsonblog/generator-plaintext",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plaintext — a black-and-white, single-column, all-monospace JsonBlog theme that reads like a text file. Zero JS.",
   "type": "module",
   "main": "./dist/index.cjs",
