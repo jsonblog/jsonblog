@@ -7,7 +7,7 @@
  * CSS: import '@jsonblog/ui/reset.css' and '@jsonblog/ui/tokens.css', then style
  * the `jb-*` component classes (or ship your own theme CSS over the tokens).
  */
-export { Document, Prose, headHtml } from './document';
+export { Document, googleAnalyticsHtml, headHtml, Prose } from './document';
 export type { DocumentProps, HeadOptions } from './document';
 export {
   EntryList,

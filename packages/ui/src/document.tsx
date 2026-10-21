@@ -14,7 +14,16 @@ export interface HeadOptions {
   extra?: string;
 }
 
-/** Compose the inner HTML of <head>: SEO + charset/viewport + fonts + styles + RSS. */
+/** gtag.js for `blog.settings.googleAnalyticsId` (a GA4 Measurement ID, e.g. "G-ABC123"). */
+export function googleAnalyticsHtml(id: unknown): string {
+  if (typeof id !== 'string' || !/^G-[A-Z0-9]+$/.test(id)) return '';
+  return [
+    `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`,
+    `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${id}');</script>`,
+  ].join('\n  ');
+}
+
+/** Compose the inner HTML of <head>: SEO + charset/viewport + fonts + styles + RSS (+ GA when configured). */
 export function headHtml(opts: HeadOptions): string {
   const { blog, seo, seoOptions, stylesheets = [], preloadFonts = [], extra = '' } = opts;
   const parts: string[] = [
@@ -31,6 +40,8 @@ export function headHtml(opts: HeadOptions): string {
     );
   }
   parts.push(seoHead(blog, seo, seoOptions));
+  const ga = googleAnalyticsHtml(blog.settings?.googleAnalyticsId);
+  if (ga) parts.push(ga);
   if (extra) parts.push(extra);
   return parts.join('\n  ');
 }
