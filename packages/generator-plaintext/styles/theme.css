@@ -45,16 +45,19 @@ em,i,cite{font-family:var(--hand);font-style:normal}
 
 /* ── header / footer ─────────────────────────────────────────────────────── */
 .pt-head{padding-bottom:1.25rem;margin-bottom:2rem;border-bottom:1px dashed var(--fg)}
-.pt-brandline{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 2ch}
+.pt-brandline{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:0 2ch}
 .pt-brand{font-family:var(--display);font-size:22px;line-height:1.2;text-transform:uppercase;letter-spacing:.04em;text-decoration:none}
 .pt-tagline{margin-top:.5rem}
-.pt-nav{display:flex;flex-wrap:wrap;gap:0 2ch;margin-top:.5rem}
+.pt-navline{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.25rem 2ch;margin-top:.5rem}
+.pt-nav{display:flex;flex-wrap:wrap;gap:0 2ch}
+.pt-social{display:flex;gap:0 1.25ch;margin-left:auto}
+.pt-social a{display:block;padding:2px;text-decoration:none}
+.pt-social svg{display:block}
 .pt-nav a::before{content:'['}
 .pt-nav a::after{content:']'}
 .pt-nav a{text-decoration:none}
 
 .pt-foot{margin-top:3rem;padding-top:1.25rem;border-top:1px dashed var(--fg)}
-.pt-foot-links{display:flex;flex-wrap:wrap;gap:0 2ch}
 .pt-eof{margin-top:1rem;font-family:var(--display);font-size:11px;letter-spacing:.1em}
 
 /* ── page furniture ──────────────────────────────────────────────────────── */
