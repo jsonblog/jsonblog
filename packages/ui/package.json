@@ -1,7 +1,7 @@
 {
   "name": "@jsonblog/ui",
-  "version": "1.0.0",
-  "description": "The JsonBlog component kit \u2014 type-safe Preact components + design tokens for building modern, zero-JS blog themes.",
+  "version": "1.1.0",
+  "description": "The JsonBlog component kit — type-safe Preact components + design tokens for building modern, zero-JS blog themes.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

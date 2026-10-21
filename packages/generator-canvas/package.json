@@ -1,7 +1,7 @@
 {
   "name": "@jsonblog/generator-canvas",
-  "version": "1.0.0",
-  "description": "Canvas \u2014 the flagship modern JsonBlog theme. Type-forward, high-contrast, zero-JS. Built on @jsonblog/ui.",
+  "version": "1.0.1",
+  "description": "Canvas — the flagship modern JsonBlog theme. Type-forward, high-contrast, zero-JS. Built on @jsonblog/ui.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

@@ -1,5 +1,23 @@
 # @jsonblog/cli
 
+## 3.2.0
+
+### Minor Changes
+
+- [`dbf9106`](https://github.com/jsonblog/jsonblog/commit/dbf910655032a864362bfa96ccc4b63385af1ecb) Thanks [@thomasdavis](https://github.com/thomasdavis)! - Bug fixes and modernization:
+
+  - **generator-boilerplate**: fix flat-URL 404s — templates now emit directory URLs (`/slug/`) matching the engine output.
+  - **schema**: add `site.url` as the canonical-origin field; drop the unused ajv dependency and orphaned CLI.
+  - **cli**: fix the ESM `init` crash, report the real `--version`, exit non-zero on build/validation failure, clean human-readable output, and add `jsonblog validate` and `jsonblog dev` (live-reload). `init` now scaffolds runnable sample content and guards against clobbering with `--force`.
+  - Deterministic builds across all generators (no `new Date()` in output); canonical/OG/RSS/sitemap URLs derive from `blog.site.url`.
+  - Correct dual ESM/CJS type exports (publint + are-the-types-wrong clean).
+
+### Patch Changes
+
+- Updated dependencies [[`dbf9106`](https://github.com/jsonblog/jsonblog/commit/dbf910655032a864362bfa96ccc4b63385af1ecb)]:
+  - @jsonblog/schema@3.2.0
+  - @jsonblog/generator-boilerplate@5.0.1
+
 ## 3.1.1
 
 ### Patch Changes
@@ -16,11 +34,13 @@
   Major enhancement allowing users to pass arbitrary configuration to generators through blog.json:
 
   **Schema Changes (@jsonblog/schema):**
+
   - Added `GeneratorConfigSchema` for validating generator configuration
   - Added optional `generator` field to `BlogSchema` with nested `name` and `config` properties
   - Both `name` and `config` fields are optional for maximum flexibility
 
   **CLI Changes (@jsonblog/cli):**
+
   - Added `getGeneratorName()` helper to extract generator name from blog.json (takes precedence over CLI flag)
   - Added `getGeneratorConfig()` helper to extract generator configuration
   - Updated `build()` function to pass configuration as 3rd parameter to generators
@@ -28,6 +48,7 @@
   - Added logging to show when generator config is being used
 
   **Generator Changes (Breaking):**
+
   - Updated function signature to accept optional 3rd parameter: `generatorConfig: Record<string, any> = {}`
   - Both `@jsonblog/generator-boilerplate` and `@jsonblog/generator-tailwind` now support configuration
   - Generators log whether config is provided via `hasConfig` flag
@@ -100,11 +121,13 @@
   ## Breaking Changes
 
   All packages have been renamed with the `@jsonblog/` scope and migrated to a modern Turborepo + pnpm monorepo:
+
   - `jsonblog-schema` → `@jsonblog/schema`
   - `jsonblog-generator-boilerplate` → `@jsonblog/generator-boilerplate`
   - `jsonblog-cli` → `@jsonblog/cli`
 
   ## Module System
+
   - Packages now provide **dual ESM + CJS builds** for maximum compatibility
   - CLI is ESM-only (requires Node.js 20+)
   - Proper package exports with TypeScript types
@@ -125,15 +148,16 @@
 
   ```typescript
   // Old
-  import schema from 'jsonblog-schema';
-  const generator = require('jsonblog-generator-boilerplate');
+  import schema from "jsonblog-schema";
+  const generator = require("jsonblog-generator-boilerplate");
 
   // New
-  import * as schema from '@jsonblog/schema';
-  import { generateBlog } from '@jsonblog/generator-boilerplate';
+  import * as schema from "@jsonblog/schema";
+  import { generateBlog } from "@jsonblog/generator-boilerplate";
   ```
 
   ## Improvements
+
   - ⚡ Faster builds with Turborepo caching
   - 📦 Better package management with pnpm workspaces
   - 🔄 Coordinated releases with Changesets
@@ -141,6 +165,7 @@
   - 🛠️ Improved TypeScript support
 
   ## Technical Details
+
   - Built with **tsup** for fast, optimized bundles
   - External dependencies properly handled (no bundling issues)
   - ESM-compatible with `import.meta.url` support

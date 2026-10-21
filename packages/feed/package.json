@@ -1,6 +1,6 @@
 {
   "name": "@jsonblog/feed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RSS, sitemap, and robots.txt builders for JsonBlog.",
   "type": "module",
   "main": "./dist/index.cjs",
